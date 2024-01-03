@@ -1,0 +1,44 @@
+import { useState } from 'react';
+
+export default function ToggleSwitch(props: {
+    defaultValue?: boolean,
+    value: boolean,
+    size?: number,
+    onValueChange?: Function
+}) {
+    const { defaultValue, value, size = 25, onValueChange } = props;
+
+    const [active, setActive] = useState(value ?? defaultValue ?? true);
+
+    function handleClick() {
+        setActive(!active);
+        if (onValueChange) onValueChange(!active);
+    }
+
+    return (
+        <div
+            className='relative'
+            style={{
+                height: `${size}px`,
+                width: `${size * 2}px`,
+                border: 'solid black 2px',
+                borderRadius: '25px',
+                backgroundColor: active ? 'green' : 'gray',
+                transition: 'background-color 0.3s ease-in-out'
+            }}
+        >
+            <div
+                className='absolute h-full w-[50%] bg-white cursor-pointer'
+                style={{
+                    borderRadius: '25px',
+                    top: 0,
+                    left: active ? '50%' : 0,
+                    transition: 'left 0.3s ease-in-out'
+                }}
+                onClick={e => handleClick()}
+            >
+
+            </div>
+        </div>
+    )
+}
