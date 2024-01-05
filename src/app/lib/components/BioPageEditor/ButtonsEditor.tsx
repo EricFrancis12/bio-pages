@@ -4,6 +4,7 @@ import type { Button } from '../../types';
 import ToggleSwitch from '../ToggleSwitch';
 import { defaultButton } from '../../default-data';
 import { MAX_NUM_BUTTONS } from '../../hard-limits';
+import IconPicker from './IconPicker';
 
 export default function ButtonsEditor(props: {
     buttons: Button[],
@@ -53,7 +54,7 @@ export default function ButtonsEditor(props: {
     return (
         <div className='flex flex-col justify-start items-center gap-2 w-full px-1 py-2 bg-gray-300'>
             {buttons.map((button, index) => (
-                <div
+                <div key={index}
                     className='flex justify-start items-center w-full px-1 bg-white'
                     style={{
                         borderRadius: '10px',
@@ -98,15 +99,24 @@ export default function ButtonsEditor(props: {
                             </div>
                             <div className='flex justify-center items-center my-1 w-full lg:w-[unset]'>
                                 <div className='flex justify-end items-center gap-4 w-full'>
+                                    <IconPicker
+                                        value={button.icon}
+                                        onValueChange={(newIcon: string) => handleChange(newIcon, 'icon', index)}
+                                    />
                                     <ToggleSwitch
                                         value={!button.disabled}
-                                        onValueChange={(newValue: string | boolean) => handleChange(newValue as boolean, 'disabled', index)}
+                                        onValueChange={(newDisabled: string | boolean) => handleChange(newDisabled as boolean, 'disabled', index)}
                                     />
                                     <div
                                         className='flex justify-center items-center'
                                         onClick={(e => handleDelete(index))}
                                     >
-                                        <span className='text-lg text-black hover:text-red-500 cursor-pointer'>
+                                        <span
+                                            className='text-lg text-black hover:text-red-500 cursor-pointer'
+                                            style={{
+                                                transition: 'color 0.3s ease'
+                                            }}
+                                        >
                                             <FontAwesomeIcon icon={faTrash} />
                                         </span>
                                     </div>

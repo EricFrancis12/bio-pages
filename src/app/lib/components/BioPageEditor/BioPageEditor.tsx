@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Image from 'next/image';
 import { BioPage as T_BioPage, Button, buttonStyle, Click, fontFamily, color } from '../../types';
 import BioPage from '../BioPage';
@@ -11,36 +11,18 @@ import ButtonSelect from './ButtonSelect';
 import FontPicker from '../FontPicker';
 import ButtonsEditor from './ButtonsEditor';
 import { defaultImagesrc } from '../../default-data';
+import ShortLinkEditor from './ShortLinkEditor';
+import SaveButton from './SaveButton';
+import { objectsAreStructurallyIdentical } from '../../utils';
 
 export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }: {
     bioPage: T_BioPage | null,
-    handleUpdateBioPage: any
+    handleUpdateBioPage: Function
 }) {
-    const __bioPage = {
-        ..._bioPage,
-        buttons: [
-            {
-                text: 'Get your tasty treats here!',
-                icon: 'faSpoon',
-                url: 'https://bing.com?example=tasty',
-                disabled: false
-            },
-            {
-                text: 'example button text',
-                icon: 'faFile',
-                url: 'https://bing.com?example=file',
-                disabled: false
-            },
-            {
-                text: 'hello how are you',
-                icon: 'faFolder',
-                url: 'https://bing.com?example=how-are-you',
-                disabled: false
-            }
-        ]
-    } as T_BioPage;
+    const originalBioPage = useRef(_bioPage);
 
-    const [bioPage, setBioPage] = useState<T_BioPage | null>(__bioPage);
+    const [bioPage, setBioPage] = useState<T_BioPage | null>(_bioPage);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const defaultBioPage = {
         _id: bioPage?._id as string,
@@ -68,6 +50,14 @@ export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }
             ...bioPage,
             [bioPageKey]: e.target.value
         });
+    }
+
+    async function handleSaveButtonClick() {
+        if (objectsAreStructurallyIdentical(bioPage, originalBioPage.current)) return;
+
+        setLoading(true);
+        await handleUpdateBioPage(bioPage);
+        setLoading(false);
     }
 
     return (
@@ -129,6 +119,22 @@ export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }
                                 />
                             </div>
                         </div>
+                        <div>
+                            <SaveButton
+                                loading={loading}
+                                disabled={objectsAreStructurallyIdentical(bioPage, originalBioPage.current)}
+                                onClick={() => handleSaveButtonClick()}
+                            />
+                        </div>
+                    </Card>
+                    <Card title='Edit Short Link'>
+                        <ShortLinkEditor
+                            value={bioPage?._id as string}
+                            onValueChange={(newBioPage_id: string) => setBioPage({
+                                ...bioPage,
+                                _id: newBioPage_id
+                            } as T_BioPage)}
+                        />
                     </Card>
                     <Card title='Links'>
                         <ButtonsEditor

@@ -4,7 +4,7 @@ const { bioPages, users } = require('../src/app/lib/placholder-data');
 async function seedUsers(client) {
     try {
         await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-        // Create the "users" table if it doesn't exist
+        // Create the 'users' table if it doesn't exist
         const createTable = await client.sql`
             CREATE TABLE IF NOT EXISTS users (
                 _id VARCHAR(255) NOT NULL UNIQUE,
@@ -14,9 +14,9 @@ async function seedUsers(client) {
             );
         `;
 
-        console.log(`Created "users" table`);
+        console.log(`Created 'users' table`);
 
-        // Insert data into the "users" table
+        // Insert data into the 'users' table
         const insertedUsers = await Promise.all(
             users.map(async (user) => {
                 return client.sql`
@@ -42,7 +42,7 @@ async function seedBioPages(client) {
     try {
         await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
-        // Create the "biopages" table if it doesn't exist
+        // Create the 'biopages' table if it doesn't exist
         const createTable = await client.sql`
             CREATE TABLE IF NOT EXISTS biopages (
                 _id VARCHAR(255) NOT NULL UNIQUE,
@@ -64,9 +64,9 @@ async function seedBioPages(client) {
             );
         `;
 
-        console.log(`Created "biopages" table`);
+        console.log(`Created 'biopages' table`);
 
-        // Insert data into the "biopages" table
+        // Insert data into the 'biopages' table
         const insertedBioPages = await Promise.all(
             bioPages.map(
                 (bioPage) => client.sql`

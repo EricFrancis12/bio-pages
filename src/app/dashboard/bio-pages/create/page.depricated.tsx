@@ -8,8 +8,8 @@ export const metadata: Metadata = {
 };
 
 export default async function page() {
-    // Note: This page.ts is depricated,
-    // path "/dashboard/bio-pages/create" is now handled via route.ts
+    // Note: This page.tsx is depricated,
+    // path '/dashboard/bio-pages/create' is now handled via route.ts
 
     const session = await useProtectedRoute();
     const user_id = session?.user?.name as string;

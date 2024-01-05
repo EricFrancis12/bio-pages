@@ -1,4 +1,4 @@
-import type { Button, Click } from "./types";
+import type { Button, Click } from './types';
 
 export const defaultImagesrc = '/default-profile-image.webp';
 

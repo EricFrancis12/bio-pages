@@ -125,7 +125,7 @@ export function createNewBioPage(user_id: string) {
 export async function createAndSaveNewBioPage(user_id: string) {
     const bioPage = createNewBioPage(user_id);
     const client = await db.connect();
-    client.sql`
+    await client.sql`
         INSERT INTO biopages (_id, user_id, font, textcolor, backgroundcolor, imageSrc, headingText, subheadingText, buttonstyle, buttoncolor, buttontextcolor, buttonbordercolor, buttons, clicks)
         VALUES (${bioPage._id}, ${bioPage.user_id}, ${bioPage.font}, ${bioPage.textcolor}, ${bioPage.backgroundcolor}, ${bioPage.imagesrc}, ${bioPage.headingtext}, ${bioPage.subheadingtext}, ${bioPage.buttonstyle}, ${bioPage.buttoncolor}, ${bioPage.buttontextcolor}, ${bioPage.buttonbordercolor}, ${JSON.stringify(bioPage.buttons)}, ${JSON.stringify(bioPage.clicks)});
     `;
@@ -135,7 +135,7 @@ export async function createAndSaveNewBioPage(user_id: string) {
 export async function updateExistingBioPage(bioPage: BioPage) {
     const { _id, user_id, font, textcolor, backgroundcolor, imagesrc, headingtext, subheadingtext, buttonstyle, buttoncolor, buttontextcolor, buttonbordercolor, buttons, clicks } = bioPage;
     const client = await db.connect();
-    client.sql`
+    await client.sql`
         UPDATE
         biopages SET
             font = ${font},
@@ -150,13 +150,14 @@ export async function updateExistingBioPage(bioPage: BioPage) {
             buttonbordercolor = ${buttonbordercolor},
             buttons = ${JSON.stringify(buttons)},
             clicks = ${JSON.stringify(clicks)}
-        WHERE _id = ${_id};
+        WHERE _id = ${_id}
+        AND user_id = ${user_id};
     `;
 }
 
 export async function deleteBioPageBy_id(bioPage_id: string) {
     const client = await db.connect();
-    client.sql`
+    await client.sql`
         DELETE
         FROM biopages
         WHERE _id = ${bioPage_id};
@@ -183,4 +184,26 @@ export async function saveNewClickToBioPage(bioPage_id: string, click?: Click) {
         await updateExistingBioPage(bioPage as BioPage);
     }
     return bioPage;
+}
+
+export async function changeBioPage_id(bioPage_id: string, newBioPage_id: string) {
+    const client = await db.connect();
+    await client.sql`
+        UPDATE
+        biopages SET
+            _id = ${newBioPage_id}
+        WHERE _id = ${bioPage_id};
+    `;
+}
+
+export async function checkBioPage_idAvailability(checkString: string) {
+    const client = await db.connect();
+    const result = await client.sql`
+        SELECT *
+        FROM biopages
+        WHERE _id = ${checkString};
+    `;
+    return result?.rows?.length === 0
+        ? true
+        : false;
 }

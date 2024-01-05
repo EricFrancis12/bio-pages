@@ -1,6 +1,6 @@
-import BioPage from "@/app/lib/components/BioPage";
-import { fetchBioPageBy_id, updateExistingBioPage } from "@/app/lib/data";
-import { Click } from "@/app/lib/types";
+import BioPage from '@/app/lib/components/BioPage';
+import { fetchBioPageBy_id, updateExistingBioPage } from '@/app/lib/data';
+import { Click } from '@/app/lib/types';
 
 export default async function page({ params }: { params: { bioPage_id: string } }) {
     const bioPage = await fetchBioPageBy_id(params.bioPage_id);
