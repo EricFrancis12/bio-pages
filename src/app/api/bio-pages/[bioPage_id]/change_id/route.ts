@@ -4,9 +4,8 @@ import { checkBioPage_idAvailability, changeBioPage_id } from '@/app/lib/data';
 
 export async function POST(req: Request, { params }: any) {
     const session = await useProtectedRoute();
-
     if (!session) {
-        return res.json({ success: false });
+        return res.json({ success: false, message: 'unauthorized' });
     }
 
     const { _id: bioPage_id }: { _id: string } = await req.json();

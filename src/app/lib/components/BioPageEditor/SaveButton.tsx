@@ -2,10 +2,9 @@
 
 export default function SaveButton(props: {
     onClick: Function,
-    disabled?: boolean,
-    loading?: boolean
+    disabled?: boolean
 }) {
-    const { onClick, disabled, loading } = props
+    const { onClick, disabled } = props
 
     async function handleButtonClick(e: any) {
         if (disabled) return;
@@ -14,16 +13,17 @@ export default function SaveButton(props: {
 
     return (
         <div>
-            {!loading
-                ? <button
-                    className={(disabled || loading) ? '' : 'cursor-pointer '}
-                    disabled={disabled || loading}
-                    onClick={e => handleButtonClick(e)}
-                >
-                    Save Changes
-                </button>
-                : 'loading...'
-            }
+
+            <button
+                className={(disabled ? '' : 'cursor-pointer')}
+                style={{
+                    border: disabled ? 'none' : 'solid black 1px'
+                }}
+                disabled={disabled}
+                onClick={e => handleButtonClick(e)}
+            >
+                Save Changes
+            </button>
         </div>
     )
 }

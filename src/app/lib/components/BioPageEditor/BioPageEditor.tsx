@@ -1,18 +1,17 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import Image from 'next/image';
+import { useState, useRef, useEffect } from 'react';
 import { BioPage as T_BioPage, Button, buttonStyle, Click, fontFamily, color } from '../../types';
 import BioPage from '../BioPage';
 import Card from './Card';
-import ImageButton from './ImageButton';
+import ImageEditor from './ImageEditor';
 import ColorInput from './ColorInput';
 import ButtonSelect from './ButtonSelect';
 import FontPicker from '../FontPicker';
 import ButtonsEditor from './ButtonsEditor';
-import { defaultImagesrc } from '../../default-data';
 import ShortLinkEditor from './ShortLinkEditor';
 import SaveButton from './SaveButton';
+import { uploadImageFile, deleteImageFile } from '../../data';
 import { objectsAreStructurallyIdentical } from '../../utils';
 
 export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }: {
@@ -23,6 +22,7 @@ export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }
 
     const [bioPage, setBioPage] = useState<T_BioPage | null>(_bioPage);
     const [loading, setLoading] = useState<boolean>(false);
+    const [blobUrl, setBlobUrl] = useState<string>('');
 
     const defaultBioPage = {
         _id: bioPage?._id as string,
@@ -53,10 +53,41 @@ export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }
     }
 
     async function handleSaveButtonClick() {
-        if (objectsAreStructurallyIdentical(bioPage, originalBioPage.current)) return;
+        if (objectsAreStructurallyIdentical(bioPage, originalBioPage.current)
+            && !blobUrl) {
+            return;
+        }
 
         setLoading(true);
-        await handleUpdateBioPage(bioPage);
+        let uploadResult;
+        if (blobUrl) {
+            try {
+                uploadResult = await uploadImageFile(blobUrl);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        if (uploadResult && bioPage?.imagesrc) {
+            try {
+                deleteImageFile(bioPage?.imagesrc as string);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        try {
+            await handleUpdateBioPage(
+                uploadResult?.url
+                    ? {
+                        ...bioPage,
+                        imagesrc: uploadResult.url
+                    }
+                    : bioPage
+            );
+        } catch (err) {
+            console.error(err);
+        }
         setLoading(false);
     }
 
@@ -70,21 +101,11 @@ export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }
             <div className='flex flex-col lg:flex-row justify-start items-start gap-2 h-full w-full'>
                 <div className='w-full p-4'>
                     <Card title='Profile'>
-                        <div className='flex flex-col sm:flex-row justify-start items-center gap-2 w-full'>
-                            <div className='flex justify-center items-center w-[160px] bg-red-500'>
-                                <Image
-                                    src={bioPage?.imagesrc || defaultImagesrc}
-                                    alt='Page Image'
-                                    height={150}
-                                    width={150}
-                                    style={{ borderRadius: '50%' }}
-                                />
-                            </div>
-                            <div className='flex flex-col justify-start items-center gap-2 h-full w-full'>
-                                <ImageButton name='Add Image' onClick={e => console.log('Image upload not yet implimenteD')} />
-                                <ImageButton name='Remove' onClick={e => console.log('Image removal not yet implimented')} />
-                            </div>
-                        </div>
+                        <ImageEditor
+                            imagesrc={bioPage?.imagesrc as string}
+                            blobUrl={blobUrl}
+                            setBlobUrl={setBlobUrl}
+                        />
                         <div
                             className='flex flex-col justify-start items-start w-full p-2 bg-gray-300'
                             style={{ borderRadius: '8px' }}
@@ -120,11 +141,13 @@ export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }
                             </div>
                         </div>
                         <div>
-                            <SaveButton
-                                loading={loading}
-                                disabled={objectsAreStructurallyIdentical(bioPage, originalBioPage.current)}
-                                onClick={() => handleSaveButtonClick()}
-                            />
+                            {loading
+                                ? 'loading...'
+                                : <SaveButton
+                                    disabled={objectsAreStructurallyIdentical(bioPage, originalBioPage.current) && !blobUrl}
+                                    onClick={() => handleSaveButtonClick()}
+                                />
+                            }
                         </div>
                     </Card>
                     <Card title='Edit Short Link'>
@@ -204,7 +227,11 @@ export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }
                             borderRadius: '8px'
                         }}
                     >
-                        <BioPage bioPage={bioPage as T_BioPage} setBioPage={setBioPage} />
+                        <BioPage
+                            bioPage={bioPage as T_BioPage}
+                            setBioPage={setBioPage}
+                            blobUrl={blobUrl}
+                        />
                     </div>
                 </div>
             </div>

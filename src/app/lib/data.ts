@@ -1,4 +1,5 @@
 import { db } from '@vercel/postgres';
+import { upload } from '@vercel/blob/client';
 import type { User, BioPage, Click } from './types';
 import { generateNewBioPage_id } from '@/app/lib/_id';
 import { CLICKS_MAX_NUM_DAYS_STORED, MAX_NUM_CLICKS } from './hard-limits';
@@ -206,4 +207,41 @@ export async function checkBioPage_idAvailability(checkString: string) {
     return result?.rows?.length === 0
         ? true
         : false;
+}
+
+export async function uploadImageFile(blobUrl: string) {
+    try {
+        const response = await fetch(blobUrl);
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch blob data');
+        }
+
+        const blobData = await response.blob();
+
+        const imageFileName = `avatar-${crypto.randomUUID()}.jpeg`;
+
+        // Create a File object from the Blob data
+        const imageFile = new File([blobData], imageFileName, { type: blobData.type });
+
+        const uploadResult = await upload(imageFileName, imageFile, {
+            access: 'public',
+            handleUploadUrl: '/api/avatar/upload',
+        });
+
+        return uploadResult;
+    } catch (err: any) {
+        console.error('Error uploading image:', err.message);
+        return null;
+    }
+}
+
+export async function deleteImageFile(imageFileUrl: string) {
+    return await fetch('/api/avatar', {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'DELETE',
+        body: JSON.stringify({ url: imageFileUrl })
+    });
 }

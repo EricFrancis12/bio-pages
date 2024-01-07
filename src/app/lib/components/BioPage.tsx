@@ -15,9 +15,10 @@ export const metadata: Metadata = {
 
 export default function BioPage(props: {
     bioPage: BioPage,
-    setBioPage?: Function
+    setBioPage?: Function,
+    blobUrl?: string
 }) {
-    const { bioPage, setBioPage } = props;
+    const { bioPage, setBioPage, blobUrl } = props;
     const {
         _id,
         user_id,
@@ -48,11 +49,10 @@ export default function BioPage(props: {
                     style={{ color: textcolor }}
                 >
                     <Image
-                        src={imagesrc ? imagesrc as string : defaultImagesrc}
+                        src={blobUrl || (imagesrc ? imagesrc as string : defaultImagesrc)}
                         alt='Page Image'
                         height={200}
                         width={200}
-                        style={{ borderRadius: '50%' }}
                     />
                     <h1>{headingtext}</h1>
                     <p>{subheadingtext}</p>

@@ -5,9 +5,8 @@ import { BioPage } from '@/app/lib/types';
 
 export async function PUT(req: Request, { params }: any) {
     const session = await useProtectedRoute();
-
     if (!session) {
-        return res.json({ success: false });
+        return res.json({ success: false, message: 'unauthorized' });
     }
 
     const user_id = session.user?.name;

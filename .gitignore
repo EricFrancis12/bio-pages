@@ -35,6 +35,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# test files and directories
 test.js
+test.ts
 test.json
 test.html
+src/app/test/*
+src/app/api/test/*
+src/app/lib/components/Test.tsx

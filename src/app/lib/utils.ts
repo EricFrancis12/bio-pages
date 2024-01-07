@@ -1,5 +1,21 @@
 import type { Click, buttonStyle, buttonStyleType, buttonStyleRadius } from './types';
 
+export function base64ToBlobUrl(base64String: string) {
+    // Remove the data:image/png;base64, prefix
+    const base64WithoutPrefix = base64String.replace(/^data:image\/[a-z]+;base64,/, '');
+
+    // Convert the Base64 string to a binary array
+    const binaryArray = atob(base64WithoutPrefix).split('').map(char => char.charCodeAt(0));
+
+    // Create a Blob from the binary array
+    const blob = new Blob([new Uint8Array(binaryArray)], { type: 'image/png' });
+
+    // Generate a Blob URL from the Blob
+    const blobUrl = URL.createObjectURL(blob);
+
+    return blobUrl;
+}
+
 export function deconstructButtonStyle(buttonstyle: buttonStyle) {
     const result = buttonstyle.split('-');
     const buttonstyleType: buttonStyleType = result[0] as buttonStyleType;
