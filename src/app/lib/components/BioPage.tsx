@@ -59,13 +59,14 @@ export default function BioPage(props: {
                     {/* Starter code for how to impliment line breaks the user may have typed: */}
                     {/* <p dangerouslySetInnerHTML={{ __html: subheadingtext.split('\n').join('<br>') }}></p> */}
                 </header>
-                <main className='flex flex-col justify-start items-center gap-6'>
+                <main className='flex flex-col justify-start items-center gap-6 w-full px-8'>
                     {buttons.map((button, index) => {
                         const icon = icons[button.icon as keyof typeof icons];
                         return button.disabled
                             ? ''
                             : (
                                 <div key={index}
+                                className='w-full md:max-w-[420px]'
                                     style={{
                                         border: `1px solid ${buttonbordercolor}`,
                                         backgroundColor: buttoncolor,
@@ -74,7 +75,7 @@ export default function BioPage(props: {
                                     }}
                                 >
                                     <a href={button.url} target='_blank'
-                                        className='flex justify-between items-center mx-0 my-auto px-3 py-2 w-[420px] max-w-[100%] cursor-pointer overflow-hidden opacity-100 hover:opacity-70'
+                                        className='flex justify-between items-center w-full mx-0 my-auto px-3 py-2 cursor-pointer overflow-hidden opacity-100 hover:opacity-70'
                                         style={{
                                             backgroundColor: 'transparent',
                                             transitionDuration: '200ms'

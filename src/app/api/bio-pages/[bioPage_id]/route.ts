@@ -12,7 +12,7 @@ export async function PUT(req: Request, { params }: any) {
     const user_id = session.user?.name;
     const bioPage: BioPage = await req.json();
 
-    if (bioPage?._id !== params.bioPage_id 
+    if (bioPage?._id !== params.bioPage_id
         || bioPage?.user_id !== user_id) {
         return res.json({ success: false });
     }
@@ -27,7 +27,7 @@ export async function PUT(req: Request, { params }: any) {
     }
 }
 
-export async function DELETE(req: Request, { params }: any) {
+export async function DELETE(req: Request, { params }: { params: { bioPage_id: string } }) {
     const session = await useProtectedRoute();
 
     if (!session) {

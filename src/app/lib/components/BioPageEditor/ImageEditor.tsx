@@ -38,8 +38,8 @@ export default function ImageEditor(props: {
                 ref={imageElementRef}
                 src={previewBlobUrl || blobUrl || imagesrc || defaultImagesrc}
                 alt='Page Image'
-                height={200}
-                width={200}
+                height={120}
+                width={120}
             />
             <span
                 className={(previewBlobUrl ? 'opacity-100' : 'opacity-0 hover:opacity-40 absolute')

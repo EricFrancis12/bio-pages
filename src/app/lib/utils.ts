@@ -1,5 +1,14 @@
 import type { Click, buttonStyle, buttonStyleType, buttonStyleRadius } from './types';
 
+export function stringIsValidJSON(string: string) {
+    try {
+        JSON.parse(string);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
 export function base64ToBlobUrl(base64String: string) {
     // Remove the data:image/png;base64, prefix
     const base64WithoutPrefix = base64String.replace(/^data:image\/[a-z]+;base64,/, '');

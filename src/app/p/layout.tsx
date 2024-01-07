@@ -5,7 +5,19 @@ export const metadata: Metadata = {
     description: 'Create your very own Bio Page with our cool app...',
 };
 
-export default async function pLayout({
+export default async function Layout({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
+    return (
+        <BioPageLayout>
+            {children}
+        </BioPageLayout>
+    );
+}
+
+export function BioPageLayout({
     children,
 }: {
     children: React.ReactNode;
@@ -14,5 +26,5 @@ export default async function pLayout({
         <div className='h-[100vh] w-[100vw]'>
             {children}
         </div>
-    );
+    )
 }

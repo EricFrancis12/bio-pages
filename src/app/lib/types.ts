@@ -2,7 +2,7 @@ export type fontFamily = string;
 export type buttonStyleType = 'fill' | 'outline' | 'soft_shadow' | 'hard_shadow';
 export type buttonStyleRadius = number;
 export type buttonStyle = `${buttonStyleType}-${buttonStyleRadius}`;
-export type buttonIcon = `fa${string}`;
+export type buttonIcon = `fa${string}` | null;
 export type buttonUrl = `http${string}` | '';
 export type color = string; // possibly change this later to specify what type of color string we will accept
 
@@ -19,7 +19,7 @@ export interface Button {
   text: string,
   icon: buttonIcon,
   url: buttonUrl,
-  disabled: boolean
+  disabled?: boolean
 };
 
 export interface Click {

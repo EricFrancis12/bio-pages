@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as icons from '@fortawesome/free-solid-svg-icons';
 import type { IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import type { buttonIcon } from '../../types';
 import { traverseParentsForClass, camelCaseToLowerCaseWithSpaces, generatePagination } from '../../utils';
 import Pagination from '../Pagination';
 
@@ -9,7 +10,7 @@ export const IGNORE_CLICK_CLASS = 'IGNORE_CLICK_CLASS';
 export const NUM_ICONS_PER_PAGE = 50;
 
 export default function IconPicker(props: {
-    value: string,
+    value: buttonIcon,
     onValueChange: Function
 }) {
     const { value, onValueChange } = props;
@@ -51,7 +52,9 @@ export default function IconPicker(props: {
         );
 
     const totalNumPages = Math.ceil(filteredIcons.length / NUM_ICONS_PER_PAGE);
-    const icon = icons[value as keyof typeof icons];
+    const icon = value
+        ? icons[value as keyof typeof icons]
+        : null;
 
     return (
         <div className='relative'>
@@ -64,7 +67,9 @@ export default function IconPicker(props: {
                 }}
                 onClick={e => handleClick(e)}
             >
-                <FontAwesomeIcon icon={icon as IconDefinition} />
+                {icon &&
+                    <FontAwesomeIcon icon={icon as IconDefinition} />
+                }
             </div>
             {open &&
                 <div

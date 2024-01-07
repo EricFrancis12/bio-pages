@@ -16,7 +16,9 @@ export default async function page({ params }: { params: { bioPage_id: string } 
         ? (
             <BioPage bioPage={bioPage} />
         )
-        : <div>
-            Bio Page not found :/
-        </div>
+        : (
+            <div>
+                Bio Page not found :/
+            </div>
+        )
 }

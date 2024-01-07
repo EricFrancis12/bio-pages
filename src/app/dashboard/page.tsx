@@ -1,5 +1,8 @@
 import { Metadata } from 'next';
+import { redirect, notFound } from 'next/navigation';
 import useProtectedRoute from '../lib/hooks/useProtectedRoute';
+import type { BioPage } from '../lib/types';
+import Dashboard from '../lib/components/Dashboard/Dashboard';
 import { fetchBioPagesByUser_id } from '../lib/data';
 
 export const metadata: Metadata = {
@@ -9,25 +12,16 @@ export const metadata: Metadata = {
 export default async function page() {
     const session = await useProtectedRoute();
     const user_id = session?.user?.name;
+    if (!user_id) {
+        return redirect('/login');
+    }
 
-    const bioPages = user_id
-        ? await fetchBioPagesByUser_id(user_id)
-        : [];
+    const bioPages: BioPage[] = await fetchBioPagesByUser_id(user_id);
+    if (!bioPages) {
+        return notFound();
+    }
 
     return (
-        <div>
-            <div>
-                <h1>
-                    Dashboard
-                </h1>
-            </div>
-            <div>
-                {bioPages.map((bioPage, index) => (
-                    <div key={index}>
-                        Example bioPage
-                    </div>
-                ))}
-            </div>
-        </div>
+        <Dashboard bioPages={bioPages} />
     )
 }

@@ -16,7 +16,7 @@ import { objectsAreStructurallyIdentical } from '../../utils';
 
 export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }: {
     bioPage: T_BioPage | null,
-    handleUpdateBioPage: Function
+    handleUpdateBioPage?: Function // The omission of this prop disables saving in the db, effectively making it a read-only component. It is used in this way at the /demo route.
 }) {
     const originalBioPage = useRef(_bioPage);
 
@@ -76,23 +76,25 @@ export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }
             }
         }
 
-        try {
-            await handleUpdateBioPage(
-                uploadResult?.url
-                    ? {
-                        ...bioPage,
-                        imagesrc: uploadResult.url
-                    }
-                    : bioPage
-            );
-        } catch (err) {
-            console.error(err);
+        if (handleUpdateBioPage) {
+            try {
+                await handleUpdateBioPage(
+                    uploadResult?.url
+                        ? {
+                            ...bioPage,
+                            imagesrc: uploadResult.url
+                        }
+                        : bioPage
+                );
+            } catch (err) {
+                console.error(err);
+            }
         }
         setLoading(false);
     }
 
     return (
-        <div className='h-full w-full p-4 bg-green-200'>
+        <div className='h-full w-full p-4 bg-slate-200'>
             <div>
                 <h1>
                     Edit Bio Page

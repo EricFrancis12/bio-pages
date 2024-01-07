@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { notFound, redirect } from 'next/navigation';
 import useProtectedRoute from '../../../../lib/hooks/useProtectedRoute';
 import { fetchBioPageBy_id, updateExistingBioPage } from '@/app/lib/data';
 import type { BioPage } from '@/app/lib/types';
@@ -11,11 +12,14 @@ export const metadata: Metadata = {
 
 export default async function page({ params }: { params: { bioPage_id: string } }) {
     const session = await useProtectedRoute();
+    if (!session) {
+        return redirect('/login');
+    }
 
-    const bioPage: BioPage | null =
-        session
-            ? await fetchBioPageBy_id(params.bioPage_id)
-            : null;
+    const bioPage: BioPage | null = await fetchBioPageBy_id(params.bioPage_id);
+    if (!bioPage) {
+        return notFound();
+    }
 
     async function handleUpdateBioPage(bioPage: BioPage) {
         'use server';
