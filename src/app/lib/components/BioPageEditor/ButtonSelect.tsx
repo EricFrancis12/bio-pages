@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { buttonStyle, buttonStyleType, buttonStyleRadius } from '../../types';
-import { deconstructButtonStyle } from '../../utils';
+import { deconstructButtonStyle } from '../../utils/utils';
 
 export default function ButtonSelect(props: {
     value: buttonStyle,

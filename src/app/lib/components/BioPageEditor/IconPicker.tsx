@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as icons from '@fortawesome/free-solid-svg-icons';
 import type { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import type { buttonIcon } from '../../types';
-import { traverseParentsForClass, camelCaseToLowerCaseWithSpaces, generatePagination } from '../../utils';
-import Pagination from '../Pagination';
+import { traverseParentsForClass, camelCaseToLowerCaseWithSpaces } from '../../utils/utils';
+import Pagination, { filterByCurrentPage, calcTotalNumPages } from '../Pagination';
 
 export const IGNORE_CLICK_CLASS = 'IGNORE_CLICK_CLASS';
 export const NUM_ICONS_PER_PAGE = 50;
@@ -51,7 +51,7 @@ export default function IconPicker(props: {
                 .includes(searchQuery.toLowerCase())
         );
 
-    const totalNumPages = Math.ceil(filteredIcons.length / NUM_ICONS_PER_PAGE);
+    const totalNumPages = calcTotalNumPages(filteredIcons, NUM_ICONS_PER_PAGE);
     const icon = value
         ? icons[value as keyof typeof icons]
         : null;
@@ -101,11 +101,7 @@ export default function IconPicker(props: {
                             />
                         </div>
                         <div className='flex flex-wrap justify-center items-start p-1 bg-white'>
-                            {filteredIcons
-                                .filter((iconValue, index) => {
-                                    return (index < (currentPage * NUM_ICONS_PER_PAGE))
-                                        && (index > ((currentPage - 1) * NUM_ICONS_PER_PAGE));
-                                })
+                            {filterByCurrentPage(filteredIcons, currentPage, NUM_ICONS_PER_PAGE)
                                 .map((iconValue, index) => {
                                     const _icon = icons[iconValue as keyof typeof icons] as IconDefinition;
                                     return (
@@ -120,7 +116,7 @@ export default function IconPicker(props: {
                         </div>
                     </div>
                     <Pagination
-                        className={IGNORE_CLICK_CLASS}
+                        className={IGNORE_CLICK_CLASS + ' w-full px-1'}
                         style={{
                             borderTop: 'solid black 1px'
                         }}

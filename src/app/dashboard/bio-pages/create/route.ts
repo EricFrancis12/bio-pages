@@ -2,8 +2,7 @@ import { NextResponse as res } from 'next/server';
 import useProtectedRoute from '@/app/lib/hooks/useProtectedRoute';
 import { createAndSaveNewBioPage } from '@/app/lib/data';
 
-export async function GET(req: Request, { params }: any) {
-    console.log('GET @ /dashboard/bio-pages/create');
+export async function GET(req: Request) {
     const session = await useProtectedRoute();
     const user_id = session?.user?.name;
 

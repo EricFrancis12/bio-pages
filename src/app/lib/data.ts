@@ -3,7 +3,7 @@ import { upload } from '@vercel/blob/client';
 import type { User, BioPage, Click } from './types';
 import { generateNewBioPage_id } from '@/app/lib/_id';
 import { CLICKS_MAX_NUM_DAYS_STORED, MAX_NUM_CLICKS } from './hard-limits';
-import { filterOldTimestamps } from './utils';
+import { filterOldTimestamps } from './utils/utils';
 
 export async function fetchUserBy_id(user_id: string) {
     const client = await db.connect();

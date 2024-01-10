@@ -2,11 +2,12 @@
 
 import { Metadata } from 'next';
 import Image from 'next/image';
+import { useEffect } from 'react';
 import type { BioPage, Button, buttonStyleType, buttonStyleRadius } from '../types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as icons from '@fortawesome/free-solid-svg-icons';
 import type { IconDefinition } from '@fortawesome/fontawesome-common-types';
-import { deconstructButtonStyle } from '../utils';
+import { deconstructButtonStyle } from '../utils/utils';
 import { defaultImagesrc } from '../default-data';
 
 export const metadata: Metadata = {
@@ -22,6 +23,7 @@ export default function BioPage(props: {
     const {
         _id,
         user_id,
+        name,
         font,
         textcolor,
         backgroundcolor,
@@ -37,6 +39,12 @@ export default function BioPage(props: {
     } = bioPage;
 
     const { buttonstyleType, buttonstyleRadius } = deconstructButtonStyle(buttonstyle); // impliment this later
+
+    useEffect(() => {
+        if (name) {
+            document.title = name;
+        }
+    }, []);
 
     return (
         <div className='min-h-[100vh] w-full'
@@ -66,7 +74,7 @@ export default function BioPage(props: {
                             ? ''
                             : (
                                 <div key={index}
-                                className='w-full md:max-w-[420px]'
+                                    className='w-full md:max-w-[420px]'
                                     style={{
                                         border: `1px solid ${buttonbordercolor}`,
                                         backgroundColor: buttoncolor,

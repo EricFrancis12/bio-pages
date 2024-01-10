@@ -1,4 +1,20 @@
-import type { Click, buttonStyle, buttonStyleType, buttonStyleRadius } from './types';
+import type { BioPage, Click, buttonStyle, buttonStyleType, buttonStyleRadius, Timeframe } from '../types';
+
+export function isObject(any: any) {
+    return any != null && typeof any === 'object';
+}
+
+export function isArray(any: any) {
+    return Object.prototype.toString.call(any) === '[object Array]';
+}
+
+export function isNil(any: any) {
+    return any === null || any === undefined;
+}
+
+export function isEmpty(any: any) {
+    return isNil(any) || any === '';
+}
 
 export function stringIsValidJSON(string: string) {
     try {
@@ -130,3 +146,65 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
         totalPages,
     ];
 };
+
+// returns dates in an array starting with today at index 0, going back "numDaysBeforeToday" days
+export function getPreviousDates(numDaysBeforeToday: number) {
+    const result = [];
+    const today = new Date();
+
+    for (let i = 0; i <= numDaysBeforeToday; i++) {
+        const previousDate = new Date(today);
+        previousDate.setDate(today.getDate() - i);
+
+        const formattedDate = formatDayOfWeekAndDate(previousDate);
+        result.push(formattedDate);
+    }
+
+    return result.reverse();
+}
+
+export function getDayOfWeek(dayIndex: number) {
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    return daysOfWeek[dayIndex];
+}
+
+export function formatDate(date: Date) {
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${month}/${day}`;
+}
+
+export function formatDayOfWeekAndDate(date: Date) {
+    const dayOfWeek = getDayOfWeek(date.getDay());
+    const formattedDate = formatDate(date);
+
+    return `${dayOfWeek} ${formattedDate}`;
+}
+
+export function getBioPagesClicks(bioPages: BioPage[], range: string | number) {
+    const mapBioPages = (bioPages: BioPage[]) => {
+        const result: any = {};
+        const allClicks = bioPages.map(bioPage => bioPage.clicks).flat();
+        allClicks.forEach(click => {
+            const formattedDate = formatDayOfWeekAndDate(new Date(click.t ?? click.timestamp));
+            if (result[formattedDate]) {
+                result[formattedDate].push(click);
+            } else {
+                result[formattedDate] = [click];
+            }
+        });
+        return result;
+    };
+    const mappedBioPages = mapBioPages(bioPages);
+
+    if (typeof range === 'number') {
+        const previousDates = getPreviousDates(range);
+        return previousDates.map(formattedDate => mappedBioPages[formattedDate] ?? [])?.flat() ?? [];
+    } else if (range.toLowerCase() === 'today') {
+        const today = getPreviousDates(0)[0];
+        return mappedBioPages[today] ?? [];
+    } else if (range.toLowerCase() === 'yesterday') {
+        const yesterday = getPreviousDates(1)[0];
+        return mappedBioPages[yesterday] ?? [];
+    }
+}

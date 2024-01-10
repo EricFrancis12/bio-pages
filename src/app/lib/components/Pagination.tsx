@@ -1,4 +1,4 @@
-import { generatePagination } from '../utils';
+import { generatePagination } from '../utils/utils';
 
 export default function Pagination(props: {
     className?: string,
@@ -13,7 +13,7 @@ export default function Pagination(props: {
 
     return (
         <div
-            className={'flex justify-between items-center w-full px-1 ' + className}
+            className={'flex justify-between items-center ' + className}
             style={{
                 ...style
             }}
@@ -30,6 +30,7 @@ export default function Pagination(props: {
             />
             {pagination.map((paginationItem, index) => (
                 <PaginationItem
+                    key={index}
                     paginationItem={paginationItem}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
@@ -68,6 +69,7 @@ export function PaginationItem(props: {
                     ? ' hover:underline cursor-pointer'
                     : ' '
                 )
+                + (disabled ? ' text-gray-400 cursor-not-allowed' : ' text-black')
             }
             onClick={e => {
                 if (paginationItem === '...' || disabled === true) return;
@@ -77,4 +79,15 @@ export function PaginationItem(props: {
             {paginationItem}
         </div>
     )
+}
+
+export function filterByCurrentPage(pages: any[], currentPage: number, numItemsPerPage: number) {
+    return pages.filter((page, index) => {
+        return (index < (currentPage * numItemsPerPage))
+            && (index > ((currentPage - 1) * numItemsPerPage));
+    })
+}
+
+export function calcTotalNumPages(pages: any[], numItemsPerPage: number) {
+    return Math.ceil(pages.length / numItemsPerPage);
 }

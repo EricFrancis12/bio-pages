@@ -12,7 +12,7 @@ import ButtonsEditor from './ButtonsEditor';
 import ShortLinkEditor from './ShortLinkEditor';
 import SaveButton from './SaveButton';
 import { uploadImageFile, deleteImageFile } from '../../data';
-import { objectsAreStructurallyIdentical } from '../../utils';
+import { objectsAreStructurallyIdentical } from '../../utils/utils';
 
 export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }: {
     bioPage: T_BioPage | null,

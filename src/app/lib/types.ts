@@ -6,6 +6,8 @@ export type buttonIcon = `fa${string}` | null;
 export type buttonUrl = `http${string}` | '';
 export type color = string; // possibly change this later to specify what type of color string we will accept
 
+export type Timeframe = [Date | null, Date | null];
+
 
 
 export interface User {
@@ -23,12 +25,14 @@ export interface Button {
 };
 
 export interface Click {
-  t: number
+  t: number, // new way of saving timestamp
+  timestamp?: number // old way of saving timestamp
 };
 
 export interface BioPage {
   _id: string,
   user_id: string,
+  name: string,
   font: fontFamily,
   textcolor: color,
   backgroundcolor: color,

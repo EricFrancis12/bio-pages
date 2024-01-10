@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Avatar from 'react-avatar-edit';
 import { defaultImagesrc } from '../../default-data';
-import { base64ToBlobUrl } from '../../utils';
+import { base64ToBlobUrl } from '../../utils/utils';
 
 export default function ImageEditor(props: {
     imagesrc?: string,

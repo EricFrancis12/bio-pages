@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import BioPage from '@/app/lib/components/BioPage';
 import type { BioPage as T_BioPage, buttonStyle, color, fontFamily } from '../lib/types';
 import { defaultImagesrc } from '../lib/default-data';
-import { stringIsValidJSON } from '../lib/utils';
+import { stringIsValidJSON } from '../lib/utils/utils';
 
 // A dynamic Bio Page preview page using useSearchParams()
 export default function page() {
