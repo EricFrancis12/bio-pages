@@ -81,11 +81,10 @@ export function PaginationItem(props: {
     )
 }
 
-export function filterByCurrentPage(pages: any[], currentPage: number, numItemsPerPage: number) {
-    return pages.filter((page, index) => {
-        return (index < (currentPage * numItemsPerPage))
-            && (index > ((currentPage - 1) * numItemsPerPage));
-    })
+export function filterByCurrentPage(pages: any, currentPage: number, numItemsPerPage: number) {
+    return pages.filter((page: any, index: number) => {
+        return (index < currentPage * numItemsPerPage && index >= (currentPage - 1) * numItemsPerPage);
+    });
 }
 
 export function calcTotalNumPages(pages: any[], numItemsPerPage: number) {

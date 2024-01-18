@@ -4,10 +4,10 @@ import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import type { BioPage, Timeframe } from '../../types';
+import type { BioPage, Timerange } from '../../types';
 import LineChart from './LineChart';
 import BioPagesTable from './BioPagesTable';
-import CalendarButton, { getDates, DEFAULT_TIMEFRAME_TYPE_NAME } from '../CalendarButton';
+import CalendarButton from '../CalendarButton';
 
 export default function BioPagesOverview(props: {
     bioPages: BioPage[],
@@ -17,7 +17,11 @@ export default function BioPagesOverview(props: {
 
     const [selectedBioPage_ids, setSelectedBioPage_ids] = useState<string[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>('');
-    const [timeframe, setTimeframe] = useState<Timeframe>(getDates(DEFAULT_TIMEFRAME_TYPE_NAME));
+    const [timerange, setTimerange] = useState<Timerange>({
+        startDate: new Date(Date.now()),
+        endDate: new Date(Date.now() + 10000),
+        key: 'selection'
+    });
 
     const filteredBioPages = bioPages.filter(bioPage => (bioPage.name?.includes(searchQuery) || bioPage._id.includes(searchQuery)));
     const selectedBioPages = bioPages.filter(bioPage => selectedBioPage_ids.includes(bioPage._id));
@@ -34,7 +38,7 @@ export default function BioPagesOverview(props: {
             <div className='flex flex-col justify-start items-center gap-2 w-full'>
                 <div className='flex justify-between items-center w-full'>
                     <div>
-                        <CalendarButton timeframe={timeframe} setTimeframe={setTimeframe} />
+                        <CalendarButton timerange={timerange} setTimerange={setTimerange} />
                     </div>
                     <div>
                         <span>
@@ -58,7 +62,7 @@ export default function BioPagesOverview(props: {
                 <div className='w-full'>
                     <LineChart
                         bioPages={selectedBioPages.length === 0 ? bioPages : selectedBioPages}
-                        timeframe={timeframe}
+                        timerange={timerange}
                     />
                 </div>
             </div>
@@ -77,7 +81,7 @@ export default function BioPagesOverview(props: {
                 <BioPagesTable
                     bioPages={filteredBioPages}
                     handleBioPageDelete={handleBioPageDelete}
-                    timeframe={timeframe}
+                    timerange={timerange}
                     searchQuery={searchQuery}
                     setSearchQuery={setSearchQuery}
                     selectedBioPage_ids={selectedBioPage_ids}

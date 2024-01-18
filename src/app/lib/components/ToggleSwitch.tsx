@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function ToggleSwitch(props: {
     defaultValue?: boolean,
@@ -8,11 +8,15 @@ export default function ToggleSwitch(props: {
 }) {
     const { defaultValue, value, size = 25, onValueChange } = props;
 
-    const [active, setActive] = useState(value ?? defaultValue ?? true);
+    const [active, setActive] = useState<boolean>(value ?? defaultValue ?? true);
+
+    useEffect(() => {
+        setActive(value);
+    }, [value]);
 
     function handleClick() {
         setActive(!active);
-        if (onValueChange) onValueChange(!active);
+        if (onValueChange) onValueChange(active);
     }
 
     return (

@@ -6,22 +6,25 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpRightFromSquare, faChartSimple, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { defaultImagesrc } from '../../default-data';
-import type { BioPage, Timeframe } from '../../types';
+import type { BioPage, Timerange } from '../../types';
 import SearchBar from './SearchBar';
 import YesNoPopup from '../YesNoPopup';
-import { filterClicksWithinTimeframe } from '../../utils/timeframe-utils';
+import { traverseParentsForClass } from '../../utils/utils';
+import { filterClicksWithinTimerange } from '../../utils/timerange-utils';
 import Pagination, { filterByCurrentPage, calcTotalNumPages } from '../Pagination';
+
+export const IGNORE_ROW_CLICK_CLASS = 'IGNORE_ROW_CLICK_CLASS';
 
 export default function BioPagesTable(props: {
     bioPages: BioPage[],
     handleBioPageDelete: Function,
-    timeframe: Timeframe,
+    timerange: Timerange,
     searchQuery: string,
     setSearchQuery: Function,
     selectedBioPage_ids: string[],
     setSelectedBioPage_ids: Function
 }) {
-    const { bioPages = [], handleBioPageDelete, timeframe, searchQuery, setSearchQuery, selectedBioPage_ids, setSelectedBioPage_ids } = props;
+    const { bioPages = [], handleBioPageDelete, timerange, searchQuery, setSearchQuery, selectedBioPage_ids, setSelectedBioPage_ids } = props;
 
     const [deletePopupBioPage_id, setDeletePopupBioPage_id] = useState<string | null>(null);
     const [handlingDelete, setHandlingDelete] = useState<boolean>(false);
@@ -29,7 +32,11 @@ export default function BioPagesTable(props: {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const totalNumPages = calcTotalNumPages(bioPages, 3);
 
-    function handleRowClick(bioPage_id: string) {
+    function handleRowClick(e: React.MouseEvent<HTMLElement>, bioPage_id: string) {
+        if (traverseParentsForClass(e.target as HTMLElement, IGNORE_ROW_CLICK_CLASS)) {
+            return;
+        }
+
         if (!selectedBioPage_ids.includes(bioPage_id)) {
             setSelectedBioPage_ids([
                 ...selectedBioPage_ids,
@@ -78,7 +85,7 @@ export default function BioPagesTable(props: {
                                         key={bioPage._id}
                                         className={(selectedBioPage_ids.includes(bioPage._id) ? 'bg-blue-200' : 'bg-white')
                                             + ' mb-2 w-full rounded-md p-4 cursor-pointer'}
-                                        onClick={e => handleRowClick(bioPage._id)}
+                                        onClick={e => handleRowClick(e, bioPage._id)}
                                     >
                                         <div className='flex items-center justify-between border-b pb-4'>
                                             <div>
@@ -96,7 +103,7 @@ export default function BioPagesTable(props: {
                                             </div>
                                             <div className='flex flex-row-reverse md:flex-row items-center gap-3'>
                                                 <Link
-                                                    className='text-gray-300 hover:text-blue-400'
+                                                    className={IGNORE_ROW_CLICK_CLASS + ' text-gray-300 hover:text-blue-400'}
                                                     href={`/p/${bioPage._id}`}
                                                     target='_blank'
                                                 >
@@ -109,18 +116,19 @@ export default function BioPagesTable(props: {
                                             <div>
                                                 <div className='flex items-center gap-3 text-xl font-medium'>
                                                     <FontAwesomeIcon icon={faChartSimple} />
-                                                    <p>{filterClicksWithinTimeframe(bioPage.clicks, timeframe).length}</p>
+                                                    <p>{filterClicksWithinTimerange(bioPage.clicks, timerange).length}</p>
                                                 </div>
                                             </div>
                                             <div className='flex justify-end gap-2'>
                                                 <Link
-                                                    href={`/dashboard/bio-pages/${bioPage._id}/edit`}
+                                                    href={IGNORE_ROW_CLICK_CLASS + ` /dashboard/bio-pages/${bioPage._id}/edit`}
                                                     className='flex justify-center items-center rounded-md border p-2 hover:bg-gray-100'
                                                 >
                                                     <FontAwesomeIcon icon={faPencil} />
                                                 </Link>
                                                 <div
-                                                    className='flex justify-center items-center rounded-md border p-2 hover:bg-gray-100 cursor-pointer'
+                                                    className={IGNORE_ROW_CLICK_CLASS
+                                                        + ' flex justify-center items-center rounded-md border p-2 hover:bg-gray-100 cursor-pointer'}
                                                     onClick={e => handleDeleteButtonClick(e, bioPage._id)}
                                                 >
                                                     <FontAwesomeIcon icon={faTrash} />
@@ -155,12 +163,12 @@ export default function BioPagesTable(props: {
                                 </thead>
                                 <tbody className='bg-white'>
                                     {filterByCurrentPage(bioPages, currentPage, 3)
-                                        .map((bioPage) => (
+                                        .map((bioPage: BioPage) => (
                                             <tr
                                                 key={bioPage._id}
                                                 className={(selectedBioPage_ids.includes(bioPage._id) ? 'bg-blue-200' : 'bg-white')
                                                     + ' w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg cursor-pointer'}
-                                                onClick={e => handleRowClick(bioPage._id)}
+                                                onClick={e => handleRowClick(e, bioPage._id)}
                                             >
                                                 <td>
                                                     <Image
@@ -177,7 +185,7 @@ export default function BioPagesTable(props: {
                                                 <td className='whitespace-nowrap px-3 py-3 overflow-hidden'>
                                                     <div className='flex items-center gap-3 overflow-hidden'>
                                                         <Link
-                                                            className='text-gray-300 hover:text-blue-400'
+                                                            className={IGNORE_ROW_CLICK_CLASS + ' text-gray-300 hover:text-blue-400'}
                                                             href={`/p/${bioPage._id}`}
                                                             target='_blank'
                                                         >
@@ -194,19 +202,21 @@ export default function BioPagesTable(props: {
                                                 <td className='whitespace-nowrap px-3 py-3'>
                                                     <div className='flex items-center gap-3'>
                                                         <FontAwesomeIcon icon={faChartSimple} />
-                                                        <p>{filterClicksWithinTimeframe(bioPage.clicks, timeframe).length}</p>
+                                                        <p>{filterClicksWithinTimerange(bioPage.clicks, timerange).length}</p>
                                                     </div>
                                                 </td>
                                                 <td className='whitespace-nowrap py-3 pl-6 pr-3'>
                                                     <div className='flex justify-end gap-3'>
                                                         <Link
+                                                            className={IGNORE_ROW_CLICK_CLASS +
+                                                                ' flex justify-center items-center rounded-md border p-2 hover:bg-gray-100'}
                                                             href={`/dashboard/bio-pages/${bioPage._id}/edit`}
-                                                            className='flex justify-center items-center rounded-md border p-2 hover:bg-gray-100'
                                                         >
                                                             <FontAwesomeIcon icon={faPencil} />
                                                         </Link>
                                                         <div
-                                                            className='flex justify-center items-center rounded-md border p-2 hover:bg-gray-100 cursor-pointer'
+                                                            className={IGNORE_ROW_CLICK_CLASS +
+                                                                ' flex justify-center items-center rounded-md border p-2 hover:bg-gray-100 cursor-pointer'}
                                                             onClick={e => handleDeleteButtonClick(e, bioPage._id)}
                                                         >
                                                             <FontAwesomeIcon icon={faTrash} />

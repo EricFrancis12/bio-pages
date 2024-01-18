@@ -1,7 +1,7 @@
-import type { User, BioPage, Button, Click } from './types';
-import { faX } from '@fortawesome/free-solid-svg-icons';
+import type { User, BioPage, Button, Click, buttonIcon } from './types';
 
 export const defaultImagesrc = '/default-profile-image.webp';
+export const defaultIcon: buttonIcon = 'faLink';
 
 export const defaultUser: User = {
     _id: 'DEFAULT_USER_id',
@@ -12,25 +12,27 @@ export const defaultUser: User = {
 
 export const defaultButton: Button = {
     text: '',
-    icon: 'faLink',
+    icon: defaultIcon,
     url: '',
     disabled: false
 };
 
 export const defaultClick: Click = {
-    t: Date.now()
+    biopage_id: 'DEFAULT_BIOPAGE_ID',
+    timestamp: Date.now()
 };
 
 export const defaultBioPage: BioPage = {
     _id: 'DEFAULT_BIOPAGE_id',
     user_id: defaultUser._id,
+    name: '',
     font: '1',
     textcolor: 'white',
     backgroundcolor: 'black',
     imagesrc: defaultImagesrc,
     headingtext: 'Example Heading Text!',
     subheadingtext: 'Some cool subheading text... :)',
-    buttonstyle: 'fill-0',
+    buttonstyle: 'no_shadow-0',
     buttoncolor: 'blue',
     buttontextcolor: 'white',
     buttonbordercolor: 'white',

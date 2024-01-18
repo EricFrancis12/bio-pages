@@ -2,9 +2,9 @@
 
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend } from 'chart.js';
-import type { BioPage, Timeframe } from '../../types';
+import type { BioPage, Timerange } from '../../types';
 import { formatDayOfWeekAndDate } from '../../utils/utils';
-import { clickIsWithinTimeframe, getLabelsPerTimeframe } from '../../utils/timeframe-utils';
+import { clickIsWithinTimerange, getLabelsPerTimerange } from '../../utils/timerange-utils';
 
 ChartJS.register(
     LineElement,
@@ -17,16 +17,16 @@ ChartJS.register(
 
 export default function LineChart(props: {
     bioPages: BioPage[],
-    timeframe: Timeframe
+    timerange: Timerange
 }) {
-    const { bioPages, timeframe } = props;
+    const { bioPages, timerange } = props;
 
     const mapData = (bioPage: BioPage) => {
         const result: any = {};
         bioPage.clicks.forEach(click => {
-            const formattedDate = formatDayOfWeekAndDate(new Date(click.t ?? click.timestamp));
+            const formattedDate = formatDayOfWeekAndDate(new Date(click.timestamp));
 
-            // if (!clickIsWithinTimeframe(click, timeframe)) {
+            // if (!clickIsWithinTimerange(click, timerange)) {
             //     return;
             // }
 
@@ -41,7 +41,7 @@ export default function LineChart(props: {
 
     const colors = ['blue', 'green', 'yellow', 'orange', 'purple', 'red', 'black'];
 
-    const labels = getLabelsPerTimeframe(timeframe);
+    const labels = getLabelsPerTimerange(timerange);
     const datasets = bioPages.map((bioPage, index) => ({
         label: bioPage._id,
         data: mapData(bioPage),

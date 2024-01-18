@@ -1,10 +1,11 @@
-import { useState, useRef, useEffect, useMemo } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as icons from '@fortawesome/free-solid-svg-icons';
 import type { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import type { buttonIcon } from '../../types';
-import { traverseParentsForClass, camelCaseToLowerCaseWithSpaces } from '../../utils/utils';
 import Pagination, { filterByCurrentPage, calcTotalNumPages } from '../Pagination';
+import { traverseParentsForClass, camelCaseToLowerCaseWithSpaces } from '../../utils/utils';
+import { defaultIcon } from '../../default-data';
 
 export const IGNORE_CLICK_CLASS = 'IGNORE_CLICK_CLASS';
 export const NUM_ICONS_PER_PAGE = 50;
@@ -26,13 +27,13 @@ export default function IconPicker(props: {
     }, []);
 
     const ignoreNextGlobalClick = useRef(false);
-    function handleGlobalClick(e: any) {
+    function handleGlobalClick(e: MouseEvent) {
         if (ignoreNextGlobalClick.current === true) {
             ignoreNextGlobalClick.current = false;
             return;
         }
 
-        if (traverseParentsForClass(e.target, IGNORE_CLICK_CLASS)) {
+        if (traverseParentsForClass(e.target as HTMLElement, IGNORE_CLICK_CLASS)) {
             return;
         }
 
@@ -40,7 +41,7 @@ export default function IconPicker(props: {
         setSearchQuery('');
     }
 
-    function handleClick(e: any) {
+    function handleClick(e: React.MouseEvent<HTMLDivElement>) {
         ignoreNextGlobalClick.current = true;
         setOpen(!open);
     }
@@ -54,7 +55,7 @@ export default function IconPicker(props: {
     const totalNumPages = calcTotalNumPages(filteredIcons, NUM_ICONS_PER_PAGE);
     const icon = value
         ? icons[value as keyof typeof icons]
-        : null;
+        : icons[defaultIcon as keyof typeof icons];
 
     return (
         <div className='relative'>
@@ -102,7 +103,7 @@ export default function IconPicker(props: {
                         </div>
                         <div className='flex flex-wrap justify-center items-start p-1 bg-white'>
                             {filterByCurrentPage(filteredIcons, currentPage, NUM_ICONS_PER_PAGE)
-                                .map((iconValue, index) => {
+                                .map((iconValue: string, index: number) => {
                                     const _icon = icons[iconValue as keyof typeof icons] as IconDefinition;
                                     return (
                                         <div key={index}

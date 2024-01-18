@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { buttonStyle, buttonStyleType, buttonStyleRadius } from '../../types';
-import { deconstructButtonStyle } from '../../utils/utils';
+import { deconstructButtonStyle, calcButtonStyleTypeShadows } from '../../utils/utils';
 
 export default function ButtonSelect(props: {
     value: buttonStyle,
@@ -26,12 +26,8 @@ export default function ButtonSelect(props: {
         type: buttonStyleType
     }[] = [
             {
-                name: 'Fill',
-                type: 'fill'
-            },
-            {
-                name: 'Outline',
-                type: 'outline'
+                name: 'No Shadow',
+                type: 'no_shadow'
             },
             {
                 name: 'Soft Shadow',
@@ -42,6 +38,30 @@ export default function ButtonSelect(props: {
                 type: 'hard_shadow'
             }
         ];
+
+    function ButtonStyleButton(props: {
+        type: buttonStyleType,
+        radius: buttonStyleRadius
+    }) {
+        const { type, radius } = props;
+
+        return (
+            <div className='w-full' style={{
+                outline: (buttonstyleType === type && buttonstyleRadius === radius) ? 'solid black 1px' : 'none'
+            }}
+                onClick={e => setSelectedButton({ type, radius })}
+            >
+                <div
+                    className={(calcButtonStyleTypeShadows(type))
+                        + ' h-[30px] m-2 p-2 bg-gray-400 cursor-pointer'}
+                    style={{
+                        border: 'solid black 1px',
+                        borderRadius: `${radius}px`
+                    }}
+                />
+            </div>
+        )
+    }
 
     return (
         <div className='w-full'>
@@ -54,42 +74,18 @@ export default function ButtonSelect(props: {
                             </span>
                         </div>
                         <div className='flex justify-between items-center gap-2 w-full'>
-                            <div className='w-full' style={{
-                                outline: (buttonstyleType === row.type && buttonstyleRadius === 0) ? 'solid black 1px' : 'none'
-                            }}
-                                onClick={e => setSelectedButton({ radius: 0, type: row.type })}
-                            >
-                                <div
-                                    className='h-[30px] m-2 p-2 bg-black'
-                                    style={{
-                                        borderRadius: '0px'
-                                    }}
-                                />
-                            </div>
-                            <div className='w-full' style={{
-                                outline: (buttonstyleType === row.type && buttonstyleRadius === 8) ? 'solid black 1px' : 'none'
-                            }}
-                                onClick={e => setSelectedButton({ radius: 8, type: row.type })}
-                            >
-                                <div
-                                    className='h-[30px] m-2 p-2 bg-black'
-                                    style={{
-                                        borderRadius: '8px'
-                                    }}
-                                />
-                            </div>
-                            <div className='w-full' style={{
-                                outline: (buttonstyleType === row.type && buttonstyleRadius === 15) ? 'solid black 1px' : 'none'
-                            }}
-                                onClick={e => setSelectedButton({ radius: 15, type: row.type })}
-                            >
-                                <div
-                                    className='h-[30px] m-2 p-2 bg-black'
-                                    style={{
-                                        borderRadius: '15px'
-                                    }}
-                                />
-                            </div>
+                            <ButtonStyleButton
+                                type={row.type}
+                                radius={0}
+                            />
+                            <ButtonStyleButton
+                                type={row.type}
+                                radius={8}
+                            />
+                            <ButtonStyleButton
+                                type={row.type}
+                                radius={15}
+                            />
                         </div>
                     </div>
                 ))}

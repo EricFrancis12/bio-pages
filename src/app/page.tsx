@@ -1,20 +1,14 @@
+import './home.css';
 import { Metadata } from 'next';
+import Home from './lib/components/Home/Home';
 
 export const metadata: Metadata = {
     title: 'Dashboard'
 };
 
-export default async function Home() {
+export default async function page() {
+
     return (
-        <div>
-            <div>
-                <h1>
-                    Home Page
-                </h1>
-            </div>
-            <div>
-                
-            </div>
-        </div>
+        <Home />
     )
 }

@@ -1,7 +1,9 @@
+import '@fortawesome/fontawesome-svg-core/styles.css';
 import './globals.css';
 import './font-faces.css';
 import './font_families.css';
-import '@fortawesome/fontawesome-svg-core/styles.css';
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css'; // theme css file
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { getServerSession } from 'next-auth';

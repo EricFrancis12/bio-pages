@@ -1,306 +1,94 @@
+'use client';
+
 import React, { useState, useRef, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronUp, faChevronDown, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
-import Calendar from 'react-calendar';
-import type { Timeframe } from '../types';
-import { isArray, traverseParentsForClass } from '../utils/utils';
-import { makeDate, formatDatesRange } from '../utils/timeframe-utils';
+import { DateRangePicker } from 'react-date-range';
+import { addDays } from 'date-fns';
+import { traverseParentsForClass, traverseParentsForId } from '../utils/utils';
+import { Timerange } from '../types';
+import { formatDatesRange } from '../utils/timerange-utils';
 
-export const CALENDAR_BUTTON_CLASS = 'CALENDAR_BUTTON_CLASS';
-export const CALENDAR_APPLY_BUTTON_CLASS = 'CALENDAR_APPLY_BUTTON_CLASS';
-
-export const ONE_DAY_MS = 86_400_000;
-export const ONE_DAY_MS_MINUS_ONE = ONE_DAY_MS - 1;
-export const EARLIEST_TIMESTAMP_ALLOWED = makeDate(2023, 0, 1, 0, 0, 0, 0).getTime();
-
-export const TIMEFRAME_TYPE_NAMES: any = {
-    TODAY: 'Today',
-    YESTERDAY: 'Yesterday',
-    LAST_3_DAYS: 'Last 3 Days',
-    LAST_7_DAYS: 'Last 7 Days',
-    LAST_30_DAYS: 'Last 30 Days',
-    THIS_MONTH: 'This Month',
-    LAST_MONTH: 'Last Month',
-    MAX_AVAILABLE: 'Max. available',
-    DATE_RANGE: 'Date Range'
-};
-
-export function calcDefaultFormattedDatesRange(timeframe: Timeframe) {
-    if (!timeframe || !isArray(timeframe)) return DEFAULT_TIMEFRAME_TYPE_NAME;
-
-    const [timeframeStartDate, timeframeEndDate] = timeframe;
-
-    for (const key in TIMEFRAME_TYPE_NAMES) {
-        const name = TIMEFRAME_TYPE_NAMES[key];
-        const [startDate, endDate] = getDates(name);
-
-        if (!startDate
-            || !endDate
-            || !timeframeStartDate
-            || !timeframeEndDate) {
-            continue;
-        }
-
-        if (startDate > timeframeStartDate
-            || startDate < timeframeStartDate
-            || endDate > timeframeEndDate
-            || endDate < timeframeEndDate) {
-            continue;
-        }
-
-        return name;
-    }
-
-    return formatDatesRange(timeframe);
-}
-
-export const DEFAULT_TIMEFRAME_TYPE_NAME = TIMEFRAME_TYPE_NAMES.TODAY;
-
-export function getDates(name: string) {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const day = date.getDate();
-
-    const startOfTodayMS = makeDate(year, month, day, 5, 0, 0, 0).getTime();
-    const endOfTodayMS = startOfTodayMS + ONE_DAY_MS_MINUS_ONE;
-
-    let result = [startOfTodayMS, endOfTodayMS];
-    switch (name) {
-        case TIMEFRAME_TYPE_NAMES.TODAY: {
-            result = [startOfTodayMS, endOfTodayMS];
-            break;
-        }
-        case TIMEFRAME_TYPE_NAMES.YESTERDAY: {
-            const startOfYesterdayMS = startOfTodayMS - ONE_DAY_MS;
-            const endOfYesterdayMS = startOfYesterdayMS + ONE_DAY_MS_MINUS_ONE;
-            result = [startOfYesterdayMS, endOfYesterdayMS];
-            break;
-        }
-        case TIMEFRAME_TYPE_NAMES.LAST_3_DAYS: {
-            const startOf3DaysAgoMS = startOfTodayMS - (2 * ONE_DAY_MS);
-            result = [startOf3DaysAgoMS, endOfTodayMS];
-            break;
-        }
-        case TIMEFRAME_TYPE_NAMES.LAST_7_DAYS: {
-            const startOf7DaysAgoMS = startOfTodayMS - (7 * ONE_DAY_MS);
-            result = [startOf7DaysAgoMS, endOfTodayMS];
-            break;
-        }
-        case TIMEFRAME_TYPE_NAMES.LAST_30_DAYS: {
-            const startOf30DaysAgoMS = startOfTodayMS - (30 * ONE_DAY_MS);
-            result = [startOf30DaysAgoMS, endOfTodayMS];
-            break;
-        }
-        case TIMEFRAME_TYPE_NAMES.THIS_MONTH: {
-            const startOfThisMonthMS = makeDate(year, month, 1, 0, 0, 0, 0).getTime();
-            result = [startOfThisMonthMS, endOfTodayMS];
-            break;
-        }
-        case TIMEFRAME_TYPE_NAMES.LAST_MONTH: {
-            const calcLastYearAndMonth = (year: number, month: number) => {
-                return month !== 0 ? [year, month - 1] : [year - 1, 11]; // month is 0-11
-            };
-
-            const [lastYear, lastMonth] = calcLastYearAndMonth(year, month);
-            const startOfThisMonthMS = makeDate(year, month, 1, 0, 0, 0, 0).getTime();
-
-            const startOfLastMonthMS = makeDate(lastYear, lastMonth, 1, 0, 0, 0, 0).getTime();
-            const endOfLastMonthMS = startOfThisMonthMS - 1;
-            result = [startOfLastMonthMS, endOfLastMonthMS];
-            break;
-        }
-        case TIMEFRAME_TYPE_NAMES.MAX_AVAILABLE: {
-            result = [EARLIEST_TIMESTAMP_ALLOWED, endOfTodayMS];
-            break;
-        }
-    }
-    const timeframe = result.map(timestamp => timestamp ? new Date(timestamp) : null) as Timeframe;
-    return timeframe;
-}
+export const IGNORE_CALENDAR_CLICK_CLASS = 'IGNORE_CALENDAR_CLICK_CLASS';
 
 export default function CalendarButton(props: {
-    timeframe: Timeframe,
-    setTimeframe: Function
+    timerange: Timerange,
+    setTimerange: Function
 }) {
-    const { timeframe, setTimeframe } = props;
+    const { timerange, setTimerange } = props;
 
-    const [active, setActive] = useState(false);
-    const [calendarValue, setCalendarValue] = useState<Timeframe>(timeframe ?? getDates(DEFAULT_TIMEFRAME_TYPE_NAME));
+    const [workingTimerange, setWorkingTimerange] = useState<Timerange>(structuredClone(timerange));
+    const [expanded, setExpanded] = useState<boolean>(false);
 
-    const [activeTimeframeTypeName, setActiveTimeframeTypeName] = useState(calcDefaultFormattedDatesRange(timeframe));
-    const originalActiveTimeframeTypeName = useRef(activeTimeframeTypeName);
-
-    useEffect(() => {
-        if (timeframe == null && calendarValue != null) {
-            setTimeframe(structuredClone(calendarValue));
-            setActiveTimeframeTypeName(DEFAULT_TIMEFRAME_TYPE_NAME);
-            originalActiveTimeframeTypeName.current = DEFAULT_TIMEFRAME_TYPE_NAME;
-        }
-    }, [timeframe]);
-
-    useEffect(() => {
-        if (active === false) {
-            originalActiveTimeframeTypeName.current = activeTimeframeTypeName;
-        }
-    }, [active]);
-
-    const timeframeTypes = [
-        {
-            name: TIMEFRAME_TYPE_NAMES.TODAY,
-            onClick: (e: React.MouseEvent<HTMLDivElement>) => {
-                setCalendarValue(getDates(TIMEFRAME_TYPE_NAMES.TODAY));
-                setActiveTimeframeTypeName(TIMEFRAME_TYPE_NAMES.TODAY);
-            }
-        },
-        {
-            name: TIMEFRAME_TYPE_NAMES.YESTERDAY,
-            onClick: (e: React.MouseEvent<HTMLDivElement>) => {
-                setCalendarValue(getDates(TIMEFRAME_TYPE_NAMES.YESTERDAY));
-                setActiveTimeframeTypeName(TIMEFRAME_TYPE_NAMES.YESTERDAY);
-            }
-        },
-        {
-            name: TIMEFRAME_TYPE_NAMES.LAST_3_DAYS,
-            onClick: (e: React.MouseEvent<HTMLDivElement>) => {
-                setCalendarValue(getDates(TIMEFRAME_TYPE_NAMES.LAST_3_DAYS));
-                setActiveTimeframeTypeName(TIMEFRAME_TYPE_NAMES.LAST_3_DAYS);
-            }
-        },
-        {
-            name: TIMEFRAME_TYPE_NAMES.LAST_7_DAYS,
-            onClick: (e: React.MouseEvent<HTMLDivElement>) => {
-                setCalendarValue(getDates(TIMEFRAME_TYPE_NAMES.LAST_7_DAYS));
-                setActiveTimeframeTypeName(TIMEFRAME_TYPE_NAMES.LAST_7_DAYS);
-            }
-        },
-        {
-            name: TIMEFRAME_TYPE_NAMES.LAST_30_DAYS,
-            onClick: (e: React.MouseEvent<HTMLDivElement>) => {
-                setCalendarValue(getDates(TIMEFRAME_TYPE_NAMES.LAST_30_DAYS));
-                setActiveTimeframeTypeName(TIMEFRAME_TYPE_NAMES.LAST_30_DAYS);
-            }
-        },
-        {
-            name: TIMEFRAME_TYPE_NAMES.THIS_MONTH,
-            onClick: (e: React.MouseEvent<HTMLDivElement>) => {
-                setCalendarValue(getDates(TIMEFRAME_TYPE_NAMES.THIS_MONTH));
-                setActiveTimeframeTypeName(TIMEFRAME_TYPE_NAMES.THIS_MONTH);
-            }
-        },
-        {
-            name: TIMEFRAME_TYPE_NAMES.LAST_MONTH,
-            onClick: (e: React.MouseEvent<HTMLDivElement>) => {
-                setCalendarValue(getDates(TIMEFRAME_TYPE_NAMES.LAST_MONTH));
-                setActiveTimeframeTypeName(TIMEFRAME_TYPE_NAMES.LAST_MONTH);
-            }
-        },
-        {
-            name: TIMEFRAME_TYPE_NAMES.MAX_AVAILABLE,
-            onClick: (e: React.MouseEvent<HTMLDivElement>) => {
-                setCalendarValue(getDates(TIMEFRAME_TYPE_NAMES.MAX_AVAILABLE));
-                setActiveTimeframeTypeName(TIMEFRAME_TYPE_NAMES.MAX_AVAILABLE);
-            }
-        },
-        {
-            name: TIMEFRAME_TYPE_NAMES.DATE_RANGE,
-            onClick: (e: React.MouseEvent<HTMLDivElement>) => {
-                setActiveTimeframeTypeName(TIMEFRAME_TYPE_NAMES.DATE_RANGE);
-            }
-        }
-    ];
+    const calendarButtonElement = useRef<HTMLDivElement | null>(null);
 
     const ignoreNextGlobalClick = useRef<boolean>(false);
-    function handleButtonClick() {
-        if (!active) {
-            setActive(true);
-            ignoreNextGlobalClick.current = true;
-            document.addEventListener('click', handleGlobalClick);
-        } else {
-            setActive(false);
-            document.removeEventListener('click', handleGlobalClick);
-        }
-    }
+    useEffect(() => {
+        document.addEventListener('click', handleGlobalClick);
 
-    function handleGlobalClick(e: any) {
-        // a one-time "shut off" switch,
-        // otherwise the click from handleButtonClick would also trigger handleGlobalClick
-        if (ignoreNextGlobalClick.current === true) {
-            ignoreNextGlobalClick.current = false;
+        return () => document.removeEventListener('click', handleGlobalClick);
+
+        function handleGlobalClick(e: MouseEvent) {
+            if (ignoreNextGlobalClick.current === true) {
+                ignoreNextGlobalClick.current = false;
+                return;
+            }
+            if (traverseParentsForClass(e.target as HTMLElement, IGNORE_CALENDAR_CLICK_CLASS)) {
+                return;
+            }
+            setExpanded(false);
+        }
+    }, []);
+
+    function handleClick(e: React.MouseEvent<HTMLDivElement>) {
+        if (traverseParentsForClass(e.target as HTMLElement, IGNORE_CALENDAR_CLICK_CLASS)
+            && e.target !== calendarButtonElement.current
+        ) {
             return;
         }
 
-        if (!traverseParentsForClass(e.target, CALENDAR_BUTTON_CLASS) && !e.target.classList.contains(CALENDAR_APPLY_BUTTON_CLASS)) {
-            handleCancel();
-        }
+        ignoreNextGlobalClick.current = true;
+        setExpanded(!expanded);
     }
 
-    function handleCalendarClick() {
-        if (!active) setActive(true);
-    }
-
-    function handleCalendarChange(newState: any) {
-        setCalendarValue(newState);
-        setActiveTimeframeTypeName(TIMEFRAME_TYPE_NAMES.DATE_RANGE);
-    }
-
-    function handleCancel() {
-        setActive(false);
-        setCalendarValue(timeframe ?? getDates(DEFAULT_TIMEFRAME_TYPE_NAME));
-        setActiveTimeframeTypeName(originalActiveTimeframeTypeName.current);
-
-        document.removeEventListener('click', handleGlobalClick);
-    }
-
-    function handleApply() {
-        setActive(false);
-        setTimeframe(structuredClone(calendarValue));
+    function handleApplyButtonClick() {
+        setTimerange(structuredClone(workingTimerange));
+        setExpanded(false);
     }
 
     return (
-        <div className={CALENDAR_BUTTON_CLASS + ' relative'}>
-            <div onClick={e => handleButtonClick()}
-                className='cursor-pointer hover:opacity-70 px-2 py-2'
-                style={{ border: 'solid lightgrey 1px', borderRadius: '6px', backgroundImage: 'linear-gradient(0deg,var(--color-gray5),var(--color-white))' }}
-            >
-                <FontAwesomeIcon icon={faCalendarAlt} style={{ marginRight: '4px' }} />
-                <span style={{ marginRight: '4px' }}>
-                    {activeTimeframeTypeName && activeTimeframeTypeName !== TIMEFRAME_TYPE_NAMES.DATE_RANGE
-                        ? activeTimeframeTypeName
-                        : formatDatesRange(calendarValue ?? getDates(TIMEFRAME_TYPE_NAMES.TODAY))
-                    }
-                </span>
-                <FontAwesomeIcon icon={active ? faChevronUp : faChevronDown} />
-            </div>
-            {active &&
-                <div onClick={e => handleCalendarClick()}
-                    className='absolute bg-white'
-                    style={{ border: 'solid black 1px', zIndex: 100 }}
+        <div ref={calendarButtonElement}
+            className={IGNORE_CALENDAR_CLICK_CLASS +
+                ' relative px-2 py-1 cursor-pointer'}
+            style={{
+                border: 'solid black 1px',
+                borderRadius: '8px'
+            }}
+            onClick={e => handleClick(e)}
+        >
+            <span style={{ pointerEvents: 'none' }}>
+                {formatDatesRange(timerange)}
+            </span>
+            {expanded &&
+                <div
+                    className='absolute flex flex-col justify-center items-center bg-white'
+                    style={{
+                        top: '100%',
+                        left: 0,
+                        border: 'solid black 1px',
+                        borderRadius: '8px'
+                    }}
                 >
-                    <div className='flex'>
-                        <div className='m-4'>
-                            <Calendar selectRange={true} value={calendarValue} onChange={handleCalendarChange} />
-                        </div>
-                        <div className='flex flex-col p-1' style={{ height: 'auto', width: 'auto', backgroundColor: 'red' }}>
-                            {timeframeTypes.map((type, index) => (
-                                <div onClick={e => type.onClick(e)}
-                                    key={index}
-                                    className='whitespace-nowrap cursor-pointer hover:opacity-70'
-                                    style={{
-                                        backgroundColor: type.name === activeTimeframeTypeName ? 'blue' : 'white'
-                                    }}
-                                >
-                                    {type.name}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                    <div className='flex justify-between'>
-                        <div />
-                        <div className='flex justify-end gap-2 px-2'>
-                            <button onClick={e => handleCancel()}>Cancel</button>
-                            <button onClick={e => handleApply()} className={CALENDAR_APPLY_BUTTON_CLASS}>Apply</button>
-                        </div>
+                    <DateRangePicker
+                        onChange={item => setWorkingTimerange(item.selection as Timerange)}
+                        //   showSelectionPreview={true}
+                        moveRangeOnFirstSelection={false}
+                        months={2}
+                        ranges={[workingTimerange]}
+                        direction="horizontal"
+                    />
+                    <div>
+                        <button onClick={e => handleApplyButtonClick()}>
+                            Apply
+                        </button>
                     </div>
                 </div>
             }

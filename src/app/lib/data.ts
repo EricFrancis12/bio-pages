@@ -2,8 +2,7 @@ import { db } from '@vercel/postgres';
 import { upload } from '@vercel/blob/client';
 import type { User, BioPage, Click } from './types';
 import { generateNewBioPage_id } from '@/app/lib/_id';
-import { CLICKS_MAX_NUM_DAYS_STORED, MAX_NUM_CLICKS } from './hard-limits';
-import { filterOldTimestamps } from './utils/utils';
+import { defaultClick } from './default-data';
 
 export async function fetchUserBy_id(user_id: string) {
     const client = await db.connect();
@@ -46,16 +45,21 @@ export async function fetchUserByEmail(email: string) {
 export async function fetchBioPageBy_id(bioPage_id: string) {
     const client = await db.connect();
     const result = await client.sql`
-        SELECT *
+        SELECT
+            biopages.*,
+            ARRAY_AGG(clicks.timestamp) AS clicks
         FROM biopages
-        WHERE _id = ${bioPage_id};
+        LEFT JOIN clicks ON biopages._id = clicks.biopage_id
+        WHERE biopages._id = ${bioPage_id}
+        GROUP BY biopages._id;
     `;
     if (result.rows.length !== 1) return null;
-    const { _id, user_id, font, textcolor, backgroundcolor, imagesrc, headingtext, subheadingtext, buttonstyle, buttoncolor, buttontextcolor, buttonbordercolor, buttons, clicks } = result.rows[0];
+    const { _id, user_id, name, font, textcolor, backgroundcolor, imagesrc, headingtext, subheadingtext, buttonstyle, buttoncolor, buttontextcolor, buttonbordercolor, buttons, clicks: timestamps } = result.rows[0];
     const bioPage: BioPage = {
         _id,
         user_id,
         font,
+        name,
         textcolor,
         backgroundcolor,
         imagesrc,
@@ -67,7 +71,7 @@ export async function fetchBioPageBy_id(bioPage_id: string) {
         buttonbordercolor,
         ...result.rows[0],
         buttons: JSON.parse(buttons),
-        clicks: JSON.parse(clicks)
+        clicks: timestamps.map((timestamp: string): Click => ({ timestamp: parseFloat(timestamp) }))
     };
     return bioPage;
 }
@@ -75,15 +79,20 @@ export async function fetchBioPageBy_id(bioPage_id: string) {
 export async function fetchBioPagesByUser_id(user_id: string) {
     const client = await db.connect();
     const result = await client.sql`
-        SELECT *
+        SELECT
+            biopages.*,
+            ARRAY_AGG(clicks.timestamp) AS clicks
         FROM biopages
-        WHERE user_id = ${user_id};
+        LEFT JOIN clicks ON biopages._id = clicks.biopage_id
+        WHERE biopages.user_id = ${user_id}
+        GROUP BY biopages._id;
     `;
     const bioPages = result.rows.map(bioPage => {
-        const { _id, user_id: _user_id, font, textcolor, backgroundcolor, imagesrc, headingtext, subheadingtext, buttonstyle, buttoncolor, buttontextcolor, buttonbordercolor, buttons, clicks } = bioPage;
+        const { _id, user_id: _user_id, name, font, textcolor, backgroundcolor, imagesrc, headingtext, subheadingtext, buttonstyle, buttoncolor, buttontextcolor, buttonbordercolor, buttons, clicks: timestamps } = bioPage;
         const result: BioPage = {
             _id,
             user_id,
+            name,
             font,
             textcolor,
             backgroundcolor,
@@ -96,7 +105,7 @@ export async function fetchBioPagesByUser_id(user_id: string) {
             buttonbordercolor,
             ...bioPage,
             buttons: JSON.parse(buttons),
-            clicks: JSON.parse(clicks)
+            clicks: timestamps.map((timestamp: string): Click => ({ timestamp: parseFloat(timestamp) }))
         };
         return result;
     });
@@ -107,13 +116,14 @@ export function createNewBioPage(user_id: string) {
     const newBioPage: BioPage = {
         _id: generateNewBioPage_id(),
         user_id,
+        name: '',
         font: '1',
         textcolor: 'white',
         backgroundcolor: 'black',
         imagesrc: '',
         headingtext: '',
         subheadingtext: '',
-        buttonstyle: 'fill-0',
+        buttonstyle: 'no_shadow-0',
         buttoncolor: 'blue',
         buttontextcolor: 'white',
         buttonbordercolor: 'white',
@@ -127,8 +137,8 @@ export async function createAndSaveNewBioPage(user_id: string) {
     const bioPage = createNewBioPage(user_id);
     const client = await db.connect();
     await client.sql`
-        INSERT INTO biopages (_id, user_id, font, textcolor, backgroundcolor, imageSrc, headingText, subheadingText, buttonstyle, buttoncolor, buttontextcolor, buttonbordercolor, buttons, clicks)
-        VALUES (${bioPage._id}, ${bioPage.user_id}, ${bioPage.font}, ${bioPage.textcolor}, ${bioPage.backgroundcolor}, ${bioPage.imagesrc}, ${bioPage.headingtext}, ${bioPage.subheadingtext}, ${bioPage.buttonstyle}, ${bioPage.buttoncolor}, ${bioPage.buttontextcolor}, ${bioPage.buttonbordercolor}, ${JSON.stringify(bioPage.buttons)}, ${JSON.stringify(bioPage.clicks)});
+        INSERT INTO biopages (_id, user_id, name, font, textcolor, backgroundcolor, imageSrc, headingText, subheadingText, buttonstyle, buttoncolor, buttontextcolor, buttonbordercolor, buttons)
+        VALUES (${bioPage._id}, ${bioPage.user_id}, ${bioPage.name}, ${bioPage.font}, ${bioPage.textcolor}, ${bioPage.backgroundcolor}, ${bioPage.imagesrc}, ${bioPage.headingtext}, ${bioPage.subheadingtext}, ${bioPage.buttonstyle}, ${bioPage.buttoncolor}, ${bioPage.buttontextcolor}, ${bioPage.buttonbordercolor}, ${JSON.stringify(bioPage.buttons)});
     `;
     return bioPage;
 }
@@ -149,8 +159,7 @@ export async function updateExistingBioPage(bioPage: BioPage) {
             buttoncolor = ${buttoncolor},
             buttontextcolor = ${buttontextcolor},
             buttonbordercolor = ${buttonbordercolor},
-            buttons = ${JSON.stringify(buttons)},
-            clicks = ${JSON.stringify(clicks)}
+            buttons = ${JSON.stringify(buttons)}
         WHERE _id = ${_id}
         AND user_id = ${user_id};
     `;
@@ -163,28 +172,6 @@ export async function deleteBioPageBy_id(bioPage_id: string) {
         FROM biopages
         WHERE _id = ${bioPage_id};
     `;
-}
-
-
-export async function saveNewClickToBioPage(bioPage_id: string, click?: Click) {
-    if (!click) click = {
-        t: Date.now()
-    };
-
-    const bioPage = await fetchBioPageBy_id(bioPage_id);
-    if (bioPage?.clicks) {
-        bioPage.clicks.push(click);
-
-        if (bioPage.clicks.length > MAX_NUM_CLICKS) {
-            const newClicks = bioPage.clicks.slice(0, MAX_NUM_CLICKS);
-            bioPage.clicks = newClicks;
-        }
-
-        bioPage.clicks = filterOldTimestamps(bioPage.clicks, CLICKS_MAX_NUM_DAYS_STORED);
-
-        await updateExistingBioPage(bioPage as BioPage);
-    }
-    return bioPage;
 }
 
 export async function changeBioPage_id(bioPage_id: string, newBioPage_id: string) {
@@ -244,4 +231,17 @@ export async function deleteImageFile(imageFileUrl: string) {
         method: 'DELETE',
         body: JSON.stringify({ url: imageFileUrl })
     });
+}
+
+export async function createAndSaveNewClick(click?: Click) {
+    if (!click) click = {
+        ...defaultClick
+    };
+
+    const { biopage_id, timestamp } = click;
+    const client = await db.connect();
+    await client.sql`
+        INSERT INTO clicks (biopage_id, timestamp)
+        VALUES (${biopage_id}, ${timestamp});
+    `;
 }

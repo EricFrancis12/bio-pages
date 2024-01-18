@@ -7,8 +7,8 @@ import type { BioPage, Button, buttonStyleType, buttonStyleRadius } from '../typ
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as icons from '@fortawesome/free-solid-svg-icons';
 import type { IconDefinition } from '@fortawesome/fontawesome-common-types';
-import { deconstructButtonStyle } from '../utils/utils';
-import { defaultImagesrc } from '../default-data';
+import { deconstructButtonStyle, calcButtonStyleTypeShadows } from '../utils/utils';
+import { defaultImagesrc, defaultIcon } from '../default-data';
 
 export const metadata: Metadata = {
     title: 'Your very own Bio Page!'
@@ -38,7 +38,7 @@ export default function BioPage(props: {
         clicks
     } = bioPage;
 
-    const { buttonstyleType, buttonstyleRadius } = deconstructButtonStyle(buttonstyle); // impliment this later
+    const { buttonstyleType, buttonstyleRadius } = deconstructButtonStyle(buttonstyle);
 
     useEffect(() => {
         if (name) {
@@ -48,7 +48,7 @@ export default function BioPage(props: {
 
     return (
         <div className='min-h-[100vh] w-full'
-            style={{ backgroundColor: backgroundcolor }}
+            style={{ background: backgroundcolor }}
         >
             <div className='flex flex-col justify-start items-center gap-4'
                 style={{ fontFamily: font ?? 'sans-serif' }}>
@@ -69,12 +69,15 @@ export default function BioPage(props: {
                 </header>
                 <main className='flex flex-col justify-start items-center gap-6 w-full px-8'>
                     {buttons.map((button, index) => {
-                        const icon = icons[button.icon as keyof typeof icons];
+                        const icon = button.icon
+                            ? icons[button.icon as keyof typeof icons]
+                            : icons[defaultIcon as keyof typeof icons];;
                         return button.disabled
                             ? ''
                             : (
                                 <div key={index}
-                                    className='w-full md:max-w-[420px]'
+                                    className={(calcButtonStyleTypeShadows(buttonstyleType))
+                                        + ' w-full md:max-w-[420px]'}
                                     style={{
                                         border: `1px solid ${buttonbordercolor}`,
                                         backgroundColor: buttoncolor,

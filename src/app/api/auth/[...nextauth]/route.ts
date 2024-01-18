@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import bcrypt from 'bcrypt';
 import { fetchUserByEmail } from '@/app/lib/data';
 
 export const authOptions = {
@@ -37,8 +38,8 @@ export const authOptions = {
                     // for the user. Therefore this can be left unhandled for now.
                 }
 
-                const correctPasswordSubmitted = credentials.password as string === user.hashedpassword as string;
-                // const correctPasswordSubmitted = await bcrypt.compare(credentials.password as string, user.hashedpassword as string);
+                // const correctPasswordSubmitted = credentials.password as string === user.hashedpassword as string;
+                const correctPasswordSubmitted = await bcrypt.compare(credentials.password as string, user.hashedpassword as string);
                 if (!correctPasswordSubmitted) return null;
 
                 return {

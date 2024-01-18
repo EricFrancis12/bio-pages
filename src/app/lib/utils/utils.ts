@@ -1,4 +1,4 @@
-import type { BioPage, Click, buttonStyle, buttonStyleType, buttonStyleRadius, Timeframe } from '../types';
+import type { BioPage, Click, buttonStyle, buttonStyleType, buttonStyleRadius } from '../types';
 
 export function isObject(any: any) {
     return any != null && typeof any === 'object';
@@ -41,6 +41,29 @@ export function base64ToBlobUrl(base64String: string) {
     return blobUrl;
 }
 
+export function rgbaToHex(rgbaString: string) {
+    // Extract RGBA values from the string
+    const rgbaValues = rgbaString.match(/(\d+(\.\d+)?)/g);
+
+    if (!rgbaValues || rgbaValues.length !== 4) {
+        return rgbaString;
+    }
+
+    // Convert the RGBA values to integers
+    const [r, g, b, a] = rgbaValues.map(value => Math.round(parseFloat(value)));
+
+    // Convert each component to a HEX value
+    const componentToHex = (c: number) => {
+        const hex = c.toString(16);
+        return hex.length === 1 ? '0' + hex : hex;
+    };
+
+    // Construct the HEX string
+    const hexString = `#${componentToHex(r)}${componentToHex(g)}${componentToHex(b)}`;
+
+    return hexString;
+}
+
 export function deconstructButtonStyle(buttonstyle: buttonStyle) {
     const result = buttonstyle.split('-');
     const buttonstyleType: buttonStyleType = result[0] as buttonStyleType;
@@ -53,7 +76,7 @@ export function deconstructButtonStyle(buttonstyle: buttonStyle) {
 
 export function filterOldTimestamps(array: Click[], maxDays: number) {
     const thresholdTimestamp = Date.now() - maxDays * 24 * 60 * 60 * 1000;
-    return array.filter(obj => obj.t >= thresholdTimestamp);
+    return array.filter(obj => obj.timestamp >= thresholdTimestamp);
 }
 
 export function recursivelyStripSubstringFromString(substring: string, string: string) {
@@ -95,6 +118,7 @@ export function camelCaseToLowerCaseWithSpaces(str: string) {
 export function traverseParentsForId(element: HTMLElement | null, id: string) {
     let currentElement = element;
     while (currentElement && currentElement.tagName !== 'BODY') {
+        console.log(currentElement.id);
         if (currentElement.id === id) {
             return true;
         }
@@ -186,7 +210,7 @@ export function getBioPagesClicks(bioPages: BioPage[], range: string | number) {
         const result: any = {};
         const allClicks = bioPages.map(bioPage => bioPage.clicks).flat();
         allClicks.forEach(click => {
-            const formattedDate = formatDayOfWeekAndDate(new Date(click.t ?? click.timestamp));
+            const formattedDate = formatDayOfWeekAndDate(new Date(click.timestamp));
             if (result[formattedDate]) {
                 result[formattedDate].push(click);
             } else {
@@ -208,3 +232,13 @@ export function getBioPagesClicks(bioPages: BioPage[], range: string | number) {
         return mappedBioPages[yesterday] ?? [];
     }
 }
+
+export function calcButtonStyleTypeShadows(type: buttonStyleType) {
+    let result = ' ';
+    switch (type) {
+        case 'no_shadow': result = ' no_shadow '; break;
+        case 'soft_shadow': result = ' soft_shadow '; break;
+        case 'hard_shadow': result = ' hard_shadow '; break;
+    }
+    return result;
+};

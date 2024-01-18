@@ -25,7 +25,7 @@ export default function LineChart(props: {
         const result: any = {};
         const allClicks = bioPages.map(bioPage => bioPage.clicks).flat();
         allClicks.forEach(click => {
-            const formattedDate = formatDayOfWeekAndDate(new Date(click.t ?? click.timestamp));
+            const formattedDate = formatDayOfWeekAndDate(new Date(click.timestamp));
             if (result[formattedDate]) {
                 result[formattedDate].push(click);
             } else {

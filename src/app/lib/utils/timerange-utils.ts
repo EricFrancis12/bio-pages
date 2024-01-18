@@ -1,4 +1,4 @@
-import { Click, Timeframe } from '../types';
+import { Click, Timerange } from '../types';
 import { formatDayOfWeekAndDate } from './utils';
 
 export function makeDate(year: number, month: number, day: number, hour: number, min: number, sec: number, ms: number) {
@@ -17,13 +17,13 @@ export function formatDate(date = new Date()) {
     });
 }
 
-export function formatDatesRange(timeframe: Timeframe) {
-    return timeframe.map(date => date !== null ? formatDate(date) : 'none').join(' - ');
+export function formatDatesRange(timerange: Timerange) {
+    return `${timerange.startDate.toLocaleDateString()} - ${timerange.endDate.toLocaleDateString()}`;
 }
 
-export function clickIsWithinTimeframe(click: Click, timeframe: Timeframe) {
-    const [startDate, endDate] = timeframe;
-    const clickDate = new Date(click.t ?? click.timestamp);
+export function clickIsWithinTimerange(click: Click, timerange: Timerange) {
+    const { startDate, endDate } = timerange;
+    const clickDate = new Date(click.timestamp);
 
     if (!startDate && !endDate) return true;
     if (!startDate || !endDate) return false;
@@ -31,12 +31,12 @@ export function clickIsWithinTimeframe(click: Click, timeframe: Timeframe) {
     return false;
 }
 
-export function filterClicksWithinTimeframe(clicks: Click[], timeframe: Timeframe) {
-    return clicks.filter(click => clickIsWithinTimeframe(click, timeframe));
+export function filterClicksWithinTimerange(clicks: Click[], timerange: Timerange) {
+    return clicks.filter(click => clickIsWithinTimerange(click, timerange));
 }
 
-export function getLabelsPerTimeframe(timeframe: Timeframe) {
-    const [startDate, endDate] = timeframe;
+export function getLabelsPerTimerange(timerange: Timerange) {
+    const { startDate, endDate } = timerange;
     if (!startDate || !endDate) return [];
 
     const daysArray = [];

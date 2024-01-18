@@ -1,9 +1,10 @@
 import crypto from 'crypto';
+import { nanoid } from 'nanoid'
 
 export function generateNewUser_id() {
     return `${crypto.randomUUID()}_u`;
 }
 
 export function generateNewBioPage_id() {
-    return `${crypto.randomUUID()}_b`;
+    return `${nanoid()}_b`;
 }

@@ -17,7 +17,7 @@ export default function ButtonsEditor(props: {
         buttonKey: string,
         index: number
     ) {
-        const newButtons = buttons.filter((button, _index) => {
+        const newButtons = buttons.map((button, _index) => {
             if (_index === index) {
                 return {
                     ...button,

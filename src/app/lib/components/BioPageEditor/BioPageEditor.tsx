@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { BioPage as T_BioPage, Button, buttonStyle, Click, fontFamily, color } from '../../types';
 import BioPage from '../BioPage';
 import Card from './Card';
@@ -27,6 +27,7 @@ export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }
     const defaultBioPage = {
         _id: bioPage?._id as string,
         user_id: bioPage?.user_id as string,
+        name: bioPage?.name as string,
         font: bioPage?.font as fontFamily,
         textcolor: bioPage?.textcolor as color,
         backgroundcolor: bioPage?.backgroundcolor as color,
@@ -49,6 +50,17 @@ export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }
             ...defaultBioPage,
             ...bioPage,
             [bioPageKey]: e.target.value
+        });
+    }
+
+    function handleColorChange(
+        newColor: color,
+        bioPageKey: string
+    ) {
+        setBioPage({
+            ...defaultBioPage,
+            ...bioPage,
+            [bioPageKey]: newColor
         });
     }
 
@@ -94,14 +106,14 @@ export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }
     }
 
     return (
-        <div className='h-full w-full p-4 bg-slate-200'>
+        <div className='w-full p-4 bg-slate-200'>
             <div>
                 <h1>
                     Edit Bio Page
                 </h1>
             </div>
             <div className='flex flex-col lg:flex-row justify-start items-start gap-2 h-full w-full'>
-                <div className='w-full p-4'>
+                <div className='h-[100vh] w-full p-4 overflow-y-scroll'>
                     <Card title='Profile'>
                         <ImageEditor
                             imagesrc={bioPage?.imagesrc as string}
@@ -182,12 +194,12 @@ export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }
                         <ColorInput
                             name='Font Color'
                             value={bioPage?.textcolor as color}
-                            onChange={e => handleInputChange(e, 'textcolor')}
+                            onChange={(newColor: color) => handleColorChange(newColor, 'textcolor')}
                         />
                         <ColorInput
                             name='Background Color'
                             value={bioPage?.backgroundcolor as color}
-                            onChange={e => handleInputChange(e, 'backgroundcolor')}
+                            onChange={(newColor: color) => handleColorChange(newColor, 'backgroundcolor')}
                         />
                     </Card>
                     <Card title='Buttons'>
@@ -202,17 +214,17 @@ export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }
                         <ColorInput
                             name='Button Color'
                             value={bioPage?.buttoncolor as color}
-                            onChange={e => handleInputChange(e, 'buttoncolor')}
+                            onChange={(newColor: color) => handleColorChange(newColor, 'buttoncolor')}
                         />
                         <ColorInput
                             name='Button Text Color'
                             value={bioPage?.buttontextcolor as color}
-                            onChange={e => handleInputChange(e, 'buttontextcolor')}
+                            onChange={(newColor: color) => handleColorChange(newColor, 'buttontextcolor')}
                         />
                         <ColorInput
                             name='Button Border Color'
                             value={bioPage?.buttonbordercolor as color}
-                            onChange={e => handleInputChange(e, 'buttonbordercolor')}
+                            onChange={(newColor: color) => handleColorChange(newColor, 'buttonbordercolor')}
                         />
                     </Card>
                 </div>

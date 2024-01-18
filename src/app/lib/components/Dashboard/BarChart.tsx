@@ -29,7 +29,7 @@ export default function BarChart(props: {
         const result: any = {};
         const allClicks = bioPages.map(bioPage => bioPage.clicks).flat();
         allClicks.forEach(click => {
-            const timestamp = new Date(click.t ?? click.timestamp);
+            const timestamp = new Date(click.timestamp);
             const hour = timestamp.getHours();
             if (result[labels[hour]]) {
                 result[labels[hour]].push(click);
