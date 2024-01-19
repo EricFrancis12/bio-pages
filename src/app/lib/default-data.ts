@@ -1,4 +1,5 @@
-import type { User, BioPage, Button, Click, buttonIcon } from './types';
+import type { User, BioPage, Button, Click, buttonIcon, Timerange, fontFamily } from './types';
+import { getStartAndEndOfToday } from './utils/timerange-utils';
 
 export const defaultImagesrc = '/default-profile-image.webp';
 export const defaultIcon: buttonIcon = 'faLink';
@@ -51,4 +52,13 @@ export const defaultBioPage: BioPage = {
         }
     ],
     clicks: []
+};
+
+export const defaultTimerange = (): Timerange => {
+    const { startOfToday, endOfToday } = getStartAndEndOfToday();
+    return {
+        startDate: startOfToday,
+        endDate: endOfToday,
+        key: 'selection'
+    };
 };

@@ -36,7 +36,7 @@ export function filterClicksWithinTimerange(clicks: Click[], timerange: Timerang
 }
 
 export function getLabelsPerTimerange(timerange: Timerange) {
-    const { startDate, endDate } = timerange;
+    const { startDate, endDate } = structuredClone(timerange);
     if (!startDate || !endDate) return [];
 
     const daysArray = [];
@@ -49,4 +49,19 @@ export function getLabelsPerTimerange(timerange: Timerange) {
     }
 
     return daysArray;
+}
+
+export function getStartAndEndOfToday() {
+    // Get the current date
+    const today = new Date();
+
+    // Set the time to the start of the day (00:00:00)
+    const startOfToday = new Date(today);
+    startOfToday.setHours(0, 0, 0, 0);
+
+    // Set the time to the end of the day (23:59:59)
+    const endOfToday = new Date(today);
+    endOfToday.setHours(23, 59, 59, 999);
+
+    return { startOfToday, endOfToday };
 }

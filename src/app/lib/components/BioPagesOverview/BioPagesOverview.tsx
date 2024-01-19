@@ -8,6 +8,7 @@ import type { BioPage, Timerange } from '../../types';
 import LineChart from './LineChart';
 import BioPagesTable from './BioPagesTable';
 import CalendarButton from '../CalendarButton';
+import { defaultTimerange } from '../../default-data';
 
 export default function BioPagesOverview(props: {
     bioPages: BioPage[],
@@ -17,11 +18,7 @@ export default function BioPagesOverview(props: {
 
     const [selectedBioPage_ids, setSelectedBioPage_ids] = useState<string[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>('');
-    const [timerange, setTimerange] = useState<Timerange>({
-        startDate: new Date(Date.now()),
-        endDate: new Date(Date.now() + 10000),
-        key: 'selection'
-    });
+    const [timerange, setTimerange] = useState<Timerange>(defaultTimerange());
 
     const filteredBioPages = bioPages.filter(bioPage => (bioPage.name?.includes(searchQuery) || bioPage._id.includes(searchQuery)));
     const selectedBioPages = bioPages.filter(bioPage => selectedBioPage_ids.includes(bioPage._id));

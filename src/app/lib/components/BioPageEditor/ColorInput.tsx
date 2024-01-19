@@ -23,7 +23,7 @@ export default function ColorInput(props: {
     }, []);
 
     const ignoreNextGlobalClick = useRef(false);
-    function handleGlobalClick(e: MouseEvent) {        
+    function handleGlobalClick(e: MouseEvent) {
         if (ignoreNextGlobalClick.current === true) {
             ignoreNextGlobalClick.current = false;
             return;
@@ -32,7 +32,6 @@ export default function ColorInput(props: {
             || traverseParentsForId(e.target as HTMLElement, innerId.current)) {
             return;
         }
-        console.log('1');
         setOpen(false);
     }
 
@@ -41,7 +40,6 @@ export default function ColorInput(props: {
             return;
         }
         ignoreNextGlobalClick.current = true;
-        console.log('2');
         setOpen(!open);
     }
 
@@ -53,7 +51,7 @@ export default function ColorInput(props: {
     }
 
     return (
-        <div id={outerId.current}
+        <div
             className='flex flex-col justify-start items-start gap-2 w-full'
         >
             <div className='flex justify-center items-center'>
@@ -61,7 +59,7 @@ export default function ColorInput(props: {
                     {name}
                 </span>
             </div>
-            <div
+            <div id={outerId.current}
                 className='flex justify-start items-center gap-2 w-full bg-gray-300 px-2'
                 style={{
                     borderRadius: '8px'
@@ -78,12 +76,13 @@ export default function ColorInput(props: {
                 >
                     {open &&
                         <div id={innerId.current}
-                            className='absolute bg-white p-2'
+                            className='absolute bg-white p-4'
                             style={{
                                 top: '100%',
                                 left: 0,
                                 border: 'solid black 1px',
-                                borderRadius: '8px'
+                                borderRadius: '8px',
+                                zIndex: open ? 500 : 0
                             }}
                         >
                             <ColorSelect

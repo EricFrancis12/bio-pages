@@ -10,12 +10,12 @@ export const demoClicks = () => {
     const t6 = t5 - 2222;
 
     const result: Click[] = [
-        { t: today },
-        { t: t2 },
-        { t: t3 },
-        { t: t4 },
-        { t: t5 },
-        { t: t6 }
+        { timestamp: today },
+        { timestamp: t2 },
+        { timestamp: t3 },
+        { timestamp: t4 },
+        { timestamp: t5 },
+        { timestamp: t6 }
     ];
     return result;
 };
@@ -24,13 +24,14 @@ export const demoClicks = () => {
 export const demoBioPage_1: BioPage = {
     _id: 'DEMO_BIOPAGE_1',
     user_id: 'DEMO_USER_id',
+    name: 'Rachelle Bakes',
     font: '1',
     textcolor: 'white',
     backgroundcolor: 'black',
     imagesrc: defaultImagesrc,
     headingtext: 'Rachelle Bakes',
-    subheadingtext: '',
-    buttonstyle: 'fill-0',
+    subheadingtext: 'Come bake with me!',
+    buttonstyle: 'no_shadow-0',
     buttoncolor: 'blue',
     buttontextcolor: 'white',
     buttonbordercolor: 'white',
@@ -73,13 +74,14 @@ export const demoBioPage_1: BioPage = {
 export const demoBioPage_2: BioPage = {
     _id: 'DEMO_BIOPAGE_2',
     user_id: 'DEMO_USER_id',
+    name: 'Brandon Green - MXR Fishing',
     font: '1',
     textcolor: 'white',
     backgroundcolor: 'black',
     imagesrc: defaultImagesrc,
     headingtext: 'Brandon Green',
     subheadingtext: 'MXR Fishing',
-    buttonstyle: 'fill-0',
+    buttonstyle: 'no_shadow-0',
     buttoncolor: 'blue',
     buttontextcolor: 'white',
     buttonbordercolor: 'white',
@@ -110,13 +112,14 @@ export const demoBioPage_2: BioPage = {
 export const demoBioPage_3: BioPage = {
     _id: 'DEMO_BIOPAGE_2',
     user_id: 'DEMO_USER_id',
+    name: 'Deb Jones - Sunlight Princess',
     font: '1',
     textcolor: 'white',
     backgroundcolor: 'black',
     imagesrc: defaultImagesrc,
     headingtext: 'Deb Jones',
     subheadingtext: 'Sunlight Princess',
-    buttonstyle: 'fill-0',
+    buttonstyle: 'no_shadow-0',
     buttoncolor: 'blue',
     buttontextcolor: 'white',
     buttonbordercolor: 'white',

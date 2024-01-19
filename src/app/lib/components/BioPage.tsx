@@ -7,6 +7,7 @@ import type { BioPage, Button, buttonStyleType, buttonStyleRadius } from '../typ
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as icons from '@fortawesome/free-solid-svg-icons';
 import type { IconDefinition } from '@fortawesome/fontawesome-common-types';
+import { fontsDictionary } from '../fonts';
 import { deconstructButtonStyle, calcButtonStyleTypeShadows } from '../utils/utils';
 import { defaultImagesrc, defaultIcon } from '../default-data';
 
@@ -39,6 +40,7 @@ export default function BioPage(props: {
     } = bioPage;
 
     const { buttonstyleType, buttonstyleRadius } = deconstructButtonStyle(buttonstyle);
+    const fontInstance = fontsDictionary[font as keyof typeof fontsDictionary]?.instance ?? null;
 
     useEffect(() => {
         if (name) {
@@ -50,8 +52,10 @@ export default function BioPage(props: {
         <div className='min-h-[100vh] w-full'
             style={{ background: backgroundcolor }}
         >
-            <div className='flex flex-col justify-start items-center gap-4'
-                style={{ fontFamily: font ?? 'sans-serif' }}>
+            <div
+                className={(fontInstance?.className ? fontInstance.className : '')
+                    + ' flex flex-col justify-start items-center gap-4'}
+            >
                 <header
                     className='flex flex-col justify-start items-center gap-4 mt-6 mb-4'
                     style={{ color: textcolor }}

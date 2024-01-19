@@ -113,7 +113,7 @@ export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }
                 </h1>
             </div>
             <div className='flex flex-col lg:flex-row justify-start items-start gap-2 h-full w-full'>
-                <div className='h-[100vh] w-full p-4 overflow-y-scroll'>
+                <div className='h-[100vh] w-full p-4 overflow-x-visible overflow-y-scroll'>
                     <Card title='Profile'>
                         <ImageEditor
                             imagesrc={bioPage?.imagesrc as string}

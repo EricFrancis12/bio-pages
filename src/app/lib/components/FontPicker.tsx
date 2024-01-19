@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import type { fontFamily } from '../types';
-import { fonts } from '../fonts';
+import { fontsDictionary, fontsArray } from '../fonts';
 
 export default function FontPicker(props: {
     name?: string,
@@ -27,6 +27,8 @@ export default function FontPicker(props: {
     }
     const ignoreNextGlobalClick = useRef(false);
 
+    const font = fontsDictionary[value as keyof typeof fontsDictionary] ?? null;
+
     return (
         <div className='flex flex-col justify-start items-start gap-2 w-full'>
             {name &&
@@ -48,8 +50,8 @@ export default function FontPicker(props: {
                     }}
                 >
                     <div className='flex justify-between items-center px-4 py-1 w-full'>
-                        <span>
-                            {value}
+                        <span className={(font?.instance?.className ? font.instance.className : '')}>
+                            {font?.name || value}
                         </span>
                         <span>
                             <FontAwesomeIcon icon={expanded ? faChevronUp : faChevronDown} />
@@ -58,16 +60,17 @@ export default function FontPicker(props: {
                 </div>
                 <div
                     className={(!expanded ? 'overflow-y-hidden max-h-[0px]' : 'overflow-y-scroll max-h-[200px]')
-                        + ' absolute flex flex-col justify-start items-start w-full'}
+                        + ' absolute flex flex-col justify-start items-start w-full bg-white'}
                     style={{
                         top: '100%',
                         left: 0,
                         border: expanded ? 'solid black 1px' : '',
                         borderRadius: '8px',
-                        transition: 'max-height 0.3s ease'
+                        transition: 'max-height 0.3s ease',
+                        zIndex: 500
                     }}
                 >
-                    {fonts
+                    {fontsArray
                         .filter(font => font.family !== value)
                         .map((font, index) => (
                             <div key={index}
@@ -78,7 +81,7 @@ export default function FontPicker(props: {
                                 }}
                                 onClick={e => onValueChange(font.family)}
                             >
-                                <span className={`font_family-${font.family}`}>
+                                <span className={font?.instance?.className || ''}>
                                     {font.name}
                                 </span>
                             </div>

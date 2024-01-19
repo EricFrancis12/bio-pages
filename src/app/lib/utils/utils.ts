@@ -118,7 +118,6 @@ export function camelCaseToLowerCaseWithSpaces(str: string) {
 export function traverseParentsForId(element: HTMLElement | null, id: string) {
     let currentElement = element;
     while (currentElement && currentElement.tagName !== 'BODY') {
-        console.log(currentElement.id);
         if (currentElement.id === id) {
             return true;
         }
