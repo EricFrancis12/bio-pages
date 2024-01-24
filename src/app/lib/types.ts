@@ -1,4 +1,7 @@
-export type fontFamily = string;
+import { fontsArray } from './fonts';
+const fontFamilies = fontsArray.map((_font: any) => _font.family);
+
+export type fontFamily = typeof fontFamilies[number]; // is a valid type if the fontsArray has it as a ".family" property
 export type buttonStyleType = 'no_shadow' | 'soft_shadow' | 'hard_shadow';
 export type buttonStyleRadius = number;
 export type buttonStyle = `${buttonStyleType}-${buttonStyleRadius}`;
@@ -8,7 +11,7 @@ export type buttonUrl = `http${string}` | '';
 export type color_RGB = `rgb(${number}, ${number}, ${number})`;
 export type color_RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;
 export type color_HEX = `#${string}`;
-export type color_NAME = 'red' | 'blue' | 'yellow' | 'green' | 'orange' | 'purple' | 'white' | 'black' | 'grey';
+export type color_NAME = 'red' | 'blue' | 'yellow' | 'green' | 'orange' | 'purple' | 'white' | 'black' | 'grey' | 'transparent';
 export type color_GRADIENT = `linear-gradient(${string})` | `radial-gradient(${string})` | `repeating-linear-gradient(${string})` | `repeating-radial-gradient(${string})`;
 export type color = color_RGB | color_RGBA | color_HEX | color_NAME | color_GRADIENT;
 

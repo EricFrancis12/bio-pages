@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { BioPage as T_BioPage, Button, buttonStyle, Click, fontFamily, color } from '../../types';
 import BioPage from '../BioPage';
 import Card from './Card';
@@ -13,16 +15,18 @@ import ShortLinkEditor from './ShortLinkEditor';
 import SaveButton from './SaveButton';
 import { uploadImageFile, deleteImageFile } from '../../data';
 import { objectsAreStructurallyIdentical } from '../../utils/utils';
+import SettingsMenu from './SettingsMenu';
 
 export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }: {
-    bioPage: T_BioPage | null,
+    bioPage: T_BioPage,
     handleUpdateBioPage?: Function // The omission of this prop disables saving in the db, effectively making it a read-only component. It is used in this way at the /demo route.
 }) {
     const originalBioPage = useRef(_bioPage);
 
-    const [bioPage, setBioPage] = useState<T_BioPage | null>(_bioPage);
+    const [bioPage, setBioPage] = useState<T_BioPage>(_bioPage);
     const [loading, setLoading] = useState<boolean>(false);
     const [blobUrl, setBlobUrl] = useState<string>('');
+    const [settingsMenuOpen, setSettingsMenuOpen] = useState<boolean>(false);
 
     const defaultBioPage = {
         _id: bioPage?._id as string,
@@ -107,13 +111,17 @@ export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }
 
     return (
         <div className='w-full p-4 bg-slate-200'>
-            <div>
+            <div className='flex justify-between items-center'>
                 <h1>
                     Edit Bio Page
                 </h1>
+                <FontAwesomeIcon icon={faGear}
+                    className='cursor-pointer'
+                    onClick={e => setSettingsMenuOpen(!settingsMenuOpen)}
+                />
             </div>
             <div className='flex flex-col lg:flex-row justify-start items-start gap-2 h-full w-full'>
-                <div className='h-[100vh] w-full p-4 overflow-x-visible overflow-y-scroll'>
+                <div className='h-[100vh] w-full p-4 overflow-y-scroll'>
                     <Card title='Profile'>
                         <ImageEditor
                             imagesrc={bioPage?.imagesrc as string}
@@ -163,15 +171,6 @@ export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }
                                 />
                             }
                         </div>
-                    </Card>
-                    <Card title='Edit Short Link'>
-                        <ShortLinkEditor
-                            value={bioPage?._id as string}
-                            onValueChange={(newBioPage_id: string) => setBioPage({
-                                ...bioPage,
-                                _id: newBioPage_id
-                            } as T_BioPage)}
-                        />
                     </Card>
                     <Card title='Links'>
                         <ButtonsEditor
@@ -249,6 +248,13 @@ export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }
                     </div>
                 </div>
             </div>
+            {settingsMenuOpen &&
+                <SettingsMenu
+                    bioPage={bioPage}
+                    setBioPage={setBioPage}
+                    onClose={e => setSettingsMenuOpen(false)}
+                />
+            }
         </div>
     )
 }

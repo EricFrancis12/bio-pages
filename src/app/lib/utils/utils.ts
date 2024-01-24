@@ -1,4 +1,13 @@
-import type { BioPage, Click, buttonStyle, buttonStyleType, buttonStyleRadius } from '../types';
+import type { BioPage, Click, color, buttonStyle, buttonStyleType, buttonStyleRadius } from '../types';
+
+export function randomIntBetween(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export function randomDecBetween(min: number, max: number) {
+    const randomDecimal = Math.random() * (max - min) + min;
+    return Number(randomDecimal.toFixed(2));
+}
 
 export function isObject(any: any) {
     return any != null && typeof any === 'object';
@@ -14,6 +23,36 @@ export function isNil(any: any) {
 
 export function isEmpty(any: any) {
     return isNil(any) || any === '';
+}
+
+export function arrayFromAndRandomize(array: any[], length: number) {
+    const randomizedArray = [];
+
+    // Repeat the array until it reaches or exceeds the desired length
+    while (randomizedArray.length < length) {
+        randomizedArray.push(...array.slice());
+    }
+
+    // Trim the array to the desired length
+    randomizedArray.length = length;
+
+    // Randomize the order of elements in the array
+    randomizedArray.sort(() => Math.random() - 0.5);
+
+    return randomizedArray;
+}
+
+export function randomItemFromArray(array: any[]) {
+    // Check if the array is not empty
+    if (array.length === 0) {
+        return null; // Return null if the array is empty
+    }
+
+    // Generate a random index within the array length
+    const randomIndex = Math.floor(Math.random() * array.length);
+
+    // Return the random item from the array
+    return array[randomIndex];
 }
 
 export function stringIsValidJSON(string: string) {
@@ -241,3 +280,10 @@ export function calcButtonStyleTypeShadows(type: buttonStyleType) {
     }
     return result;
 };
+
+export function isGradient(color: color) {
+    return color.substring(0, 15) === 'linear-gradient'
+        || color.substring(0, 15) === 'radial-gradient'
+        || color.substring(0, 25) === 'repeating-linear-gradient'
+        || color.substring(0, 25) === 'repeating-radial-gradient';
+}

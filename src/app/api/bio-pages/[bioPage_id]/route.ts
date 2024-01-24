@@ -18,7 +18,6 @@ export async function PUT(req: Request, { params }: any) {
     }
 
     try {
-        console.log(bioPage);
         await updateExistingBioPage(bioPage);
         return res.json({ success: true });
     } catch (err) {

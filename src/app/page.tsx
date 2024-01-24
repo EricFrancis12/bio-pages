@@ -1,4 +1,4 @@
-import './home.css';
+import './main.styles.css';
 import { Metadata } from 'next';
 import Home from './lib/components/Home/Home';
 
