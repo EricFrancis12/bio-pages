@@ -1,5 +1,5 @@
 import { fontsArray } from './fonts';
-const fontFamilies = fontsArray.map((_font: any) => _font.family);
+const fontFamilies = fontsArray.map((_font) => _font.family);
 
 export type fontFamily = typeof fontFamilies[number]; // is a valid type if the fontsArray has it as a ".family" property
 export type buttonStyleType = 'no_shadow' | 'soft_shadow' | 'hard_shadow';
@@ -15,13 +15,16 @@ export type color_NAME = 'red' | 'blue' | 'yellow' | 'green' | 'orange' | 'purpl
 export type color_GRADIENT = `linear-gradient(${string})` | `radial-gradient(${string})` | `repeating-linear-gradient(${string})` | `repeating-radial-gradient(${string})`;
 export type color = color_RGB | color_RGBA | color_HEX | color_NAME | color_GRADIENT;
 
-
+export type emailAddress = `${string}@${string}.${string}`;
 
 export type User = {
     _id: string,
-    email: string,
+    email: emailAddress | string,
     hashedpassword?: string,
-    passwordresettoken?: string
+    emailvalidationtoken?: string | null,
+    emailvalidationtokenexpiry?: number | null,
+    passwordresettoken?: string | null,
+    passwordresettokenexpiry?: number | null
 };
 
 export type Button = {

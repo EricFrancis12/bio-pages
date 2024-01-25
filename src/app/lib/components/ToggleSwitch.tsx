@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
 
-export default function ToggleSwitch(props: {
+export default function ToggleSwitch({ defaultValue, value, size = 25, onValueChange }: {
     defaultValue?: boolean,
     value: boolean,
     size?: number,
     onValueChange?: Function
 }) {
-    const { defaultValue, value, size = 25, onValueChange } = props;
-
     const [active, setActive] = useState<boolean>(value ?? defaultValue ?? true);
 
     useEffect(() => {

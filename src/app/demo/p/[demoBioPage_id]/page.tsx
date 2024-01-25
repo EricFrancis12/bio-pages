@@ -1,7 +1,7 @@
 import BioPage from '@/app/lib/components/BioPage';
 import { demoBioPages } from '@/app/lib/demo-pages';
 
-export default async function page({ params }: { params: { demoBioPage_id: string } }) {
+export default function Page({ params }: { params: { demoBioPage_id: string } }) {
     const bioPage = demoBioPages.find(bioPage => bioPage._id === params.demoBioPage_id);
 
     return bioPage

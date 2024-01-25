@@ -10,11 +10,9 @@ ChartJS.register(
     Legend
 );
 
-export default function PieChart(props: {
+export default function PieChart({ bioPages }: {
     bioPages: BioPage[]
 }) {
-    const { bioPages } = props;
-
     const data = {
         labels: bioPages.map(bioPage => bioPage._id),
         datasets: [

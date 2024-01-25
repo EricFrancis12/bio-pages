@@ -18,7 +18,7 @@ export default function HomeNav() {
         if (extended) {
             setExtended(false);
         }
-    }, [hidden]);
+    }, [hidden, extended]);
 
     const { scrollY } = useScroll();
     useMotionValueEvent(scrollY, 'change', (latest) => {
@@ -61,9 +61,7 @@ export default function HomeNav() {
             animate={hidden ? 'hidden' : 'visible'}
             transition={{ duration: 0.35, ease: 'easeInOut' }}
         >
-            <BlackTransparentOverlay
-                disabled={!extended}
-            >
+            <BlackTransparentOverlay disabled={!extended}>
                 <nav
                     className='flex justify-between items-center mx-6 lg:mx-8 my-4 px-4 sm:px-8 py-6 bg-[#141414]'
                     style={{
@@ -116,7 +114,7 @@ export default function HomeNav() {
                         transition: 'ease-in-out 0.4s max-height'
                     }}
                     variants={{
-                        extended: { x: 0, opacity: 1, pointerEvents: undefined },
+                        extended: { x: 0, opacity: 1, pointerEvents: 'all' },
                         notExtended: { x: '-110%', opacity: 0, pointerEvents: 'none' }
                     }}
                     animate={extended ? 'extended' : 'notExtended'}

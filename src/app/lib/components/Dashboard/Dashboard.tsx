@@ -6,19 +6,20 @@ import PieChart from './PieChart';
 import BarChart from './BarChart';
 import { getBioPagesClicks } from '../../utils/utils';
 
-export default function Dashboard(props: {
-    bioPages: BioPage[]
+export default function Dashboard({ bioPages, demoMode }: {
+    bioPages: BioPage[],
+    demoMode?: boolean
 }) {
-    const { bioPages } = props;
-
     const numVisitorsToday = getBioPagesClicks(bioPages, 'today').length;
     const numVisitorsYesterday = getBioPagesClicks(bioPages, 'yesterday').length;
     const numVisitorsPast7Days = getBioPagesClicks(bioPages, 7).length;
-    const topBioPage_id = bioPages.reduce((accBioPage: BioPage, currBioPage) => {
-        const maxClicksLength = accBioPage ? accBioPage.clicks.length : 0;
-        const currentClicksLength = currBioPage.clicks.length;
-        return currentClicksLength > maxClicksLength ? currBioPage : accBioPage;
-    }, bioPages[0])._id;
+    const topBioPageName = bioPages.length === 0
+        ? '-'
+        : bioPages.reduce((accBioPage: BioPage, currBioPage) => {
+            const maxClicksLength = accBioPage ? accBioPage.clicks.length : 0;
+            const currentClicksLength = currBioPage.clicks.length;
+            return currentClicksLength > maxClicksLength ? currBioPage : accBioPage;
+        }, bioPages[0]).name;
 
     const top5BioPages = bioPages.sort((a, b) => b.clicks.length - a.clicks.length).slice(0, 5);
 
@@ -28,7 +29,7 @@ export default function Dashboard(props: {
                 <Card title='Visitors Today' icon={faUser} value={numVisitorsToday} />
                 <Card title='Visitors Yesterday' icon={faUserGroup} value={numVisitorsYesterday} />
                 <Card title='Visitors Past 7 Days' icon={faUsers} value={numVisitorsPast7Days} />
-                <Card title='Top Page' icon={faFile} value={`${process.env.domain ?? ''}/p/${topBioPage_id}`} />
+                <Card title='Top Page' icon={faFile} value={topBioPageName} />
             </div>
             <div className='flex flex-col lg:flex-row justify-start lg:justify-center items-center lg:items-start gap-4 h-[-webkit-fill-available] w-full mt-8'>
                 <div className='relative flex flex-col justify-between items-center gap-4 w-full lg:w-[70%]'>

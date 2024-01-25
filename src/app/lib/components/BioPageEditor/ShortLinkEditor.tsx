@@ -3,12 +3,10 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function ShortLinkEditor(props: {
+export default function ShortLinkEditor({ value: bioPage_id, onValueChange }: {
     value: string,
     onValueChange: Function
 }) {
-    const { value: bioPage_id, onValueChange } = props;
-
     const { push } = useRouter();
 
     const [inputValue, setInputValue] = useState<string>(bioPage_id);

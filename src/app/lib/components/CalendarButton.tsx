@@ -2,19 +2,16 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { DateRangePicker } from 'react-date-range';
-import { addDays } from 'date-fns';
-import { traverseParentsForClass, traverseParentsForId } from '../utils/utils';
+import { traverseParentsForClass } from '../utils/utils';
 import { Timerange } from '../types';
 import { formatDatesRange } from '../utils/timerange-utils';
 
 export const IGNORE_CALENDAR_CLICK_CLASS = 'IGNORE_CALENDAR_CLICK_CLASS';
 
-export default function CalendarButton(props: {
+export default function CalendarButton({ timerange, setTimerange }: {
     timerange: Timerange,
     setTimerange: Function
 }) {
-    const { timerange, setTimerange } = props;
-
     const [workingTimerange, setWorkingTimerange] = useState<Timerange>(structuredClone(timerange));
     const [expanded, setExpanded] = useState<boolean>(false);
 

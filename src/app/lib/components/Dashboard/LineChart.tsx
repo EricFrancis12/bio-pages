@@ -14,11 +14,9 @@ ChartJS.register(
     Legend
 );
 
-export default function LineChart(props: {
+export default function LineChart({ bioPages }: {
     bioPages: BioPage[]
 }) {
-    const { bioPages } = props;
-
     const labels = getPreviousDates(7);
 
     const mapData = () => {

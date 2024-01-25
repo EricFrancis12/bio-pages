@@ -1,11 +1,9 @@
 
 
-export default function Card(props: {
+export default function Card({ title, children }: {
     title: string,
     children?: React.ReactNode
 }) {
-    const { title, children } = props;
-
     return (
         <div className='mb-8'>
             <div className='mb-1'>

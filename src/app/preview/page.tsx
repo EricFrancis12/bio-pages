@@ -7,9 +7,10 @@ import { defaultImagesrc } from '../lib/default-data';
 import { stringIsValidJSON } from '../lib/utils/utils';
 
 // A dynamic Bio Page preview page using useSearchParams()
-export default function page() {
+export default function Page() {
     const searchParams = useSearchParams();
 
+    const name = searchParams.get('name') ?? '';
     const font = searchParams.get('font') ?? '1';
     const textcolor = searchParams.get('textcolor') ?? 'white';
     const backgroundcolor = searchParams.get('backgroundcolor') ?? 'black';
@@ -27,6 +28,7 @@ export default function page() {
     const bioPage: T_BioPage = {
         _id: 'PREVIEW_BIOPAGE_id',
         user_id: 'PREVIEW_BIOPAGE_user_id',
+        name: name as string,
         font: font as fontFamily,
         textcolor: textcolor as color,
         backgroundcolor: backgroundcolor as color,

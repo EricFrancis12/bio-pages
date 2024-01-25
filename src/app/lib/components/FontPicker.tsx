@@ -4,27 +4,26 @@ import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import type { fontFamily } from '../types';
 import { fontsDictionary, fontsArray } from '../fonts';
 
-export default function FontPicker(props: {
+export default function FontPicker({ name, value, onValueChange }: {
     name?: string,
     value: fontFamily,
     onValueChange: Function
 }) {
-    const { name, value, onValueChange } = props;
-
     const [expanded, setExpanded] = useState(false);
 
     useEffect(() => {
+        const handleGlobalclick = () => {
+            if (ignoreNextGlobalClick.current === true) {
+                ignoreNextGlobalClick.current = false;
+                return;
+            };
+            if (expanded) setExpanded(false);
+        }
+
         document.addEventListener('click', handleGlobalclick);
         return () => document.removeEventListener('click', handleGlobalclick);
     }, [expanded]);
 
-    const handleGlobalclick = () => {
-        if (ignoreNextGlobalClick.current === true) {
-            ignoreNextGlobalClick.current = false;
-            return;
-        };
-        if (expanded) setExpanded(false);
-    }
     const ignoreNextGlobalClick = useRef(false);
 
     const font = fontsDictionary[value as keyof typeof fontsDictionary] ?? null;

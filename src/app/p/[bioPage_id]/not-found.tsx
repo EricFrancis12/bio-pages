@@ -1,6 +1,6 @@
 
 
-export default function page({ params }: { params: { bioPage_id: string } }) {
+export default function Page({ params }: { params: { bioPage_id: string } }) {
 
     return (
         <div>

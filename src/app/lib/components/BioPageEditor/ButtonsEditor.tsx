@@ -6,12 +6,10 @@ import { defaultButton } from '../../default-data';
 import { MAX_NUM_BUTTONS } from '../../hard-limits';
 import IconPicker from './IconPicker';
 
-export default function ButtonsEditor(props: {
+export default function ButtonsEditor({ buttons, setButtons }: {
     buttons: Button[],
     setButtons: Function
 }) {
-    const { buttons, setButtons } = props;
-
     function handleChange(
         newValue: string | boolean,
         buttonKey: string,
@@ -105,7 +103,7 @@ export default function ButtonsEditor(props: {
                                     />
                                     <ToggleSwitch
                                         value={!button.disabled}
-                                        onValueChange={(newDisabled: string | boolean) => handleChange(newDisabled as boolean, 'disabled', index)}
+                                        onValueChange={(newDisabled: boolean) => handleChange(newDisabled, 'disabled', index)}
                                     />
                                     <div
                                         className='flex justify-center items-center'

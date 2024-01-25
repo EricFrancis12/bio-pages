@@ -1,13 +1,11 @@
 import BlackTransparentOverlay from './BlackTransparentOverlay';
 
-export default function YesNoPopup(props: {
+export default function YesNoPopup({ text, disabled, onClickYes, onClickNo }: {
     text: string,
     disabled: boolean
     onClickYes: Function
     onClickNo: Function,
 }) {
-    const { text, disabled, onClickYes, onClickNo } = props;
-
     return (
         <BlackTransparentOverlay
             className='flex justify-center items-center'

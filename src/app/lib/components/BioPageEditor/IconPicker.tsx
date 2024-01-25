@@ -10,12 +10,10 @@ import { defaultIcon } from '../../default-data';
 export const IGNORE_CLICK_CLASS = 'IGNORE_CLICK_CLASS';
 export const NUM_ICONS_PER_PAGE = 50;
 
-export default function IconPicker(props: {
+export default function IconPicker({ value, onValueChange }: {
     value: buttonIcon,
     onValueChange: Function
 }) {
-    const { value, onValueChange } = props;
-
     const [open, setOpen] = useState<boolean>(false);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [currentPage, setCurrentPage] = useState<number>(1);

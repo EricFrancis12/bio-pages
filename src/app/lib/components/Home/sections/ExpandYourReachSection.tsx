@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useRef, CSSProperties, RefObject } from 'react';
+import { useState, useRef, CSSProperties } from 'react';
 import { MotionValue, motion, useAnimation } from 'framer-motion';
 import type { BioPage, color } from '@/app/lib/types';
 import { demoBioPages } from '@/app/lib/demo-pages';
@@ -86,61 +86,6 @@ export default function ExpandYourReachSection() {
             }))
     ); // compiling a list of demoBioPages
 
-    const BioPageGraphic = ({ demoBioPage, scale = 1, className = '', top = 0, left = 0, parallax }: {
-        demoBioPage: BioPage | undefined,
-        scale?: number,
-        className?: string,
-        top?: number,
-        left?: number,
-        parallax?: MotionValue<number>
-    }) => {
-        return !demoBioPage
-            ? ''
-            : (
-                <motion.div
-                    className='absolute bg-white z-20 hover:z-40'
-                    style={{
-                        y: parallax,
-                        top: `${top}%`,
-                        left: `${left}%`,
-                        height: `${scale * 220}px`,
-                        width: `${scale * 145}px`,
-                        borderRadius: '5px'
-                    }}>
-                    <Link href={`/demo/p/${demoBioPage._id}`} target='_blank'>
-                        <Image
-                            src={`/assets/img/demo-bio-pages/${demoBioPage._id}.png`}
-                            alt='Demo Page'
-                            loading='lazy'
-                            fill={true}
-                            className={className + ' opacity-30 hover:opacity-100 hover:scale-110'}
-                            style={{
-                                border: 'solid 1px black',
-                                borderRadius: '5px',
-                                transition: 'ease-in-out 0.3s opacity',
-                                WebkitTransition: '-webkit-transform 0.3s ease-out',
-                            }}
-                        />
-                    </Link>
-                </motion.div>
-            )
-    };
-
-    const DummyDiv = ({ style }: {
-        style: CSSProperties
-    }) => {
-        return (
-            <div
-                className='absolute h-[99px] w-[132px] bg-[#f4f5f8]'
-                style={{
-                    borderRadius: '4px',
-                    zIndex: 10,
-                    ...style
-                }}
-            />
-        )
-    };
-
     return (
         <div ref={container}
             className='relative h-[1600px] px-4 pt-32 bg-[#fdfdfd]'
@@ -159,7 +104,7 @@ export default function ExpandYourReachSection() {
                 }}
             >
                 <div
-                    className='relative h-screen'
+                    className='relative'
                     style={{
                         pointerEvents: 'none'
                     }}
@@ -222,3 +167,58 @@ export default function ExpandYourReachSection() {
         </div >
     )
 }
+
+const BioPageGraphic = ({ demoBioPage, scale = 1, className = '', top = 0, left = 0, parallax }: {
+    demoBioPage: BioPage | undefined,
+    scale?: number,
+    className?: string,
+    top?: number,
+    left?: number,
+    parallax?: MotionValue<number>
+}) => {
+    return !demoBioPage
+        ? ''
+        : (
+            <motion.div
+                className='absolute bg-white z-20 hover:z-40'
+                style={{
+                    y: parallax,
+                    top: `${top}%`,
+                    left: `${left}%`,
+                    height: `${scale * 220}px`,
+                    width: `${scale * 145}px`,
+                    borderRadius: '5px'
+                }}>
+                <Link href={`/demo/p/${demoBioPage._id}`} target='_blank'>
+                    <Image
+                        src={`/assets/img/demo-bio-pages/${demoBioPage._id}.png`}
+                        alt='Demo Page'
+                        loading='lazy'
+                        fill={true}
+                        className={className + ' opacity-30 hover:opacity-100 hover:scale-110'}
+                        style={{
+                            border: 'solid 1px black',
+                            borderRadius: '5px',
+                            transition: 'ease-in-out 0.3s opacity',
+                            WebkitTransition: '-webkit-transform 0.3s ease-out',
+                        }}
+                    />
+                </Link>
+            </motion.div>
+        )
+};
+
+const DummyDiv = ({ style }: {
+    style: CSSProperties
+}) => {
+    return (
+        <div
+            className='absolute h-[99px] w-[132px] bg-[#f4f5f8]'
+            style={{
+                borderRadius: '4px',
+                zIndex: 10,
+                ...style
+            }}
+        />
+    )
+};

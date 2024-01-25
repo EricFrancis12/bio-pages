@@ -58,7 +58,7 @@ export function randomItemFromArray(array: any[]) {
 export function stringIsValidJSON(string: string) {
     try {
         JSON.parse(string);
-    } catch (e) {
+    } catch (err) {
         return false;
     }
     return true;
@@ -169,6 +169,17 @@ export function traverseParentsForClass(element: HTMLElement | null, _class: str
     let currentElement = element;
     while (currentElement && currentElement.tagName !== 'BODY') {
         if (currentElement.classList.contains(_class)) {
+            return true;
+        }
+        currentElement = currentElement.parentElement;
+    }
+    return false;
+}
+
+export function traverseParentsForRef(element: HTMLElement | null, ref: React.MutableRefObject<HTMLElement>) {
+    let currentElement = element;
+    while (currentElement && currentElement.tagName !== 'BODY') {
+        if (currentElement === ref.current) {
             return true;
         }
         currentElement = currentElement.parentElement;

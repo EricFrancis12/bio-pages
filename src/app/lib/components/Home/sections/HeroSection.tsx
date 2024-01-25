@@ -7,29 +7,6 @@ import CTAButons from '../CTAButons';
 export default function HeroSection() {
     return (
         <div className='flex flex-col justify-center items-center pt-36'>
-            {/* <div
-                className='flex justify-center items-center w-full py-2 bg-transparent'
-                style={{
-                    backgroundImage: 'radial-gradient(circle, rgba(30, 194, 255, .2), rgba(26, 169, 222, .17) 78%, rgba(0, 0, 0, 0) 93%)'
-                }}
-            >
-                <p className='text-sm mb-0 py-2'>Learn more about our{' '}
-                    <Link href='/features/multi-tenancy' target='_blank' className='font-bold text-blue-400'>
-                        Multi-tenancy feature
-                    </Link>
-                    {' '}for your B2B app
-                </p>
-            </div>
-            <a href='https://REPLACE.com' target='_blank' className='flex justify-center items-center my-4 px-4 py-2 text-white'
-                style={{
-                    backgroundImage: 'radial-gradient(circle, #333, #222)',
-                    border: 'solid 1px #3f3e3e',
-                    borderRadius: '6px'
-                }}
-            >
-                <div className='text-sm'>Star Us on GitHub</div>
-                <FontAwesomeIcon icon={faStar} className='text-yellow-400 ml-1' />
-            </a> */}
             <div
                 className='flex flex-col justify-start items-center h-full w-full'
                 style={{

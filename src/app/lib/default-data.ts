@@ -1,4 +1,4 @@
-import type { User, BioPage, Button, Click, buttonIcon, Timerange, fontFamily } from './types';
+import type { User, BioPage, Button, Click, buttonIcon, Timerange } from './types';
 import { getStartAndEndOfToday } from './utils/timerange-utils';
 
 export const defaultImagesrc = '/default-profile-image.webp';
@@ -6,7 +6,7 @@ export const defaultIcon: buttonIcon = 'faLink';
 
 export const defaultUser: User = {
     _id: 'DEFAULT_USER_id',
-    email: `defaultuser@${process.env.domain}`,
+    email: `defaultuser@${process.env.NEXT_PUBLIC_DOMAIN}`,
     hashedpassword: '123',
     passwordresettoken: '456'
 };
@@ -27,7 +27,7 @@ export const defaultBioPage: BioPage = {
     _id: 'DEFAULT_BIOPAGE_id',
     user_id: defaultUser._id,
     name: '',
-    font: '1',
+    font: 'Arimo',
     textcolor: 'white',
     backgroundcolor: 'black',
     imagesrc: defaultImagesrc,

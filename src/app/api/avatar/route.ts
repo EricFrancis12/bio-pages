@@ -1,17 +1,17 @@
 import { del } from '@vercel/blob';
-import { NextResponse as res } from 'next/server';
+import { NextResponse } from 'next/server';
 import useProtectedRoute from '@/app/lib/hooks/useProtectedRoute';
 
-export async function DELETE(req: Request): Promise<res> {
+export async function DELETE(req: Request): Promise<NextResponse> {
     const session = await useProtectedRoute();
     if (!session) {
-        return res.json({ success: false, message: 'unauthorized' });
+        return NextResponse.json({ success: false, message: 'unauthorized' });
     }
 
     const { url } = await req.json();
 
     if (!url) {
-        return res.json({
+        return NextResponse.json({
             success: false,
             message: 'Argument "url" not specified'
         });
@@ -20,11 +20,11 @@ export async function DELETE(req: Request): Promise<res> {
     try {
         await del(url);
 
-        return res.json({
+        return NextResponse.json({
             success: true
         });
     } catch (err) {
-        return res.json(
+        return NextResponse.json(
             { error: (err as Error).message },
             { status: 400 }
         );

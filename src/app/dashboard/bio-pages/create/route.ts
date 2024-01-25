@@ -1,4 +1,4 @@
-import { NextResponse as res } from 'next/server';
+import { NextResponse } from 'next/server';
 import useProtectedRoute from '@/app/lib/hooks/useProtectedRoute';
 import { createAndSaveNewBioPage } from '@/app/lib/data';
 
@@ -9,11 +9,11 @@ export async function GET(req: Request) {
     if (user_id) {
         try {
             const newBioPage = await createAndSaveNewBioPage(user_id);
-            return res.redirect(`http://localhost:3000/dashboard/bio-pages/${newBioPage._id}/edit`);
+            return NextResponse.redirect(`http://localhost:3000/dashboard/bio-pages/${newBioPage._id}/edit`);
         } catch (err) {
             throw err;
         }
     }
 
-    return res.redirect('/login');
+    return NextResponse.redirect('/login');
 }

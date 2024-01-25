@@ -1,8 +1,51 @@
-import { db } from '@vercel/postgres';
+import { QueryResult, QueryResultRow, db } from '@vercel/postgres';
 import { upload } from '@vercel/blob/client';
-import type { User, BioPage, Click } from './types';
-import { generateNewBioPage_id } from '@/app/lib/_id';
+import { default as bcrypt } from 'bcryptjs';
+import type { User, BioPage, Click, emailAddress } from './types';
+import {
+    generateNewUser_id, generateNewBioPage_id,
+    generateNewEmailValidationToken, generateNewEmailValidationTokenExpiry
+} from '@/app/lib/_id';
+import { sendNewUserActivationEmail } from './email';
 import { defaultClick } from './default-data';
+
+export async function createNewUser(email: string, password: string) {
+    const hashedpassword = await bcrypt.hash(password, 10);
+    const newUser: User = {
+        _id: generateNewUser_id(),
+        email: email as emailAddress,
+        hashedpassword,
+        emailvalidationtoken: generateNewEmailValidationToken(),
+        emailvalidationtokenexpiry: generateNewEmailValidationTokenExpiry()
+    };
+    return newUser;
+}
+
+export async function createAndSaveNewUser(email: string, password: string) {
+    const user = await createNewUser(email, password);
+    const client = await db.connect();
+    await client.sql`
+        INSERT INTO users (_id, email, hashedPassword, emailvalidationtoken, emailvalidationtokenexpiry)
+        VALUES (${user._id}, ${user.email}, ${user.hashedpassword}, ${user.emailvalidationtoken}, ${user.emailvalidationtokenexpiry});
+    `;
+    await sendNewUserActivationEmail(user);
+    return user;
+}
+
+export function getUserFromSqlResult(result: QueryResult<QueryResultRow>) {
+    if (result.rows.length !== 1 || !result.rows.at(0)?._id || !result.rows.at(0)?.email) return null;
+    const { _id, email, hashedpassword, emailvalidationtoken, emailvalidationtokenexpiry, passwordresettokenexpiry, passwordresettoken } = result.rows[0];
+    const user: User = {
+        _id,
+        email,
+        hashedpassword,
+        emailvalidationtoken,
+        emailvalidationtokenexpiry: emailvalidationtokenexpiry ? parseInt(emailvalidationtokenexpiry) : null,
+        passwordresettoken,
+        passwordresettokenexpiry: passwordresettokenexpiry ? parseInt(passwordresettokenexpiry) : null
+    };
+    return user;
+}
 
 export async function fetchUserBy_id(user_id: string) {
     const client = await db.connect();
@@ -11,16 +54,7 @@ export async function fetchUserBy_id(user_id: string) {
         FROM users
         WHERE _id = ${user_id};
     `;
-    if (result.rows.length !== 1 || !result.rows.at(0)?._id || !result.rows.at(0)?.email) return null;
-    const { _id, email, hashedpassword, passwordresettoken } = result.rows[0];
-    const user: User = {
-        _id,
-        email,
-        hashedpassword,
-        passwordresettoken,
-        ...result.rows[0]
-    };
-    return user;
+    return getUserFromSqlResult(result);
 }
 
 export async function fetchUserByEmail(email: string) {
@@ -30,16 +64,43 @@ export async function fetchUserByEmail(email: string) {
         FROM users
         WHERE email = ${email};
     `;
-    if (result.rows.length !== 1 || !result.rows.at(0)?._id || !result.rows.at(0)?.email) return null;
-    const { _id, email: _email, hashedpassword, passwordresettoken } = result.rows[0];
-    const user: User = {
-        _id,
-        email: _email,
-        hashedpassword,
-        passwordresettoken,
-        ...result.rows[0]
-    };
-    return user;
+    return getUserFromSqlResult(result);
+}
+
+export async function fetchUserByEmailValidationToken(emailvalidationtoken: string) {
+    const client = await db.connect();
+    const result = await client.sql`
+        SELECT *
+        FROM users
+        WHERE emailvalidationtoken = ${emailvalidationtoken};
+    `;
+    return getUserFromSqlResult(result);
+}
+
+export async function fetchUserByPasswordResetToken(passwordresettoken: string) {
+    const client = await db.connect();
+    const result = await client.sql`
+        SELECT *
+        FROM users
+        WHERE passwordresettoken = ${passwordresettoken};
+    `;
+    return getUserFromSqlResult(result);
+}
+
+export async function updateExistingUser(user: User) {
+    const { _id, email, hashedpassword, emailvalidationtoken, emailvalidationtokenexpiry, passwordresettoken, passwordresettokenexpiry } = user;
+    const client = await db.connect();
+    await client.sql`
+        UPDATE
+        users SET
+            email = ${email},
+            hashedpassword = ${hashedpassword},
+            emailvalidationtoken = ${emailvalidationtoken},
+            emailvalidationtokenexpiry = ${emailvalidationtokenexpiry},
+            passwordresettoken = ${passwordresettoken},
+            passwordresettokenexpiry = ${passwordresettokenexpiry}
+        WHERE _id = ${_id};
+    `;
 }
 
 export async function fetchBioPageBy_id(bioPage_id: string) {
@@ -71,6 +132,7 @@ export async function fetchBioPageBy_id(bioPage_id: string) {
         buttonbordercolor,
         ...result.rows[0],
         buttons: JSON.parse(buttons),
+        // the click.timestamp properties are returned as strings from the db, so we need to parseFloat()
         clicks: timestamps.map((timestamp: string): Click => ({ timestamp: parseFloat(timestamp) }))
     };
     return bioPage;
@@ -144,11 +206,12 @@ export async function createAndSaveNewBioPage(user_id: string) {
 }
 
 export async function updateExistingBioPage(bioPage: BioPage) {
-    const { _id, user_id, font, textcolor, backgroundcolor, imagesrc, headingtext, subheadingtext, buttonstyle, buttoncolor, buttontextcolor, buttonbordercolor, buttons, clicks } = bioPage;
+    const { _id, user_id, name, font, textcolor, backgroundcolor, imagesrc, headingtext, subheadingtext, buttonstyle, buttoncolor, buttontextcolor, buttonbordercolor, buttons, clicks } = bioPage;
     const client = await db.connect();
     await client.sql`
         UPDATE
         biopages SET
+            name = ${name},
             font = ${font},
             textcolor = ${textcolor},
             backgroundcolor = ${backgroundcolor},

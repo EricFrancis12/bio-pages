@@ -1,42 +1,40 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import ColorSelect from '../ColorSelect';
+import ColorPicker from 'react-best-gradient-color-picker';
 import { color } from '../../types';
-import { traverseParentsForId, rgbaToHex } from '../../utils/utils';
+import { traverseParentsForRef, rgbaToHex } from '../../utils/utils';
 
-export default function ColorInput(props: {
+export default function ColorInput({ name, value, onChange }: {
     name: string,
     value: color,
     onChange: Function
 }) {
-    const { name, value, onChange } = props;
-    const outerId = useRef(crypto.randomUUID());
-    const innerId = useRef(crypto.randomUUID());
+    const outerRef = useRef<HTMLDivElement | null>(null);
+    const innerRef = useRef<HTMLDivElement | null>(null);
 
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
+        const handleGlobalClick = (e: MouseEvent) => {
+            if (ignoreNextGlobalClick.current === true) {
+                ignoreNextGlobalClick.current = false;
+                return;
+            }
+            if (traverseParentsForRef(e.target as HTMLElement, outerRef as React.MutableRefObject<HTMLElement>)) {
+                return;
+            }
+            setOpen(false);
+        }
         document.addEventListener('click', handleGlobalClick);
 
         return () => document.removeEventListener('click', handleGlobalClick);
     }, []);
 
     const ignoreNextGlobalClick = useRef(false);
-    function handleGlobalClick(e: MouseEvent) {
-        if (ignoreNextGlobalClick.current === true) {
-            ignoreNextGlobalClick.current = false;
-            return;
-        }
-        if (traverseParentsForId(e.target as HTMLElement, outerId.current)
-            || traverseParentsForId(e.target as HTMLElement, innerId.current)) {
-            return;
-        }
-        setOpen(false);
-    }
 
     function handleClick(e: React.MouseEvent<HTMLDivElement>) {
-        if (traverseParentsForId(e.target as HTMLElement, innerId.current)) {
+        if (traverseParentsForRef(e.target as HTMLElement, innerRef as React.MutableRefObject<HTMLElement>)) {
             return;
         }
         ignoreNextGlobalClick.current = true;
@@ -59,7 +57,7 @@ export default function ColorInput(props: {
                     {name}
                 </span>
             </div>
-            <div id={outerId.current}
+            <div ref={outerRef}
                 className='flex justify-start items-center gap-2 w-full bg-gray-300 px-2'
                 style={{
                     borderRadius: '8px'
@@ -75,7 +73,7 @@ export default function ColorInput(props: {
                     onClick={e => handleClick(e)}
                 >
                     {open &&
-                        <div id={innerId.current}
+                        <div ref={innerRef}
                             className='absolute bg-white p-4'
                             style={{
                                 top: '100%',
@@ -85,10 +83,7 @@ export default function ColorInput(props: {
                                 zIndex: open ? 500 : 0
                             }}
                         >
-                            <ColorSelect
-                                color={value}
-                                setColor={onChange}
-                            />
+                            <ColorPicker value={value} onChange={onChange} className='' />
                         </div>
                     }
                 </div>

@@ -10,7 +10,7 @@ import Footer from '../Footer/Footer';
 
 export default function Home() {
     return (
-        <div className='w-full text-white bg-black'>
+        <div className='w-full text-white bg-black overflow-hidden'>
             <HomeNav />
             <HeroSection />
             <SetupSection />

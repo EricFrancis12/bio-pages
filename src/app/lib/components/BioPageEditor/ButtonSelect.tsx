@@ -1,25 +1,11 @@
-import { useState, useEffect } from 'react';
 import type { buttonStyle, buttonStyleType, buttonStyleRadius } from '../../types';
 import { deconstructButtonStyle, calcButtonStyleTypeShadows } from '../../utils/utils';
 
-export default function ButtonSelect(props: {
+export default function ButtonSelect({ value, onValueChange }: {
     value: buttonStyle,
     onValueChange: Function
 }) {
-    const { value, onValueChange } = props;
     const { buttonstyleType, buttonstyleRadius } = deconstructButtonStyle(value);
-
-    const [selectedButton, setSelectedButton] = useState<{
-        type: buttonStyleType,
-        radius: buttonStyleRadius
-    }>({
-        type: buttonstyleType,
-        radius: buttonstyleRadius
-    });
-
-    useEffect(() => {
-        onValueChange(`${selectedButton.type}-${selectedButton.radius}`);
-    }, [selectedButton, selectedButton?.type, selectedButton?.radius]);
 
     const buttonRows: {
         name: string,
@@ -39,17 +25,15 @@ export default function ButtonSelect(props: {
             }
         ];
 
-    function ButtonStyleButton(props: {
+    const ButtonStyleButton = ({ type, radius }: {
         type: buttonStyleType,
         radius: buttonStyleRadius
-    }) {
-        const { type, radius } = props;
-
+    }) => {
         return (
             <div className='w-full' style={{
                 outline: (buttonstyleType === type && buttonstyleRadius === radius) ? 'solid black 1px' : 'none'
             }}
-                onClick={e => setSelectedButton({ type, radius })}
+                onClick={e => onValueChange(`${type}-${radius}`)}
             >
                 <div
                     className={(calcButtonStyleTypeShadows(type))

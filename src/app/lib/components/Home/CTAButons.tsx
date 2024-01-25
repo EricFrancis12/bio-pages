@@ -1,6 +1,6 @@
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import CTAButton from '@/app/lib/CTAButton';
+import CTAButton from '@/app/lib/components/CTAButton';
 import { color } from '@/app/lib/types';
 
 export default function CTAButons() {
@@ -29,17 +29,15 @@ export default function CTAButons() {
 
     return (
         <>
-            {
-                ctaButtons.map((ctaButton, index) => (
-                    <CTAButton key={index}
-                        text={ctaButton.text}
-                        href={ctaButton.href}
-                        target={ctaButton.target}
-                        borderColor={ctaButton.color}
-                        icon={ctaButton.icon as IconDefinition}
-                    />
-                ))
-            }
+            {ctaButtons.map((ctaButton, index) => (
+                <CTAButton key={index}
+                    text={ctaButton.text}
+                    href={ctaButton.href}
+                    target={ctaButton.target}
+                    borderColor={ctaButton.color}
+                    icon={ctaButton.icon as IconDefinition}
+                />
+            ))}
         </>
     )
 }

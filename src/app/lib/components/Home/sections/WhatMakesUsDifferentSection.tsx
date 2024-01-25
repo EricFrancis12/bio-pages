@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconDefinition, faDollarSign, faFolderPlus, faDatabase, faHammer } from '@fortawesome/free-solid-svg-icons';
@@ -125,7 +125,7 @@ export default function WhatMakesUsDifferentSection() {
             <div className='w-full max-w-[1000px] mb-16'>
                 <Divider />
                 {cards.map((card, index) => (
-                    <>
+                    <React.Fragment key={index}>
                         <Card key={index}
                             side={card.side}
                             title={card.title}
@@ -133,7 +133,7 @@ export default function WhatMakesUsDifferentSection() {
                             icon={card.icon}
                         />
                         <Divider />
-                    </>
+                    </React.Fragment>
                 ))}
             </div>
             <CTAButtonsContainer />

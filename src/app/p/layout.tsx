@@ -23,7 +23,7 @@ export function BioPageLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div className='h-[100vh] w-[100vw]'>
+        <div className='w-full'>
             {children}
         </div>
     )

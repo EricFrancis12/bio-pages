@@ -1,11 +1,9 @@
 
 
-export default function SaveButton(props: {
+export default function SaveButton({ onClick, disabled }: {
     onClick: Function,
     disabled?: boolean
 }) {
-    const { onClick, disabled } = props
-
     async function handleButtonClick(e: any) {
         if (disabled) return;
         onClick();
@@ -13,7 +11,6 @@ export default function SaveButton(props: {
 
     return (
         <div>
-
             <button
                 className={(disabled ? '' : 'cursor-pointer')}
                 style={{

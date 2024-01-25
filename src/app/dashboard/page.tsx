@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     title: 'Dashboard'
 };
 
-export default async function page() {
+export default async function Page() {
     const session = await useProtectedRoute();
     const user_id = session?.user?.name;
     if (!user_id) {

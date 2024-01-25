@@ -4,13 +4,13 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
-export default function FAQSection() {
-    type Faq = {
-        question: string | React.ReactNode,
-        answer: string | React.ReactNode,
-        expanded: boolean
-    };
+type Faq = {
+    question: string | React.ReactNode,
+    answer: string | React.ReactNode,
+    expanded: boolean
+};
 
+export default function FAQSection() {
     const [faqs, setFaqs] = useState<Faq[]>([
         {
             question: 'What is a link-in-bio tool, and why do I need it?',
@@ -54,29 +54,6 @@ export default function FAQSection() {
         }
     ]);
 
-    const QuestionDropdown = ({ faq }: {
-        faq: Faq
-    }) => {
-        return (
-            <div className='relative flex flex-col justify-start items-center gap-6 w-full max-w-[600px] pl-8 pr-3 py-6 bg-red-400 rounded-xl'>
-                <div
-                    className='flex justify-between items-center w-full text-xl font-bold cursor-pointer'
-                    onClick={e => handleDropdownClick(faq)}
-                >
-                    <div>
-                        {faq.question}
-                    </div>
-                    <FontAwesomeIcon icon={faq.expanded ? faChevronUp : faChevronDown} />
-                </div>
-                {faq.expanded &&
-                    <div className='flex justify-center items-center w-full'>
-                        {faq.answer}
-                    </div>
-                }
-            </div>
-        )
-    };
-
     function handleDropdownClick(faq: Faq) {
         const newFaqs = faqs.map(_faq => {
             if (_faq === faq) {
@@ -102,9 +79,34 @@ export default function FAQSection() {
                 {faqs.map((faq, index) => (
                     <QuestionDropdown key={index}
                         faq={faq}
+                        onClick={(e: React.MouseEvent<HTMLDivElement>) => handleDropdownClick(faq)}
                     />
                 ))}
             </div>
         </div>
     )
 }
+
+const QuestionDropdown = ({ faq, onClick }: {
+    faq: Faq,
+    onClick: React.MouseEventHandler<HTMLDivElement>
+}) => {
+    return (
+        <div className='relative flex flex-col justify-start items-center gap-6 w-full max-w-[600px] pl-8 pr-3 py-6 bg-red-400 rounded-xl'>
+            <div
+                className='flex justify-between items-center w-full text-xl font-bold cursor-pointer'
+                onClick={onClick}
+            >
+                <div>
+                    {faq.question}
+                </div>
+                <FontAwesomeIcon icon={faq.expanded ? faChevronUp : faChevronDown} />
+            </div>
+            {faq.expanded &&
+                <div className='flex justify-center items-center w-full'>
+                    {faq.answer}
+                </div>
+            }
+        </div>
+    )
+};

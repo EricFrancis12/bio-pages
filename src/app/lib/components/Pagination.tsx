@@ -1,14 +1,12 @@
 import { generatePagination } from '../utils/utils';
 
-export default function Pagination(props: {
+export default function Pagination({ className, style, currentPage, setCurrentPage, totalNumPages }: {
     className?: string,
     style?: object,
     currentPage: number,
     setCurrentPage: Function,
     totalNumPages: number
 }) {
-    const { className, style, currentPage, setCurrentPage, totalNumPages } = props;
-
     const pagination = generatePagination(currentPage, totalNumPages);
 
     return (
@@ -50,14 +48,12 @@ export default function Pagination(props: {
     )
 }
 
-export function PaginationItem(props: {
+export function PaginationItem({ paginationItem, currentPage, setCurrentPage, disabled }: {
     paginationItem: number | string,
     currentPage: number,
     setCurrentPage: Function,
     disabled?: boolean
 }) {
-    const { paginationItem, currentPage, setCurrentPage, disabled } = props;
-
     return (
         <div
             className={

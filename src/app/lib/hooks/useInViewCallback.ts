@@ -8,5 +8,5 @@ export default function useInViewCallback(ref: RefObject<HTMLElement>, callback:
         if (isInView) {
             callback();
         }
-    }, [isInView]);
+    }, [isInView, callback]);
 }

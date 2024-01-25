@@ -1,25 +1,27 @@
 'use client';
 
+import Link from 'next/link';
 import { useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGear } from '@fortawesome/free-solid-svg-icons';
+import { faGear, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
+import { updateBioPageAction } from '../../actions';
 import { BioPage as T_BioPage, Button, buttonStyle, Click, fontFamily, color } from '../../types';
 import BioPage from '../BioPage';
 import Card from './Card';
+import TextInput from './TextInput';
 import ImageEditor from './ImageEditor';
 import ColorInput from './ColorInput';
 import ButtonSelect from './ButtonSelect';
 import FontPicker from '../FontPicker';
 import ButtonsEditor from './ButtonsEditor';
-import ShortLinkEditor from './ShortLinkEditor';
 import SaveButton from './SaveButton';
 import { uploadImageFile, deleteImageFile } from '../../data';
 import { objectsAreStructurallyIdentical } from '../../utils/utils';
 import SettingsMenu from './SettingsMenu';
 
-export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }: {
+export default function BioPageEditor({ bioPage: _bioPage, demoMode }: {
     bioPage: T_BioPage,
-    handleUpdateBioPage?: Function // The omission of this prop disables saving in the db, effectively making it a read-only component. It is used in this way at the /demo route.
+    demoMode?: boolean
 }) {
     const originalBioPage = useRef(_bioPage);
 
@@ -69,6 +71,8 @@ export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }
     }
 
     async function handleSaveButtonClick() {
+        if (demoMode === true) return;
+
         if (objectsAreStructurallyIdentical(bioPage, originalBioPage.current)
             && !blobUrl) {
             return;
@@ -92,19 +96,17 @@ export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }
             }
         }
 
-        if (handleUpdateBioPage) {
-            try {
-                await handleUpdateBioPage(
-                    uploadResult?.url
-                        ? {
-                            ...bioPage,
-                            imagesrc: uploadResult.url
-                        }
-                        : bioPage
-                );
-            } catch (err) {
-                console.error(err);
-            }
+        try {
+            await updateBioPageAction(
+                uploadResult?.url
+                    ? {
+                        ...bioPage,
+                        imagesrc: uploadResult.url
+                    }
+                    : bioPage
+            );
+        } catch (err) {
+            console.error(err);
         }
         setLoading(false);
     }
@@ -120,53 +122,38 @@ export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }
                     onClick={e => setSettingsMenuOpen(!settingsMenuOpen)}
                 />
             </div>
-            <div className='flex flex-col lg:flex-row justify-start items-start gap-2 h-full w-full'>
+            <div className='flex flex-col lg:flex-row justify-start items-start gap-2 w-full'>
                 <div className='h-[100vh] w-full p-4 overflow-y-scroll'>
                     <Card title='Profile'>
+                        <TextInput
+                            type='input'
+                            text='Page Name'
+                            value={bioPage?.name}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e, 'name')}
+                        />
                         <ImageEditor
                             imagesrc={bioPage?.imagesrc as string}
                             blobUrl={blobUrl}
                             setBlobUrl={setBlobUrl}
                         />
-                        <div
-                            className='flex flex-col justify-start items-start w-full p-2 bg-gray-300'
-                            style={{ borderRadius: '8px' }}
-                        >
-                            <div>
-                                <span className='text-sm'>
-                                    Headline
-                                </span>
-                            </div>
-                            <div className='w-full'>
-                                <input
-                                    className='w-full px-1 bg-transparent'
-                                    value={bioPage?.headingtext}
-                                    onChange={e => handleInputChange(e, 'headingtext')}
-                                />
-                            </div>
-                        </div>
-                        <div
-                            className='flex flex-col justify-start items-start w-full p-2 bg-gray-300'
-                            style={{ borderRadius: '8px' }}
-                        >
-                            <div>
-                                <span className='text-sm'>
-                                    Bio
-                                </span>
-                            </div>
-                            <div className='w-full'>
-                                <textarea
-                                    className='w-full px-1 bg-transparent'
-                                    value={bioPage?.subheadingtext}
-                                    onChange={e => handleInputChange(e, 'subheadingtext')}
-                                />
-                            </div>
-                        </div>
+                        <TextInput
+                            type='input'
+                            text='Headline'
+                            value={bioPage?.headingtext}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e, 'headingtext')}
+                        />
+                        <TextInput
+                            type='textarea'
+                            text='Bio'
+                            value={bioPage?.subheadingtext}
+                            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleInputChange(e, 'subheadingtext')}
+                        />
                         <div>
                             {loading
                                 ? 'loading...'
                                 : <SaveButton
-                                    disabled={objectsAreStructurallyIdentical(bioPage, originalBioPage.current) && !blobUrl}
+                                    disabled={(objectsAreStructurallyIdentical(bioPage, originalBioPage.current) && !blobUrl)
+                                        || demoMode === true}
                                     onClick={() => handleSaveButtonClick()}
                                 />
                             }
@@ -228,10 +215,19 @@ export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }
                     </Card>
                 </div>
                 <div className='w-full p-4'>
-                    <div className='mb-1'>
+                    <div className='flex justify-start items-center gap-2 mb-1'>
                         <span>
                             Preview
                         </span>
+                        <Link
+                            target='_blank'
+                            href={demoMode === true
+                                ? `/demo/p/${bioPage._id}`
+                                : `/p/${bioPage._id}`
+                            }
+                        >
+                            <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+                        </Link>
                     </div>
                     <div
                         className='w-full p-2'
@@ -253,6 +249,7 @@ export default function BioPageEditor({ bioPage: _bioPage, handleUpdateBioPage }
                     bioPage={bioPage}
                     setBioPage={setBioPage}
                     onClose={e => setSettingsMenuOpen(false)}
+                    demoMode={demoMode}
                 />
             }
         </div>

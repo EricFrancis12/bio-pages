@@ -3,12 +3,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
-export default function SearchBar(props: {
+export default function SearchBar({ searchQuery, setSearchQuery }: {
     searchQuery: string,
     setSearchQuery: Function
 }) {
-    const { searchQuery, setSearchQuery } = props;
-
     function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
         setSearchQuery(e.target.value);
     }

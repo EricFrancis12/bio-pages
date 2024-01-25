@@ -4,7 +4,7 @@ import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend } from 'chart.js';
 import type { BioPage, Timerange } from '../../types';
 import { formatDayOfWeekAndDate } from '../../utils/utils';
-import { clickIsWithinTimerange, getLabelsPerTimerange } from '../../utils/timerange-utils';
+import { getLabelsPerTimerange } from '../../utils/timerange-utils';
 
 ChartJS.register(
     LineElement,
@@ -15,20 +15,14 @@ ChartJS.register(
     Legend
 );
 
-export default function LineChart(props: {
+export default function LineChart({ bioPages, timerange }: {
     bioPages: BioPage[],
     timerange: Timerange
 }) {
-    const { bioPages, timerange } = props;
-
     const mapData = (bioPage: BioPage) => {
         const result: any = {};
         bioPage.clicks.forEach(click => {
             const formattedDate = formatDayOfWeekAndDate(new Date(click.timestamp));
-
-            // if (!clickIsWithinTimerange(click, timerange)) {
-            //     return;
-            // }
 
             if (result[formattedDate]) {
                 result[formattedDate].push(click);

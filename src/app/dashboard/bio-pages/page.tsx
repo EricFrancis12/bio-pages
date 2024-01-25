@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: 'Bio Pages List'
 };
 
-export default async function page() {
+export default async function Page() {
     const session = await useProtectedRoute();
     const user_id = session?.user?.name;
     if (!user_id) {
@@ -22,19 +22,9 @@ export default async function page() {
         return notFound();
     }
 
-    async function handleBioPageDelete(bioPage_id: string) {
-        'use server';
-        const session = await useProtectedRoute();
-        if (session) {
-            await deleteBioPageBy_id(bioPage_id);
-            revalidatePath('/dashboard/bio-pages');
-        }
-    }
-
     return (
         <BioPagesOverview
             bioPages={bioPages}
-            handleBioPageDelete={handleBioPageDelete}
         />
     )
 }

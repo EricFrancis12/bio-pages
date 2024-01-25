@@ -19,13 +19,15 @@ export default async function Layout({
 
 export function DashboardLayout({
     children,
+    demoMode
 }: {
-    children: React.ReactNode;
+    children: React.ReactNode,
+    demoMode?: boolean
 }) {
     return (
         <div className='flex flex-col md:flex-row h-screen md:overflow-hidden'>
             <div className='w-full flex-none md:w-64'>
-                <SideNav />
+                <SideNav demoMode={demoMode} />
             </div>
             <div className='flex-grow p-6 md:overflow-y-auto md:p-12'>
                 {children}

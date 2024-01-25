@@ -20,26 +20,6 @@ export default function FloatingSideNav() {
         }
     ];
 
-    const IconLink = ({ href, src, alt }: {
-        href: string,
-        src: string,
-        alt: string
-    }) => (
-        <Link
-            href={href}
-            target='_blank'
-            className='bg-transparent p-1'
-        >
-            <Image
-                height={25}
-                width={25}
-                src={src}
-                alt={alt}
-                loading='lazy'
-            />
-        </Link>
-    );
-
     return (
         <div
             className='fixed bottom-[5%] right-[5%] hidden md:flex flex-col justify-between items-center gap-2 p-1 bg-[#363636] rounded-3xl'
@@ -57,3 +37,23 @@ export default function FloatingSideNav() {
         </div>
     )
 }
+
+const IconLink = ({ href, src, alt }: {
+    href: string,
+    src: string,
+    alt: string
+}) => (
+    <Link
+        href={href}
+        target='_blank'
+        className='bg-transparent p-1'
+    >
+        <Image
+            height={25}
+            width={25}
+            src={src}
+            alt={alt}
+            loading='lazy'
+        />
+    </Link>
+);

@@ -1,13 +1,11 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function Card(props: {
+export default function Card({ title, icon, value }: {
     title: string,
     icon?: IconProp,
     value: string | number
 }) {
-    const { title, icon, value } = props;
-
     return (
         <div className="rounded-xl bg-gray-50 p-2 shadow-sm">
             <div className="flex p-4">

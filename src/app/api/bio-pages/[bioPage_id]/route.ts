@@ -1,4 +1,4 @@
-import { NextResponse as res } from 'next/server';
+import { NextResponse } from 'next/server';
 import useProtectedRoute from '@/app/lib/hooks/useProtectedRoute';
 import { updateExistingBioPage, deleteBioPageBy_id } from '@/app/lib/data';
 import { BioPage } from '@/app/lib/types';
@@ -6,7 +6,7 @@ import { BioPage } from '@/app/lib/types';
 export async function PUT(req: Request, { params }: any) {
     const session = await useProtectedRoute();
     if (!session) {
-        return res.json({ success: false, message: 'unauthorized' });
+        return NextResponse.json({ success: false, message: 'unauthorized' });
     }
 
     const user_id = session.user?.name;
@@ -14,15 +14,15 @@ export async function PUT(req: Request, { params }: any) {
 
     if (bioPage?._id !== params.bioPage_id
         || bioPage?.user_id !== user_id) {
-        return res.json({ success: false });
+        return NextResponse.json({ success: false });
     }
 
     try {
         await updateExistingBioPage(bioPage);
-        return res.json({ success: true });
+        return NextResponse.json({ success: true });
     } catch (err) {
         console.error(err);
-        return res.json({ success: false, message: err });
+        return NextResponse.json({ success: false, message: err });
     }
 }
 
@@ -30,13 +30,13 @@ export async function DELETE(req: Request, { params }: { params: { bioPage_id: s
     const session = await useProtectedRoute();
 
     if (!session) {
-        return res.json({ success: false });
+        return NextResponse.json({ success: false });
     }
 
     try {
         await deleteBioPageBy_id(params.bioPage_id as string);
-        return res.json({ success: true });
+        return NextResponse.json({ success: true });
     } catch (err) {
-        return res.json({ success: false, message: err });
+        return NextResponse.json({ success: false, message: err });
     }
 }

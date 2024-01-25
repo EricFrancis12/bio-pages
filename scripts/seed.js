@@ -12,6 +12,10 @@ async function seedUsers(client) {
                 _id VARCHAR(255) NOT NULL UNIQUE,
                 email VARCHAR(255) NOT NULL UNIQUE,
                 hashedpassword VARCHAR(255) NOT NULL,
+                emailvalidationtoken VARCHAR(255),
+                emailvalidationtokenexpiry BIGINT,
+                passwordresettoken VARCHAR(255),
+                passwordresettokenexpiry BIGINT,
                 PRIMARY KEY (_id)
             );
         `;

@@ -1,11 +1,11 @@
 import { handleUpload, type HandleUploadBody } from '@vercel/blob/client';
-import { NextResponse as res } from 'next/server';
+import { NextResponse } from 'next/server';
 import useProtectedRoute from '@/app/lib/hooks/useProtectedRoute';
 
-export async function POST(req: Request): Promise<res> {
+export async function POST(req: Request): Promise<NextResponse> {
     const session = await useProtectedRoute();
     if (!session) {
-        return res.json({ success: false, message: 'unauthorized' });
+        return NextResponse.json({ success: false, message: 'unauthorized' });
     }
 
     const body = (await req.json()) as HandleUploadBody;
@@ -35,8 +35,6 @@ export async function POST(req: Request): Promise<res> {
                 // ⚠️ This will not work on `localhost` websites,
                 // Use ngrok or similar to get the full upload flow
 
-                console.log('blob upload completed', blob, tokenPayload);
-
                 try {
                     // Run any logic after the file upload completed
                     // const { userId } = JSON.parse(tokenPayload);
@@ -47,9 +45,9 @@ export async function POST(req: Request): Promise<res> {
             },
         });
 
-        return res.json(jsonResponse);
+        return NextResponse.json(jsonResponse);
     } catch (err) {
-        return res.json(
+        return NextResponse.json(
             { error: (err as Error).message },
             { status: 400 }, // The webhook will retry 5 times waiting for a 200
         );

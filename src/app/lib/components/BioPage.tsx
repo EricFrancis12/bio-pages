@@ -3,7 +3,7 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { useEffect } from 'react';
-import type { BioPage, Button, buttonStyleType, buttonStyleRadius } from '../types';
+import type { BioPage } from '../types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as icons from '@fortawesome/free-solid-svg-icons';
 import type { IconDefinition } from '@fortawesome/fontawesome-common-types';
@@ -15,12 +15,11 @@ export const metadata: Metadata = {
     title: 'Your very own Bio Page!'
 };
 
-export default function BioPage(props: {
+export default function BioPage({ bioPage, setBioPage, blobUrl }: {
     bioPage: BioPage,
     setBioPage?: Function,
     blobUrl?: string
 }) {
-    const { bioPage, setBioPage, blobUrl } = props;
     const {
         _id,
         user_id,
@@ -46,7 +45,7 @@ export default function BioPage(props: {
         if (name) {
             document.title = name;
         }
-    }, []);
+    }, [name]);
 
     return (
         <div className='min-h-[100vh] w-full'
@@ -93,9 +92,8 @@ export default function BioPage(props: {
                                         + ' w-full max-w-[700px]'}
                                     style={{
                                         border: `1px solid ${buttonbordercolor}`,
-                                        backgroundColor: buttoncolor,
-                                        color: buttontextcolor,
-                                        borderRadius: `${buttonstyleRadius}px`
+                                        borderRadius: `${buttonstyleRadius}px`,
+                                        background: buttoncolor
                                     }}
                                 >
                                     <a href={button.url} target='_blank'
@@ -106,7 +104,15 @@ export default function BioPage(props: {
                                         }}
                                     >
                                         <FontAwesomeIcon icon={icon as IconDefinition} />
-                                        <p className='text-lg sm:text-xl'>
+                                        <p
+                                            className='text-lg sm:text-xl'
+                                            style={{
+                                                color: isGradient(buttontextcolor) ? undefined : buttontextcolor,
+                                                backgroundImage: isGradient(buttontextcolor) ? buttontextcolor : undefined,
+                                                backgroundClip: isGradient(buttontextcolor) ? 'text' : undefined,
+                                                WebkitTextFillColor: isGradient(buttontextcolor) ? 'transparent' : undefined
+                                            }}
+                                        >
                                             {button.text}
                                         </p>
                                     </a>

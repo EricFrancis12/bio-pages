@@ -10,12 +10,10 @@ import BioPagesTable from './BioPagesTable';
 import CalendarButton from '../CalendarButton';
 import { defaultTimerange } from '../../default-data';
 
-export default function BioPagesOverview(props: {
+export default function BioPagesOverview({ bioPages, demoMode }: {
     bioPages: BioPage[],
-    handleBioPageDelete: Function
+    demoMode?: boolean
 }) {
-    const { bioPages, handleBioPageDelete } = props;
-
     const [selectedBioPage_ids, setSelectedBioPage_ids] = useState<string[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [timerange, setTimerange] = useState<Timerange>(defaultTimerange());
@@ -63,26 +61,28 @@ export default function BioPagesOverview(props: {
                     />
                 </div>
             </div>
-            <div className='mt-4 flex justify-end items-center gap-2 w-full md:mt-8'>
-                <Link
-                    href='/dashboard/bio-pages/create'
-                    className='flex gap-2 items-center h-10 rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'
-                >
-                    <span className='hidden md:block'>
-                        Create New Page
-                    </span>
-                    <FontAwesomeIcon icon={faPlus} />
-                </Link>
-            </div>
+            {!demoMode &&
+                <div className='mt-4 flex justify-end items-center gap-2 w-full md:mt-8'>
+                    <Link
+                        href='/dashboard/bio-pages/create'
+                        className='flex gap-2 items-center h-10 rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'
+                    >
+                        <span className='hidden md:block'>
+                            Create New Page
+                        </span>
+                        <FontAwesomeIcon icon={faPlus} />
+                    </Link>
+                </div>
+            }
             <div className='w-full'>
                 <BioPagesTable
                     bioPages={filteredBioPages}
-                    handleBioPageDelete={handleBioPageDelete}
                     timerange={timerange}
                     searchQuery={searchQuery}
                     setSearchQuery={setSearchQuery}
                     selectedBioPage_ids={selectedBioPage_ids}
                     setSelectedBioPage_ids={setSelectedBioPage_ids}
+                    demoMode={demoMode}
                 />
             </div>
         </div>

@@ -22,45 +22,6 @@ export default function SetupSection() {
 
     const selectedDemoBioPages = useRef(demoBioPages.slice(0, 20));
 
-    const Card = ({ demoBioPage }: {
-        demoBioPage: BioPage
-    }) => {
-        const src = `/assets/img/demo-bio-pages/${demoBioPage._id}.png`;
-        const href = `/demo/p/${demoBioPage._id}`;
-
-        return (
-            <div
-                style={{
-                    boxShadow: '3px 3px 24px 4px rgba(0, 0, 0, 0.2)'
-                }}
-            >
-                <Link
-                    href={href}
-                    target='_blank'
-                    className='relative block h-[350px] w-[260px]'
-                >
-                    <Image
-                        src={src}
-                        alt='Page Demo Image'
-                        loading='lazy'
-                        fill={true}
-                        style={{
-                            borderRadius: '5px'
-                        }}
-                    />
-                    <div className='absolute text-center h-full w-full px-2 opacity-0 hover:opacity-100 bg-yellow-500'>
-                        <div className='my-4'>
-                            {demoBioPage.headingtext}
-                        </div>
-                        <div>
-                            {demoBioPage.subheadingtext}
-                        </div>
-                    </div>
-                </Link>
-            </div>
-        )
-    };
-
     return (
         <div className='relative bg-[#fff] py-12'>
             <div className='px-16 mb-4'>
@@ -124,3 +85,42 @@ export default function SetupSection() {
         </div>
     )
 }
+
+const Card = ({ demoBioPage }: {
+    demoBioPage: BioPage
+}) => {
+    const src = `/assets/img/demo-bio-pages/${demoBioPage._id}.png`;
+    const href = `/demo/p/${demoBioPage._id}`;
+
+    return (
+        <div
+            style={{
+                boxShadow: '3px 3px 24px 4px rgba(0, 0, 0, 0.2)'
+            }}
+        >
+            <Link
+                href={href}
+                target='_blank'
+                className='relative block h-[350px] w-[260px]'
+            >
+                <Image
+                    src={src}
+                    alt='Page Demo Image'
+                    loading='lazy'
+                    fill={true}
+                    style={{
+                        borderRadius: '5px'
+                    }}
+                />
+                <div className='absolute text-center h-full w-full px-2 opacity-0 hover:opacity-100 bg-yellow-500'>
+                    <div className='my-4'>
+                        {demoBioPage.headingtext}
+                    </div>
+                    <div>
+                        {demoBioPage.subheadingtext}
+                    </div>
+                </div>
+            </Link>
+        </div>
+    )
+};
