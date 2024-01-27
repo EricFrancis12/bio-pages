@@ -84,7 +84,7 @@ export default function ExpandYourReachSection() {
             }}
         >
             <div
-                className='sticky top-32 left-0'
+                className='sticky top-32 bottom-32 left-0'
                 style={{
                     pointerEvents: 'none',
                     zIndex: 50
@@ -145,7 +145,7 @@ export default function ExpandYourReachSection() {
 
 const BioPageGraphic = ({ bioPageGraphic }: {
     bioPageGraphic: {
-        demoBioPage?: BioPage,
+        bioPage?: BioPage,
         scale?: number,
         className?: string,
         top?: number | string,
@@ -153,8 +153,8 @@ const BioPageGraphic = ({ bioPageGraphic }: {
         parallax?: MotionValue<number>
     }
 }) => {
-    const { demoBioPage, scale = 1, className = '', top = 0, left = 0, parallax } = bioPageGraphic;
-    return !demoBioPage
+    const { bioPage, scale = 1, className = '', top = 0, left = 0, parallax } = bioPageGraphic;
+    return !bioPage
         ? ''
         : (
             <motion.div
@@ -167,9 +167,9 @@ const BioPageGraphic = ({ bioPageGraphic }: {
                     width: `${scale * 145}px`,
                     borderRadius: '5px'
                 }}>
-                <Link href={`/demo/p/${demoBioPage._id}`} target='_blank'>
+                <Link href={`/demo/p/${bioPage._id}`} target='_blank'>
                     <Image
-                        src={`/assets/img/demo-bio-pages/${demoBioPage._id}.png`}
+                        src={`/assets/img/demo-bio-pages/${bioPage._id}.png`}
                         alt='Demo Page'
                         loading='lazy'
                         fill={true}
