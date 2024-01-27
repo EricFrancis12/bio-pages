@@ -23,7 +23,7 @@ export default function SetupSection() {
     const selectedDemoBioPages = useRef(demoBioPages.slice(0, 20));
 
     return (
-        <div className='relative bg-[#fff] py-12'>
+        <div className='relative bg-[#fff] py-12 overflow-hidden'>
             <div className='px-16 mb-4'>
                 <div>
                     <h2 className='text-5xl text-black font-bold mb-8'>

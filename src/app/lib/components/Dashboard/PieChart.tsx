@@ -14,7 +14,7 @@ export default function PieChart({ bioPages }: {
     bioPages: BioPage[]
 }) {
     const data = {
-        labels: bioPages.map(bioPage => bioPage._id),
+        labels: bioPages.map(bioPage => bioPage.name),
         datasets: [
             {
                 label: 'Visitors',

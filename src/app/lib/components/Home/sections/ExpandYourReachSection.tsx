@@ -2,13 +2,12 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useRef, CSSProperties } from 'react';
+import { useState, useRef } from 'react';
 import { MotionValue, motion, useAnimation } from 'framer-motion';
 import type { BioPage, color } from '@/app/lib/types';
 import { demoBioPages } from '@/app/lib/demo-pages';
 import useParallaxScroll from '@/app/lib/hooks/useParallaxScroll';
 import useInViewCallback from '@/app/lib/hooks/useInViewCallback';
-import { randomIntBetween, randomDecBetween, randomItemFromArray } from '@/app/lib/utils/utils';
 
 export default function ExpandYourReachSection() {
     const container = useRef<HTMLDivElement | null>(null);
@@ -44,7 +43,7 @@ export default function ExpandYourReachSection() {
         setFeatured({ text, color });
     }
 
-    const dummyDivsList = [
+    const dummyDivs = [
         { top: '4%', bottom: 'auto', left: 'auto', right: '8%' },
         { top: '7%', bottom: 'auto', left: 'auto', right: '21%' },
         { top: '13%', bottom: 'auto', left: '7.5%', right: 'auto' },
@@ -67,24 +66,15 @@ export default function ExpandYourReachSection() {
         { top: '33%', bottom: 'auto', left: 'auto', right: '12%' }
     ];
 
-    type DemoBioPage = {
-        bioPage: BioPage,
-        scale: number,
-        top: number,
-        left: number,
-        parallax?: MotionValue<number>
-    };
-
-    const selectedDemoBioPages = useRef<DemoBioPage[]>(
-        demoBioPages.slice(0, 20)
-            .map((bioPage) => ({
-                bioPage,
-                scale: randomDecBetween(0.75, 1.5),
-                top: randomIntBetween(5, 95),
-                left: randomIntBetween(5, 95),
-                parallax: randomItemFromArray([sm, md, lg])
-            }))
-    ); // compiling a list of demoBioPages
+    const bioPageGraphics = [
+        { top: '10%', left: '12%', scale: 0.75, parallax: sm, bioPage: demoBioPages.at(0) },
+        { top: '30%', left: '80%', scale: 1.05, parallax: md, bioPage: demoBioPages.at(1) },
+        { top: '50%', left: '35%', scale: 0.92, parallax: sm, bioPage: demoBioPages.at(2) },
+        { top: '70%', left: '65%', scale: 1.15, parallax: lg, bioPage: demoBioPages.at(3) },
+        { top: '80%', left: '20%', scale: 0.85, parallax: sm, bioPage: demoBioPages.at(4) },
+        { top: '90%', left: '55%', scale: 1.05, parallax: lg, bioPage: demoBioPages.at(5) },
+        { top: '95%', left: '70%', scale: 0.95, parallax: md, bioPage: demoBioPages.at(6) }
+    ];
 
     return (
         <div ref={container}
@@ -93,9 +83,6 @@ export default function ExpandYourReachSection() {
                 contain: 'paint'
             }}
         >
-            <div ref={ref0} className='absolute top-[40%] left-0' />
-            <div ref={ref1} className='absolute top-[60%] left-0' />
-            <div ref={ref2} className='absolute top-[80%] left-0' />
             <div
                 className='sticky top-32 left-0'
                 style={{
@@ -115,9 +102,7 @@ export default function ExpandYourReachSection() {
                             borderRadius: '15px'
                         }}
                     >
-                        <div
-                            className='text-center text-3xl text-[#000] font-bold'
-                        >
+                        <div className='text-center text-3xl text-[#000] font-bold'>
                             Everything you need to expand your reach.
                         </div>
                         <div className='flex flex-row-reverse justify-end text-4xl'>
@@ -145,37 +130,30 @@ export default function ExpandYourReachSection() {
                     </div>
                 </div>
             </div>
-            {selectedDemoBioPages.current.map((bioPageGraphic, index) => (
-                <BioPageGraphic key={index}
-                    demoBioPage={bioPageGraphic.bioPage}
-                    scale={bioPageGraphic.scale}
-                    top={bioPageGraphic.top}
-                    left={bioPageGraphic.left}
-                    parallax={bioPageGraphic.parallax}
-                />
+            <div ref={ref0} className='absolute top-[40%] left-0' />
+            <div ref={ref1} className='absolute top-[60%] left-0' />
+            <div ref={ref2} className='absolute top-[80%] left-0' />
+            {bioPageGraphics.map((bioPageGraphic, index) => (
+                <BioPageGraphic key={index} bioPageGraphic={bioPageGraphic} />
             ))}
-            {dummyDivsList.map((dummyDiv, index) => (
-                <DummyDiv key={index}
-                    style={{
-                        top: dummyDiv.top,
-                        bottom: dummyDiv.bottom,
-                        left: dummyDiv.left,
-                        right: dummyDiv.right
-                    }}
-                />
+            {dummyDivs.map((dummyDiv, index) => (
+                <DummyDiv key={index} dummyDiv={dummyDiv} />
             ))}
         </div >
     )
 }
 
-const BioPageGraphic = ({ demoBioPage, scale = 1, className = '', top = 0, left = 0, parallax }: {
-    demoBioPage: BioPage | undefined,
-    scale?: number,
-    className?: string,
-    top?: number,
-    left?: number,
-    parallax?: MotionValue<number>
+const BioPageGraphic = ({ bioPageGraphic }: {
+    bioPageGraphic: {
+        demoBioPage?: BioPage,
+        scale?: number,
+        className?: string,
+        top?: number | string,
+        left?: number | string,
+        parallax?: MotionValue<number>
+    }
 }) => {
+    const { demoBioPage, scale = 1, className = '', top = 0, left = 0, parallax } = bioPageGraphic;
     return !demoBioPage
         ? ''
         : (
@@ -183,8 +161,8 @@ const BioPageGraphic = ({ demoBioPage, scale = 1, className = '', top = 0, left 
                 className='absolute bg-white z-20 hover:z-40'
                 style={{
                     y: parallax,
-                    top: `${top}%`,
-                    left: `${left}%`,
+                    top,
+                    left,
                     height: `${scale * 220}px`,
                     width: `${scale * 145}px`,
                     borderRadius: '5px'
@@ -208,16 +186,25 @@ const BioPageGraphic = ({ demoBioPage, scale = 1, className = '', top = 0, left 
         )
 };
 
-const DummyDiv = ({ style }: {
-    style: CSSProperties
+const DummyDiv = ({ dummyDiv }: {
+    dummyDiv: {
+        top: string,
+        bottom: string,
+        left: string,
+        right: string
+    }
 }) => {
+    const { top, bottom, left, right } = dummyDiv;
     return (
         <div
             className='absolute h-[99px] w-[132px] bg-[#f4f5f8]'
             style={{
                 borderRadius: '4px',
                 zIndex: 10,
-                ...style
+                top,
+                bottom,
+                left,
+                right
             }}
         />
     )

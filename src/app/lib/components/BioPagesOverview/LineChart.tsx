@@ -37,7 +37,7 @@ export default function LineChart({ bioPages, timerange }: {
 
     const labels = getLabelsPerTimerange(timerange);
     const datasets = bioPages.map((bioPage, index) => ({
-        label: bioPage._id,
+        label: bioPage.name,
         data: mapData(bioPage),
         backgroundColor: colors[index % colors.length],
         borderColor: colors[index % colors.length],
