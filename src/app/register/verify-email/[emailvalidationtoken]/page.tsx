@@ -32,7 +32,7 @@ export default async function Page({ params }: { params: { emailvalidationtoken:
     }
 
     return (
-        <div className='text-center w-full mt-8 mx-4'>
+        <div className='text-center w-full mt-8 mx-4 bg-white'>
             {success === true
                 ? <>
                     Email validated successfully.{' '}

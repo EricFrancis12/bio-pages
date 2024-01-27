@@ -84,7 +84,7 @@ export default function ExpandYourReachSection() {
             }}
         >
             <div
-                className='sticky top-32 bottom-32 left-0'
+                className='sticky top-24 mb-24 left-0'
                 style={{
                     pointerEvents: 'none',
                     zIndex: 50

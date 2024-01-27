@@ -12,7 +12,7 @@ import { deconstructButtonStyle, calcButtonStyleTypeShadows, isGradient } from '
 import { defaultImagesrc, defaultIcon } from '../default-data';
 
 export const metadata: Metadata = {
-    title: 'Your very own Bio Page!'
+    title: ' '
 };
 
 export default function BioPage({ bioPage, setBioPage, blobUrl }: {

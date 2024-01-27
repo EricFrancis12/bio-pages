@@ -9,7 +9,8 @@ export async function GET(req: Request) {
     if (user_id) {
         try {
             const newBioPage = await createAndSaveNewBioPage(user_id);
-            return NextResponse.redirect(`http://localhost:3000/dashboard/bio-pages/${newBioPage._id}/edit`);
+            // This needs to be an absolute URL, otherwise error
+            return NextResponse.redirect(`https://${process.env.NEXT_PUBLIC_DOMAIN}/dashboard/bio-pages/${newBioPage._id}/edit`);
         } catch (err) {
             throw err;
         }

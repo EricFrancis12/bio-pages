@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default async function Page() {
     return (
-        <div className='grid place-items-center h-screen'>
+        <div className='grid place-items-center h-screen bg-white'>
             <RegisterForm />
         </div>
     )
