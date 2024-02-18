@@ -69,15 +69,14 @@ export default function HomeNav() {
                     }}
                 >
                     <div>
-                        {/* Starter code for logo: */}
-                        {/* <Link href='/'>
+                        <Link href='/'>
                             <Image
-                                src=''
+                                src='/assets/img/frog-logo-white-outline.png'
                                 alt='logo'
                                 height={60}
                                 width={60}
                             />
-                        </Link> */}
+                        </Link>
                     </div>
                     <div className='hidden lg:flex justify-end items-center gap-6'>
                         {navTabs.map((navTab, index) => (
