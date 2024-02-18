@@ -1,10 +1,16 @@
 'use client';
 
+import { CSSProperties } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { color } from '../types';
 
-export default function TiltCard({ children, className }: {
+export default function TiltCard({ children, className, style, backgroundColor, xInputRange, yInputRange }: {
     children: React.ReactNode,
-    className?: string
+    className?: string,
+    style?: CSSProperties,
+    backgroundColor?: color,
+    xInputRange?: [number, number],
+    yInputRange?: [number, number]
 }) {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
@@ -12,8 +18,8 @@ export default function TiltCard({ children, className }: {
     const mouseXSpring = useSpring(x);
     const mouseYSpring = useSpring(y);
 
-    const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['17.5deg', '-17.5deg']);
-    const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-17.5deg', '17.5deg']);
+    const rotateX = useTransform(mouseYSpring, (xInputRange ?? [-0.5, 0.5]), ['17.5deg', '-17.5deg']);
+    const rotateY = useTransform(mouseXSpring, (yInputRange ?? [-0.5, 0.5]), ['-17.5deg', '17.5deg']);
 
     const handleMouseMove = (e: React.MouseEvent) => {
         const target = e.target as HTMLDivElement;
@@ -39,13 +45,14 @@ export default function TiltCard({ children, className }: {
 
     return (
         <motion.div
-            className={(className + ' hover:bg-slate-300 p-1')}
+            className={(className + ' p-1')}
             style={{
+                ...style,
                 rotateX,
                 rotateY,
-                backgroundColor: 'rgb(100 116 139)',
+                backgroundColor,
                 transformStyle: 'preserve-3d',
-                transition: 'ease-in-out 0.3s background-color'
+                transition: 'ease-in-out 0.3s background-color',
             }}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}

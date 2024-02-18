@@ -5,7 +5,6 @@ import AnalyzeYourAudienceSection from './sections/AnalyzeYourAudienceSection';
 import ExpandYourReachSection from './sections/ExpandYourReachSection';
 import WhatMakesUsDifferentSection from './sections/WhatMakesUsDifferentSection';
 import FAQSection from './sections/FAQSection';
-import FloatingSideNav from './FloatingSideNav';
 import Footer from '../Footer/Footer';
 
 export default function Home() {
@@ -18,7 +17,6 @@ export default function Home() {
             <ExpandYourReachSection />
             <WhatMakesUsDifferentSection />
             <FAQSection />
-            <FloatingSideNav />
             <Footer />
         </div>
     )

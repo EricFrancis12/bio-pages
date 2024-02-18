@@ -69,14 +69,15 @@ export default function HomeNav() {
                     }}
                 >
                     <div>
-                        <Link href='/'>
+                        {/* Starter code for logo: */}
+                        {/* <Link href='/'>
                             <Image
-                                src='/assets/img/logo.webp'
+                                src=''
                                 alt='logo'
-                                height={50}
-                                width={50}
+                                height={60}
+                                width={60}
                             />
-                        </Link>
+                        </Link> */}
                     </div>
                     <div className='hidden lg:flex justify-end items-center gap-6'>
                         {navTabs.map((navTab, index) => (

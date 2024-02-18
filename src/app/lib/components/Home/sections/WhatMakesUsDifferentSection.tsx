@@ -6,14 +6,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconDefinition, faDollarSign, faFolderPlus, faDatabase, faHammer } from '@fortawesome/free-solid-svg-icons';
 import CTAButons from '../CTAButons';
 
-export default function WhatMakesUsDifferentSection() {
-    type T_Card = {
-        side: 'left' | 'right',
-        title: string,
-        text: string,
-        icon?: IconDefinition
-    };
+type T_Card = {
+    side: 'left' | 'right',
+    title: string,
+    text: string,
+    icon?: IconDefinition
+};
 
+export default function WhatMakesUsDifferentSection() {
     const cards: T_Card[] = [
         {
             side: 'right',
@@ -38,83 +38,9 @@ export default function WhatMakesUsDifferentSection() {
         }
     ];
 
-    const Card = ({ side, title, text, icon }: T_Card) => {
-        const ref = useRef<HTMLDivElement | null>(null);
-
-        const { scrollYProgress } = useScroll({
-            target: ref,
-            offset: ['0 1', '1.33 1']
-        });
-        const scaleProgress = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
-        const opacityProgress = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
-
-        return (
-            <motion.div ref={ref}
-                className='flex justify-center items-center w-full my-8'
-                style={{
-                    scale: scaleProgress,
-                    opacity: opacityProgress
-                }}
-            >
-                <div
-                    className={(side === 'left' ? 'sm:justify-start' : 'sm:justify-end')
-                        + ' justify-center flex items-center w-[80%]'}
-                >
-                    <div
-                        className='max-w-[300px] px-3 py-2 text-black bg-white rounded-lg'
-                        style={{
-                            border: 'solid gray 2px'
-                        }}
-                    >
-                        <div className='flex justify-start items-center gap-3 mb-2'>
-                            <span className='text-2xl'>
-                                {icon &&
-                                    <FontAwesomeIcon icon={icon} />
-                                }
-                            </span>
-                            <span className='text-2xl font-bold'>
-                                {title}
-                            </span>
-                        </div>
-                        <div>
-                            {text}
-                        </div>
-                    </div>
-                </div>
-            </motion.div>
-        );
-    };
-
-    const CTAButtonsContainer = () => {
-        const ref = useRef<HTMLDivElement | null>(null);
-
-        const { scrollYProgress } = useScroll({
-            target: ref,
-            offset: ['0 1', '1.33 1']
-        });
-        const scaleProgress = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
-        const opacityProgress = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
-
-        return (
-            <motion.div ref={ref}
-                className='flex flex-col sm:flex-row justify-center items-center gap-6'
-                style={{
-                    scale: scaleProgress,
-                    opacity: opacityProgress
-                }}
-            >
-                <CTAButons />
-            </motion.div>
-        )
-    };
-
-    const Divider = () => (
-        <div className='h-[1px] w-full bg-black' />
-    );
-
     return (
         <div
-            className='flex flex-col justify-start items-center gap-2 w-full py-16'
+            className='flex flex-col justify-start items-center gap-2 w-full pt-16 pb-32'
             style={{
                 backgroundImage: 'linear-gradient(to right, #9370DB, lightblue)'
             }}
@@ -132,7 +58,6 @@ export default function WhatMakesUsDifferentSection() {
                             text={card.text}
                             icon={card.icon}
                         />
-                        <Divider />
                     </React.Fragment>
                 ))}
             </div>
@@ -140,3 +65,77 @@ export default function WhatMakesUsDifferentSection() {
         </div>
     )
 }
+
+const Card = ({ side, title, text, icon }: T_Card) => {
+    const ref = useRef<HTMLDivElement | null>(null);
+
+    const { scrollYProgress } = useScroll({
+        target: ref,
+        offset: ['0 1', '1.33 1']
+    });
+    const scaleProgress = useTransform(scrollYProgress, [-1.5, 1], [0.8, 1]);
+    const opacityProgress = useTransform(scrollYProgress, [-1.5, 1], [0.8, 1]);
+
+    return (
+        <motion.div ref={ref}
+            className='flex justify-center items-center w-full my-8'
+            style={{
+                scale: scaleProgress,
+                opacity: opacityProgress
+            }}
+        >
+            <div
+                className={(side === 'left' ? 'sm:justify-start' : 'sm:justify-end')
+                    + ' justify-center flex items-center w-[80%]'}
+            >
+                <div
+                    className='max-w-[300px] px-3 py-2 text-black bg-white rounded-lg'
+                    style={{
+                        border: 'solid gray 2px'
+                    }}
+                >
+                    <div className='flex justify-start items-center gap-3 mb-2'>
+                        <span className='text-2xl'>
+                            {icon &&
+                                <FontAwesomeIcon icon={icon} />
+                            }
+                        </span>
+                        <span className='text-2xl font-bold'>
+                            {title}
+                        </span>
+                    </div>
+                    <div>
+                        {text}
+                    </div>
+                </div>
+            </div>
+        </motion.div>
+    );
+};
+
+const CTAButtonsContainer = () => {
+    const ref = useRef<HTMLDivElement | null>(null);
+
+    const { scrollYProgress } = useScroll({
+        target: ref,
+        offset: ['0 1', '1.33 1']
+    });
+    const scaleProgress = useTransform(scrollYProgress, [-1.5, 1], [0.8, 1]);
+    const opacityProgress = useTransform(scrollYProgress, [-1.5, 1], [0.8, 1]);
+
+    return (
+        <motion.div ref={ref}
+            className='flex flex-col sm:flex-row justify-center items-center gap-6'
+            style={{
+                scale: scaleProgress,
+                opacity: opacityProgress
+            }}
+        >
+            <CTAButons />
+        </motion.div>
+    )
+};
+
+const Divider = () => (
+    <div className='h-[1px] w-full bg-black' />
+);

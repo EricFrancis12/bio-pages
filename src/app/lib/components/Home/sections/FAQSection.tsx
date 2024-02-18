@@ -71,9 +71,9 @@ export default function FAQSection() {
     }
 
     return (
-        <div className='py-16'>
-            <h2 className='text-center mb-12'>
-                Got Questions?
+        <div className='py-32'>
+            <h2 className='text-center mb-24'>
+                Frequently Asked Questions
             </h2>
             <div className='flex flex-col justify-start items-center gap-8 px-4'>
                 {faqs.map((faq, index) => (

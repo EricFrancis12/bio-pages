@@ -3,24 +3,48 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconDefinition, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import type { BioPage } from '@/app/lib/types';
 import { demoBioPages } from '@/app/lib/demo-pages';
 
+type TScrollButton = {
+    left?: number,
+    right?: number,
+    icon: IconDefinition,
+    onClick: React.MouseEventHandler<HTMLElement>
+};
+
 export default function SetupSection() {
     const targetRef = useRef<HTMLDivElement | null>(null);
+    const scrollRef = useRef<HTMLDivElement | null>(null);
+    const selectedDemoBioPages = useRef(demoBioPages.slice(0, 20));
 
-    const { scrollYProgress } = useScroll({
-        target: targetRef
-    });
-    const x = useTransform(scrollYProgress, [1, 0], ['1%', '-100%']);
+    const scrollButtons = [
+        {
+            left: 0,
+            icon: faArrowLeft,
+            onClick: () => {
+                if (scrollRef.current?.scrollLeft) {
+                    scrollRef.current.scrollLeft -= 500;
+                }
+            }
+        },
+        {
+            right: 0,
+            icon: faArrowRight,
+            onClick: () => {
+                if (scrollRef.current?.scrollLeft || scrollRef.current?.scrollLeft === 0) {
+                    scrollRef.current.scrollLeft += 500;
+                }
+            }
+        }
+    ];
 
     const blurs = [
         { bg: 'bg-purple-500' },
         { bg: 'bg-teal-500' }
     ];
-
-    const selectedDemoBioPages = useRef(demoBioPages.slice(0, 20));
 
     return (
         <div className='relative bg-[#fff] py-12 overflow-hidden'>
@@ -58,29 +82,28 @@ export default function SetupSection() {
                     </div>
                 </div>
             </div>
-            <div ref={targetRef}>
-                <motion.div
-                    className='flex justify-start items-center gap-8 px-8 py-4 overflow-visible'
-                    style={{ x }}
+            <div className='relative select-none'>
+                <div ref={scrollRef}
+                    className='flex justify-start items-center gap-8 px-4 py-4 overflow-x-scroll scroll-smooth'
                 >
+                    {scrollButtons.map((scrollButton, index) => (
+                        <ScrollButton key={index}
+                            scrollButton={scrollButton}
+                        />
+                    ))}
                     {selectedDemoBioPages.current.map((demoBioPage, index) => (
                         <Card key={index}
                             demoBioPage={demoBioPage}
                         />
                     ))}
-                </motion.div>
-                <div
-                    className='div-block-40'
-                    style={{
-                        pointerEvents: 'none'
-                    }}
-                >
-                    {blurs.map((blur, index) => (
-                        <div key={index}
-                            className={(blur.bg) + ' w-[50vw] h-[100px] blur-3xl opacity-60'}
-                        />
-                    ))}
                 </div>
+            </div>
+            <div className='flex justify-between items-center gap-4 w-full'>
+                {blurs.map((blur, index) => (
+                    <div key={index}
+                        className={(blur.bg) + ' w-[50%] h-[100px] blur-3xl opacity-60'}
+                    />
+                ))}
             </div>
         </div>
     )
@@ -124,3 +147,29 @@ const Card = ({ demoBioPage }: {
         </div>
     )
 };
+
+const ScrollButton = ({ scrollButton }: {
+    scrollButton: TScrollButton
+}) => (
+    <div
+        className='absolute flex justify-center items-center h-full px-12'
+        style={{
+            top: 0,
+            left: scrollButton.left,
+            right: scrollButton.right,
+            pointerEvents: 'none',
+            zIndex: 4000
+        }}
+    >
+        <div
+            className='flex justify-center items-center h-[50px] hover:h-[70px] w-[50px] hover:w-[70px] p-2 text-3xl bg-red-300 hover:bg-red-500 rounded-full cursor-pointer'
+            style={{
+                pointerEvents: 'all',
+                transition: 'background-color 0.1s ease-in-out, height 0.1s ease-in-out, width 0.1s ease-in-out'
+            }}
+            onClick={scrollButton.onClick}
+        >
+            <FontAwesomeIcon icon={scrollButton.icon} />
+        </div>
+    </div>
+)

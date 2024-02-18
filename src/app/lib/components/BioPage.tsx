@@ -15,10 +15,22 @@ export const metadata: Metadata = {
     title: ' '
 };
 
-export default function BioPage({ bioPage, setBioPage, blobUrl }: {
+export default function BioPage({
+    bioPage,
+    setBioPage,
+    blobUrl,
+    disableLinks,
+    fullScreen = true,
+    imageHeight = 200,
+    imageWidth = 200
+}: {
     bioPage: BioPage,
     setBioPage?: Function,
-    blobUrl?: string
+    blobUrl?: string,
+    disableLinks?: boolean,
+    fullScreen?: boolean,
+    imageHeight?: number,
+    imageWidth?: number
 }) {
     const {
         _id,
@@ -42,13 +54,13 @@ export default function BioPage({ bioPage, setBioPage, blobUrl }: {
     const fontInstance = fontsDictionary[font as keyof typeof fontsDictionary]?.instance ?? null;
 
     useEffect(() => {
-        if (name) {
+        if (name && fullScreen) {
             document.title = name;
         }
     }, [name]);
 
     return (
-        <div className='min-h-[100vh] w-full'
+        <div className={(fullScreen ? 'min-h-[100vh] ' : ' ') + ' w-full'}
             style={{ background: backgroundcolor }}
         >
             <div
@@ -67,8 +79,8 @@ export default function BioPage({ bioPage, setBioPage, blobUrl }: {
                     <Image
                         src={blobUrl || (imagesrc ? imagesrc as string : defaultImagesrc)}
                         alt='Page Image'
-                        height={200}
-                        width={200}
+                        height={imageHeight}
+                        width={imageWidth}
                     />
                     <h1 className='text-center text-4xl font-bold'>
                         {headingtext}
@@ -100,12 +112,12 @@ export default function BioPage({ bioPage, setBioPage, blobUrl }: {
                                         className='flex justify-center items-center gap-2 w-full mx-0 my-auto px-3 py-3 cursor-pointer overflow-hidden opacity-100 hover:opacity-70'
                                         style={{
                                             backgroundColor: 'transparent',
-                                            transitionDuration: '200ms'
+                                            transitionDuration: '200ms',
+                                            pointerEvents: disableLinks ? 'none' : undefined
                                         }}
                                     >
-                                        <FontAwesomeIcon icon={icon as IconDefinition} />
-                                        <p
-                                            className='text-lg sm:text-xl'
+                                        <div
+                                            className='flex justify-center items-center gap-2 w-full text-lg sm:text-xl cursor-pointer overflow-hidden opacity-100 hover:opacity-70'
                                             style={{
                                                 color: isGradient(buttontextcolor) ? undefined : buttontextcolor,
                                                 backgroundImage: isGradient(buttontextcolor) ? buttontextcolor : undefined,
@@ -113,14 +125,17 @@ export default function BioPage({ bioPage, setBioPage, blobUrl }: {
                                                 WebkitTextFillColor: isGradient(buttontextcolor) ? 'transparent' : undefined
                                             }}
                                         >
-                                            {button.text}
-                                        </p>
+                                            <FontAwesomeIcon icon={icon as IconDefinition} />
+                                            <p>
+                                                {button.text}
+                                            </p>
+                                        </div>
                                     </a>
                                 </div>
                             );
                     })}
                 </main>
-            </div>
-        </div>
+            </div >
+        </div >
     )
 }
