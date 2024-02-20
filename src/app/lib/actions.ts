@@ -4,9 +4,9 @@ import { revalidatePath } from 'next/cache';
 import { updateExistingBioPage, deleteBioPageBy_id, createAndSaveNewUser, fetchUserByEmail, updateExistingUser } from './data';
 import { sendPasswordResetEmail } from './email';
 import { generateNewPasswordResetToken, generateNewPasswordResetTokenExpiry } from './_id';
-import type { BioPage, User } from './types';
+import type { TBioPage, TUser } from './types';
 
-export async function updateBioPageAction(bioPage: BioPage) {
+export async function updateBioPageAction(bioPage: TBioPage) {
     await updateExistingBioPage(bioPage);
     return revalidatePath(`/dashboard/bio-pages/${bioPage._id}/edit`);
 }
@@ -30,7 +30,7 @@ export async function createAndSaveNewUserAction(email: string, password: string
 export async function resetPasswordAction(email: string) {
     const user = await fetchUserByEmail(email);
     if (user) {
-        const updatedUser: User = {
+        const updatedUser: TUser = {
             ...user,
             passwordresettoken: generateNewPasswordResetToken(),
             passwordresettokenexpiry: generateNewPasswordResetTokenExpiry()

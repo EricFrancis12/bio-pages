@@ -2,13 +2,13 @@
 
 import { useState, useRef, useEffect } from 'react';
 import ColorPicker from 'react-best-gradient-color-picker';
-import { color } from '../../types';
+import type { TColor } from '../../types';
 import { traverseParentsForRef, rgbaToHex } from '../../utils/utils';
 
 export default function ColorInput({ name, value, onChange }: {
     name: string,
-    value: color,
-    onChange: Function
+    value: TColor,
+    onChange: (value: string) => void
 }) {
     const outerRef = useRef<HTMLDivElement | null>(null);
     const innerRef = useRef<HTMLDivElement | null>(null);
@@ -41,7 +41,7 @@ export default function ColorInput({ name, value, onChange }: {
         setOpen(!open);
     }
 
-    const formatColor = (color: color) => {
+    const formatColor = (color: TColor) => {
         if (color.includes('gradient')) {
             return 'Gradient';
         }
@@ -49,9 +49,7 @@ export default function ColorInput({ name, value, onChange }: {
     }
 
     return (
-        <div
-            className='flex flex-col justify-start items-start gap-2 w-full'
-        >
+        <div className='flex flex-col justify-start items-start gap-2 w-full'>
             <div className='flex justify-center items-center'>
                 <span>
                     {name}
@@ -74,7 +72,7 @@ export default function ColorInput({ name, value, onChange }: {
                 >
                     {open &&
                         <div ref={innerRef}
-                            className='absolute bg-white p-4'
+                            className='absolute p-4 bg-white'
                             style={{
                                 top: '100%',
                                 left: 0,

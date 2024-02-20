@@ -7,9 +7,7 @@ export default function YesNoPopup({ text, disabled, onClickYes, onClickNo }: {
     onClickNo: Function,
 }) {
     return (
-        <BlackTransparentOverlay
-            className='flex justify-center items-center'
-        >
+        <BlackTransparentOverlay className='flex justify-center items-center'>
             <div className='flex flex-col justify-start items-center p-2 bg-white'>
                 <div>
                     <p>

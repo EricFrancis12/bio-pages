@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { fetchUserByPasswordResetToken, updateExistingUser } from '@/app/lib/data';
-import { User } from '@/app/lib/types';
+import { TUser } from '@/app/lib/types';
 
 export const metadata: Metadata = {
     title: 'Reset Password'
@@ -15,7 +15,7 @@ export default async function Page({ params }: { params: { passwordresettoken: s
             const currentDate = new Date();
             const expiryDate = new Date(user.passwordresettokenexpiry);
             if (expiryDate > currentDate) {
-                const updatedUser: User = {
+                const updatedUser: TUser = {
                     ...user,
                     // We are changing emailvalidationtoken and emailvalidationtokenexpiry to null
                     // in addition to passwordresettoken and passwordresettokenexpiry, because

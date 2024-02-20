@@ -1,8 +1,8 @@
 import { handleUpload, type HandleUploadBody } from '@vercel/blob/client';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import useProtectedRoute from '@/app/lib/hooks/useProtectedRoute';
 
-export async function POST(req: Request): Promise<NextResponse> {
+export async function POST(req: NextRequest): Promise<NextResponse> {
     const session = await useProtectedRoute();
     if (!session) {
         return NextResponse.json({ success: false, message: 'unauthorized' });

@@ -1,16 +1,18 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import useProtectedRoute from '@/app/lib/hooks/useProtectedRoute';
 import { createAndSaveNewBioPage } from '@/app/lib/data';
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
     const session = await useProtectedRoute();
     const user_id = session?.user?.name;
 
     if (user_id) {
+        const url = req.nextUrl.clone();
         try {
             const newBioPage = await createAndSaveNewBioPage(user_id);
-            // This needs to be an absolute URL, otherwise error
-            return NextResponse.redirect(`https://${process.env.NEXT_PUBLIC_DOMAIN}/dashboard/bio-pages/${newBioPage._id}/edit`);
+            if (newBioPage) {
+                return NextResponse.redirect(`${url.protocol}//${url.host}/dashboard/bio-pages/${newBioPage._id}/edit`);
+            }
         } catch (err) {
             throw err;
         }

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { fetchUserByEmailValidationToken, updateExistingUser } from '@/app/lib/data';
-import { User } from '@/app/lib/types';
+import { TUser } from '@/app/lib/types';
 
 export const metadata: Metadata = {
     title: 'Verify Email'
@@ -15,7 +15,7 @@ export default async function Page({ params }: { params: { emailvalidationtoken:
             const currentDate = new Date();
             const expiryDate = new Date(user.emailvalidationtokenexpiry);
             if (expiryDate > currentDate) {
-                const updatedUser: User = {
+                const updatedUser: TUser = {
                     ...user,
                     // We are changing these to null because the /login route checks to see if these have a value
                     // on the user object. If they do, it won't let them log in, because it means they never

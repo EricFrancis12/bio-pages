@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation';
 import BioPage from '@/app/lib/components/BioPage';
-import type { BioPage as T_BioPage, buttonStyle, color, fontFamily } from '../lib/types';
+import type { TBioPage, TButtonStyle, TColor, TFontFamily } from '../lib/types';
 import { defaultImagesrc } from '../lib/default-data';
 import { stringIsValidJSON } from '../lib/utils/utils';
 
@@ -25,20 +25,20 @@ export default function Page() {
         ? JSON.parse(searchParams.get('buttons') ?? '[]')
         : [];
 
-    const bioPage: T_BioPage = {
+    const bioPage: TBioPage = {
         _id: 'PREVIEW_BIOPAGE_id',
         user_id: 'PREVIEW_BIOPAGE_user_id',
         name: name as string,
-        font: font as fontFamily,
-        textcolor: textcolor as color,
-        backgroundcolor: backgroundcolor as color,
+        font: font as TFontFamily,
+        textcolor: textcolor as TColor,
+        backgroundcolor: backgroundcolor as TColor,
         imagesrc,
         headingtext: headingtext as string,
         subheadingtext: subheadingtext as string,
-        buttonstyle: buttonstyle as buttonStyle,
-        buttoncolor: buttoncolor as color,
-        buttontextcolor: buttontextcolor as color,
-        buttonbordercolor: buttonbordercolor as color,
+        buttonstyle: buttonstyle as TButtonStyle,
+        buttoncolor: buttoncolor as TColor,
+        buttontextcolor: buttontextcolor as TColor,
+        buttonbordercolor: buttonbordercolor as TColor,
         buttons,
         clicks: []
     };

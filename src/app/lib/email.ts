@@ -1,13 +1,13 @@
 import { Resend } from 'resend';
-import { User, emailAddress } from './types';
+import { TUser, TEmailAddress } from './types';
 
 export async function sendEmail({ message, html, to, from, subject, replyTo }: {
     message?: string,
     html?: string,
-    to: emailAddress,
-    from: emailAddress | `${string}<${emailAddress}>`,
+    to: TEmailAddress,
+    from: TEmailAddress | `${string}<${TEmailAddress}>`,
     subject: string,
-    replyTo?: emailAddress
+    replyTo?: TEmailAddress
 }) {
     if (message == null && html == null) return null;
 
@@ -22,27 +22,27 @@ export async function sendEmail({ message, html, to, from, subject, replyTo }: {
         });
         return result;
     } catch (err) {
-        console.error(err);
+        console.error('Error sending email: ', err);
         return null;
     }
 }
 
-export async function sendNewUserActivationEmail(user: User) {
+export async function sendNewUserActivationEmail(user: TUser) {
     return await sendEmail({
         html: `<p>Thanks for signing up. Please <a href="http://${process.env.NEXT_PUBLIC_DOMAIN}/register/verify-email/${user.emailvalidationtoken}">Click Here</a> to activate your account.</p>`,
-        to: user.email as emailAddress,
-        from: process.env.TRANSACTION_EMAIL_ADDRESS as emailAddress,
+        to: user.email as TEmailAddress,
+        from: process.env.TRANSACTION_EMAIL_ADDRESS as TEmailAddress,
         subject: 'Account activation',
-        replyTo: process.env.NEXT_PUBLIC_DOMAIN ? `support@${process.env.NEXT_PUBLIC_DOMAIN}` as emailAddress : process.env.TRANSACTION_EMAIL_ADDRESS as emailAddress
+        replyTo: process.env.NEXT_PUBLIC_DOMAIN ? `support@${process.env.NEXT_PUBLIC_DOMAIN}` as TEmailAddress : process.env.TRANSACTION_EMAIL_ADDRESS as TEmailAddress
     });
 }
 
-export async function sendPasswordResetEmail(user: User) {
+export async function sendPasswordResetEmail(user: TUser) {
     return await sendEmail({
         html: `<p>Please <a href="http://${process.env.NEXT_PUBLIC_DOMAIN}/reset-password/${user.passwordresettoken}">Click Here</a> to reset your password.</p>`,
-        to: user.email as emailAddress,
-        from: process.env.TRANSACTION_EMAIL_ADDRESS as emailAddress,
-        subject: 'Account activation',
-        replyTo: process.env.NEXT_PUBLIC_DOMAIN ? `support@${process.env.NEXT_PUBLIC_DOMAIN}` as emailAddress : process.env.TRANSACTION_EMAIL_ADDRESS as emailAddress
+        to: user.email as TEmailAddress,
+        from: process.env.TRANSACTION_EMAIL_ADDRESS as TEmailAddress,
+        subject: 'Password reset',
+        replyTo: process.env.NEXT_PUBLIC_DOMAIN ? `support@${process.env.NEXT_PUBLIC_DOMAIN}` as TEmailAddress : process.env.TRANSACTION_EMAIL_ADDRESS as TEmailAddress
     });
 }

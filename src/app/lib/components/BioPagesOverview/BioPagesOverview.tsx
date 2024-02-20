@@ -4,19 +4,19 @@ import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import type { BioPage, Timerange } from '../../types';
+import type { TBioPage, TTimerange } from '../../types';
 import LineChart from './LineChart';
 import BioPagesTable from './BioPagesTable';
 import CalendarButton from '../CalendarButton';
 import { defaultTimerange } from '../../default-data';
 
 export default function BioPagesOverview({ bioPages, demoMode }: {
-    bioPages: BioPage[],
+    bioPages: TBioPage[],
     demoMode?: boolean
 }) {
     const [selectedBioPage_ids, setSelectedBioPage_ids] = useState<string[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>('');
-    const [timerange, setTimerange] = useState<Timerange>(defaultTimerange());
+    const [timerange, setTimerange] = useState<TTimerange>(defaultTimerange());
 
     const filteredBioPages = bioPages.filter(bioPage => (bioPage.name?.includes(searchQuery) || bioPage._id.includes(searchQuery)));
     const selectedBioPages = bioPages.filter(bioPage => selectedBioPage_ids.includes(bioPage._id));

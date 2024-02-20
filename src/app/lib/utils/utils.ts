@@ -1,4 +1,4 @@
-import type { BioPage, Click, color, buttonStyle, buttonStyleType, buttonStyleRadius } from '../types';
+import type { TBioPage, TClick, TColor, TButtonStyle, TButtonStyleType, TButtonStyleRadius } from '../types';
 
 export function randomIntBetween(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -103,17 +103,17 @@ export function rgbaToHex(rgbaString: string) {
     return hexString;
 }
 
-export function deconstructButtonStyle(buttonstyle: buttonStyle) {
+export function deconstructButtonStyle(buttonstyle: TButtonStyle) {
     const result = buttonstyle.split('-');
-    const buttonstyleType: buttonStyleType = result[0] as buttonStyleType;
-    const buttonstyleRadius: buttonStyleRadius = parseInt(result[1]) as buttonStyleRadius;
+    const buttonstyleType: TButtonStyleType = result[0] as TButtonStyleType;
+    const buttonstyleRadius: TButtonStyleRadius = parseInt(result[1]) as TButtonStyleRadius;
     return {
         buttonstyleType,
         buttonstyleRadius
     };
 }
 
-export function filterOldTimestamps(array: Click[], maxDays: number) {
+export function filterOldTimestamps(array: TClick[], maxDays: number) {
     const thresholdTimestamp = Date.now() - maxDays * 24 * 60 * 60 * 1000;
     return array.filter(obj => obj.timestamp >= thresholdTimestamp);
 }
@@ -254,8 +254,8 @@ export function formatDayOfWeekAndDate(date: Date) {
     return `${dayOfWeek} ${formattedDate}`;
 }
 
-export function getBioPagesClicks(bioPages: BioPage[], range: string | number) {
-    const mapBioPages = (bioPages: BioPage[]) => {
+export function getBioPagesClicks(bioPages: TBioPage[], range: string | number) {
+    const mapBioPages = (bioPages: TBioPage[]) => {
         const result: any = {};
         const allClicks = bioPages.map(bioPage => bioPage.clicks).flat();
         allClicks.forEach(click => {
@@ -282,7 +282,7 @@ export function getBioPagesClicks(bioPages: BioPage[], range: string | number) {
     }
 }
 
-export function calcButtonStyleTypeShadows(type: buttonStyleType) {
+export function calcButtonStyleTypeShadows(type: TButtonStyleType) {
     let result = ' ';
     switch (type) {
         case 'no_shadow': result = ' no_shadow '; break;
@@ -292,7 +292,7 @@ export function calcButtonStyleTypeShadows(type: buttonStyleType) {
     return result;
 };
 
-export function isGradient(color: color) {
+export function isGradient(color: TColor) {
     return color.substring(0, 15) === 'linear-gradient'
         || color.substring(0, 15) === 'radial-gradient'
         || color.substring(0, 25) === 'repeating-linear-gradient'

@@ -1,4 +1,4 @@
-import type { BioPage } from '../../types';
+import type { TBioPage } from '../../types';
 import { faUser, faUserGroup, faUsers, faFile } from '@fortawesome/free-solid-svg-icons';
 import Card from './Card';
 import LineChart from './LineChart';
@@ -7,7 +7,7 @@ import BarChart from './BarChart';
 import { getBioPagesClicks } from '../../utils/utils';
 
 export default function Dashboard({ bioPages, demoMode }: {
-    bioPages: BioPage[],
+    bioPages: TBioPage[],
     demoMode?: boolean
 }) {
     const numVisitorsToday = getBioPagesClicks(bioPages, 'today').length;
@@ -15,7 +15,7 @@ export default function Dashboard({ bioPages, demoMode }: {
     const numVisitorsPast7Days = getBioPagesClicks(bioPages, 7).length;
     const topBioPageName = bioPages.length === 0
         ? '-'
-        : bioPages.reduce((accBioPage: BioPage, currBioPage) => {
+        : bioPages.reduce((accBioPage: TBioPage, currBioPage) => {
             const maxClicksLength = accBioPage ? accBioPage.clicks.length : 0;
             const currentClicksLength = currBioPage.clicks.length;
             return currentClicksLength > maxClicksLength ? currBioPage : accBioPage;

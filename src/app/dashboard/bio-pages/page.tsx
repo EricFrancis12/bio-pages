@@ -1,9 +1,8 @@
 import { Metadata } from 'next';
 import { redirect, notFound } from 'next/navigation';
-import { revalidatePath } from 'next/cache';
 import useProtectedRoute from '../../lib/hooks/useProtectedRoute';
-import type { BioPage } from '@/app/lib/types';
-import { fetchBioPagesByUser_id, deleteBioPageBy_id } from '../../lib/data';
+import type { TBioPage } from '@/app/lib/types';
+import { fetchBioPagesByUser_id } from '../../lib/data';
 import BioPagesOverview from '@/app/lib/components/BioPagesOverview/BioPagesOverview';
 
 export const metadata: Metadata = {
@@ -17,7 +16,7 @@ export default async function Page() {
         return redirect('/login');
     }
 
-    const bioPages: BioPage[] = await fetchBioPagesByUser_id(user_id);
+    const bioPages: TBioPage[] = await fetchBioPagesByUser_id(user_id);
     if (!bioPages) {
         return notFound();
     }

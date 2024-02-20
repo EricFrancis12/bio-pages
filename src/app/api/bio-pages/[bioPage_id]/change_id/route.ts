@@ -1,8 +1,8 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import useProtectedRoute from '@/app/lib/hooks/useProtectedRoute';
 import { checkBioPage_idAvailability, changeBioPage_id } from '@/app/lib/data';
 
-export async function POST(req: Request, { params }: { params: { bioPage_id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: { bioPage_id: string } }) {
     const session = await useProtectedRoute();
     if (!session) {
         return NextResponse.json({ success: false, message: 'unauthorized' });

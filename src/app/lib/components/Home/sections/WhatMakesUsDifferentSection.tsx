@@ -45,7 +45,7 @@ export default function WhatMakesUsDifferentSection() {
                 backgroundImage: 'linear-gradient(to right, #9370DB, lightblue)'
             }}
         >
-            <h2 className='pb-16 text-center text-5xl text-black'>
+            <h2 className='m-2 pb-16 text-center text-5xl text-black'>
                 Why Choose Us?
             </h2>
             <div className='w-full max-w-[1000px] mb-16'>

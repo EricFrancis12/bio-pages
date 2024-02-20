@@ -1,15 +1,15 @@
-import type { buttonStyle, buttonStyleType, buttonStyleRadius } from '../../types';
+import type { TButtonStyle, TButtonStyleType, TButtonStyleRadius } from '../../types';
 import { deconstructButtonStyle, calcButtonStyleTypeShadows } from '../../utils/utils';
 
 export default function ButtonSelect({ value, onValueChange }: {
-    value: buttonStyle,
+    value: TButtonStyle,
     onValueChange: Function
 }) {
     const { buttonstyleType, buttonstyleRadius } = deconstructButtonStyle(value);
 
     const buttonRows: {
         name: string,
-        type: buttonStyleType
+        type: TButtonStyleType
     }[] = [
             {
                 name: 'No Shadow',
@@ -26,8 +26,8 @@ export default function ButtonSelect({ value, onValueChange }: {
         ];
 
     const ButtonStyleButton = ({ type, radius }: {
-        type: buttonStyleType,
-        radius: buttonStyleRadius
+        type: TButtonStyleType,
+        radius: TButtonStyleRadius
     }) => {
         return (
             <div className='w-full' style={{

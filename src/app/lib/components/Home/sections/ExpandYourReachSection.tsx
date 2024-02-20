@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useRef } from 'react';
 import { MotionValue, motion, useAnimation } from 'framer-motion';
-import type { BioPage, color } from '@/app/lib/types';
+import type { TBioPage, TColor } from '@/app/lib/types';
 import { demoBioPages } from '@/app/lib/demo-pages';
 import useParallaxScroll from '@/app/lib/hooks/useParallaxScroll';
 import useInViewCallback from '@/app/lib/hooks/useInViewCallback';
@@ -15,7 +15,10 @@ export default function ExpandYourReachSection() {
 
     const controls = useAnimation();
 
-    const [featured, setFeatured] = useState<{ text: string, color: color }>({ text: 'Centralized', color: 'linear-gradient(to right, red, rgba(148, 5, 213, 0.778))' });
+    const [featured, setFeatured] = useState<{ text: string, color: TColor }>({
+        text: 'Centralized',
+        color: 'linear-gradient(to right, red, rgba(148, 5, 213, 0.778))'
+    });
 
     const ref0 = useRef<HTMLDivElement>(null);
     const ref1 = useRef<HTMLDivElement>(null);
@@ -36,7 +39,7 @@ export default function ExpandYourReachSection() {
 
     function animateOnInView({ text, color }: {
         text: string,
-        color: color
+        color: TColor
     }) {
         controls.set('initial');
         controls.start('animate');
@@ -86,7 +89,6 @@ export default function ExpandYourReachSection() {
             <div
                 className='sticky top-24 mb-24 left-0'
                 style={{
-                    pointerEvents: 'none',
                     zIndex: 50
                 }}
             >
@@ -145,7 +147,7 @@ export default function ExpandYourReachSection() {
 
 const BioPageGraphic = ({ bioPageGraphic }: {
     bioPageGraphic: {
-        bioPage?: BioPage,
+        bioPage?: TBioPage,
         scale?: number,
         className?: string,
         top?: number | string,

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import useProtectedRoute from '@/app/lib/hooks/useProtectedRoute';
 import { updateExistingBioPage, deleteBioPageBy_id } from '@/app/lib/data';
-import { BioPage } from '@/app/lib/types';
+import { TBioPage } from '@/app/lib/types';
 
 export async function PUT(req: Request, { params }: any) {
     const session = await useProtectedRoute();
@@ -10,7 +10,7 @@ export async function PUT(req: Request, { params }: any) {
     }
 
     const user_id = session.user?.name;
-    const bioPage: BioPage = await req.json();
+    const bioPage: TBioPage = await req.json();
 
     if (bioPage?._id !== params.bioPage_id
         || bioPage?.user_id !== user_id) {

@@ -4,7 +4,7 @@ export default function SaveButton({ onClick, disabled }: {
     onClick: Function,
     disabled?: boolean
 }) {
-    async function handleButtonClick(e: any) {
+    async function handleButtonClick() {
         if (disabled) return;
         onClick();
     }
@@ -17,7 +17,7 @@ export default function SaveButton({ onClick, disabled }: {
                     border: disabled ? 'none' : 'solid black 1px'
                 }}
                 disabled={disabled}
-                onClick={e => handleButtonClick(e)}
+                onClick={handleButtonClick}
             >
                 Save Changes
             </button>

@@ -3,7 +3,7 @@
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend } from 'chart.js';
 import { getPreviousDates, formatDayOfWeekAndDate } from '../../utils/utils';
-import { BioPage } from '../../types';
+import { TBioPage } from '../../types';
 
 ChartJS.register(
     LineElement,
@@ -15,7 +15,7 @@ ChartJS.register(
 );
 
 export default function LineChart({ bioPages }: {
-    bioPages: BioPage[]
+    bioPages: TBioPage[]
 }) {
     const labels = getPreviousDates(7);
 

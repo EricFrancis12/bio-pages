@@ -5,11 +5,11 @@ import { useState, MouseEventHandler } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import BlackTransparentOverlay from '../BlackTransparentOverlay';
-import { BioPage } from '../../types';
+import { TBioPage } from '../../types';
 import { defaultBioPage } from '../../default-data';
 
 export default function SettingsMenu({ bioPage, setBioPage, onClose, demoMode }: {
-    bioPage: BioPage,
+    bioPage: TBioPage,
     setBioPage: Function,
     onClose: MouseEventHandler,
     demoMode?: boolean

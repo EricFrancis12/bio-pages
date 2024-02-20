@@ -2,7 +2,7 @@
 
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { BioPage } from '../../types';
+import { TBioPage } from '../../types';
 
 ChartJS.register(
     ArcElement,
@@ -11,7 +11,7 @@ ChartJS.register(
 );
 
 export default function PieChart({ bioPages }: {
-    bioPages: BioPage[]
+    bioPages: TBioPage[]
 }) {
     const data = {
         labels: bioPages.map(bioPage => bioPage.name),

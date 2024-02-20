@@ -2,15 +2,16 @@
 
 import { CSSProperties } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { color } from '../types';
+import { TColor } from '../types';
 
-export default function TiltCard({ children, className, style, backgroundColor, xInputRange, yInputRange }: {
+export default function TiltCard({ children, className, style, backgroundColor, xInputRange, yInputRange, disabled }: {
     children: React.ReactNode,
     className?: string,
     style?: CSSProperties,
-    backgroundColor?: color,
-    xInputRange?: [number, number],
-    yInputRange?: [number, number]
+    backgroundColor?: TColor,
+    xInputRange?: [number, number] | null,
+    yInputRange?: [number, number] | null,
+    disabled?: boolean
 }) {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
@@ -48,8 +49,8 @@ export default function TiltCard({ children, className, style, backgroundColor, 
             className={(className + ' p-1')}
             style={{
                 ...style,
-                rotateX,
-                rotateY,
+                rotateX: disabled ? undefined : rotateX,
+                rotateY: disabled ? undefined : rotateY,
                 backgroundColor,
                 transformStyle: 'preserve-3d',
                 transition: 'ease-in-out 0.3s background-color',

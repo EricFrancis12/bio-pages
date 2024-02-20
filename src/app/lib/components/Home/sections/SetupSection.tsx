@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconDefinition, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import type { BioPage } from '@/app/lib/types';
+import type { TBioPage } from '@/app/lib/types';
 import { demoBioPages } from '@/app/lib/demo-pages';
 
 type TScrollButton = {
@@ -48,7 +48,7 @@ export default function SetupSection() {
 
     return (
         <div className='relative bg-[#fff] py-12 overflow-hidden'>
-            <div className='px-16 mb-4'>
+            <div className='px-4 sm:px-16 mb-4'>
                 <div>
                     <h2 className='text-5xl text-black font-bold mb-8'>
                         Get Setup in less than 5 minutes
@@ -78,7 +78,7 @@ export default function SetupSection() {
                             borderRadius: '6px'
                         }}
                     >
-                        <div className='bg-white text-black text-m font-bold'>SEE OUR PAGES BELOW!</div>
+                        <div className='bg-white text-center text-black text-m font-bold'>SEE OUR PAGES BELOW!</div>
                     </div>
                 </div>
             </div>
@@ -110,7 +110,7 @@ export default function SetupSection() {
 }
 
 const Card = ({ demoBioPage }: {
-    demoBioPage: BioPage
+    demoBioPage: TBioPage
 }) => {
     const src = `/assets/img/demo-bio-pages/${demoBioPage._id}.png`;
     const href = `/demo/p/${demoBioPage._id}`;
@@ -135,7 +135,7 @@ const Card = ({ demoBioPage }: {
                         borderRadius: '5px'
                     }}
                 />
-                <div className='absolute text-center h-full w-full px-2 opacity-0 hover:opacity-100 bg-yellow-500'>
+                <div className='absolute text-center h-full w-full px-2 opacity-0 hover:opacity-100 bg-yellow-500 rounded'>
                     <div className='my-4'>
                         {demoBioPage.headingtext}
                     </div>

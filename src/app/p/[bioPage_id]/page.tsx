@@ -1,11 +1,11 @@
 import BioPage from '@/app/lib/components/BioPage';
 import { fetchBioPageBy_id, createAndSaveNewClick } from '@/app/lib/data';
-import { Click } from '@/app/lib/types';
+import { TClick } from '@/app/lib/types';
 
 export default async function Page({ params }: { params: { bioPage_id: string } }) {
     const bioPage = await fetchBioPageBy_id(params.bioPage_id);
     if (bioPage) {
-        const click: Click = {
+        const click: TClick = {
             biopage_id: bioPage._id,
             timestamp: Date.now()
         };

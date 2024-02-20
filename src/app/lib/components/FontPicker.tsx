@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import type { fontFamily } from '../types';
+import type { TFontFamily } from '../types';
 import { fontsDictionary, fontsArray } from '../fonts';
 
 export default function FontPicker({ name, value, onValueChange }: {
     name?: string,
-    value: fontFamily,
+    value: TFontFamily,
     onValueChange: Function
 }) {
     const [expanded, setExpanded] = useState(false);

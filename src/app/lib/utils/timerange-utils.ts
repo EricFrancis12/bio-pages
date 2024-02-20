@@ -1,4 +1,4 @@
-import { Click, Timerange } from '../types';
+import { TClick, TTimerange } from '../types';
 import { formatDayOfWeekAndDate } from './utils';
 
 export function makeDate(year: number, month: number, day: number, hour: number, min: number, sec: number, ms: number) {
@@ -17,11 +17,11 @@ export function formatDate(date = new Date()) {
     });
 }
 
-export function formatDatesRange(timerange: Timerange) {
+export function formatDatesRange(timerange: TTimerange) {
     return `${timerange.startDate.toLocaleDateString()} - ${timerange.endDate.toLocaleDateString()}`;
 }
 
-export function clickIsWithinTimerange(click: Click, timerange: Timerange) {
+export function clickIsWithinTimerange(click: TClick, timerange: TTimerange) {
     const { startDate, endDate } = timerange;
     const clickDate = new Date(click.timestamp);
 
@@ -31,11 +31,11 @@ export function clickIsWithinTimerange(click: Click, timerange: Timerange) {
     return false;
 }
 
-export function filterClicksWithinTimerange(clicks: Click[], timerange: Timerange) {
+export function filterClicksWithinTimerange(clicks: TClick[], timerange: TTimerange) {
     return clicks.filter(click => clickIsWithinTimerange(click, timerange));
 }
 
-export function getLabelsPerTimerange(timerange: Timerange) {
+export function getLabelsPerTimerange(timerange: TTimerange) {
     const { startDate, endDate } = structuredClone(timerange);
     if (!startDate || !endDate) return [];
 

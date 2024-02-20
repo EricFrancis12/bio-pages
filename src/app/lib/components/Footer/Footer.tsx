@@ -21,68 +21,39 @@ export default function Footer() {
                     href: '/'
                 },
                 {
-                    text: 'About Us',
-                    href: '/about'
+                    text: 'Dashboard',
+                    href: '/dashboard'
                 },
                 {
-                    text: 'Contact Us',
-                    href: '/contact'
-                },
-                {
-                    text: 'FAQs',
-                    href: '/faqs'
-                },
+                    text: 'Demo Dashboard',
+                    href: '/demo/dashboard'
+                }
             ]
         },
         {
-            title: 'Services',
+            title: 'Account',
             data: [
                 {
-                    text: 'Web Design',
-                    href: '/services/web-design'
+                    text: 'Login',
+                    href: '/login'
                 },
                 {
-                    text: 'Graphic Design',
-                    href: '/services/graphic-design'
+                    text: 'Register',
+                    href: '/register'
                 },
                 {
-                    text: 'Digital Marketing',
-                    href: '/services/digital-marketing'
-                },
-                {
-                    text: 'SEO',
-                    href: '/services/seo'
-                },
-            ]
-        },
-        {
-            title: 'Connect With Us',
-            data: [
-                {
-                    text: 'Facebook',
-                    href: 'https://www.facebook.com'
-                },
-                {
-                    text: 'Twitter',
-                    href: 'https://twitter.com'
-                },
-                {
-                    text: 'LinkedIn',
-                    href: 'https://www.linkedin.com/company'
-                },
-                {
-                    text: 'Instagram',
-                    href: 'https://www.instagram.com'
-                },
+                    text: 'Reset Password',
+                    href: '/reset-password'
+                }
             ]
         }
     ];
 
     return (
-        <div className='flex flex-wrap justify-between items-start gap-16 w-full px-8 sm:px-16 py-8 text-white bg-black '>
+        <div className='flex flex-wrap justify-around items-start gap-16 w-full px-8 sm:px-16 py-8 text-white bg-black '>
             {cols.map((col, index) => (
                 <div key={index}
-                    className='flex flex-col justify-start items-start gap-8'
+                    className='flex flex-col justify-start items-center sm:items-start gap-8'
                 >
                     <div className='text-lg font-bold'>
                         {col.title}

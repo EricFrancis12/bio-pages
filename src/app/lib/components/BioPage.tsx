@@ -3,7 +3,7 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { useEffect } from 'react';
-import type { BioPage } from '../types';
+import type { TBioPage } from '../types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as icons from '@fortawesome/free-solid-svg-icons';
 import type { IconDefinition } from '@fortawesome/fontawesome-common-types';
@@ -24,7 +24,7 @@ export default function BioPage({
     imageHeight = 200,
     imageWidth = 200
 }: {
-    bioPage: BioPage,
+    bioPage: TBioPage,
     setBioPage?: Function,
     blobUrl?: string,
     disableLinks?: boolean,
@@ -81,6 +81,10 @@ export default function BioPage({
                         alt='Page Image'
                         height={imageHeight}
                         width={imageWidth}
+                        style={{
+                            border: 'solid #7e7e7e 1px',
+                            borderRadius: '50%'
+                        }}
                     />
                     <h1 className='text-center text-4xl font-bold'>
                         {headingtext}
@@ -108,7 +112,7 @@ export default function BioPage({
                                         background: buttoncolor
                                     }}
                                 >
-                                    <a href={button.url} target='_blank'
+                                    <a href={button.url || undefined} target='_blank'
                                         className='flex justify-center items-center gap-2 w-full mx-0 my-auto px-3 py-3 cursor-pointer overflow-hidden opacity-100 hover:opacity-70'
                                         style={{
                                             backgroundColor: 'transparent',

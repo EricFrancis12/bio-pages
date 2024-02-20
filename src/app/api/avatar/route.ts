@@ -1,8 +1,8 @@
 import { del } from '@vercel/blob';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import useProtectedRoute from '@/app/lib/hooks/useProtectedRoute';
 
-export async function DELETE(req: Request): Promise<NextResponse> {
+export async function DELETE(req: NextRequest): Promise<NextResponse> {
     const session = await useProtectedRoute();
     if (!session) {
         return NextResponse.json({ success: false, message: 'unauthorized' });

@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpRightFromSquare, faChartSimple, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { deleteBioPageBy_idAction } from '../../actions';
 import { defaultImagesrc } from '../../default-data';
-import type { BioPage, Timerange } from '../../types';
+import type { TBioPage, TTimerange } from '../../types';
 import SearchBar from './SearchBar';
 import YesNoPopup from '../YesNoPopup';
 import { traverseParentsForClass } from '../../utils/utils';
@@ -17,8 +17,8 @@ import Pagination, { filterByCurrentPage, calcTotalNumPages } from '../Paginatio
 export const IGNORE_ROW_CLICK_CLASS = 'IGNORE_ROW_CLICK_CLASS';
 
 export default function BioPagesTable({ bioPages = [], timerange, searchQuery, setSearchQuery, selectedBioPage_ids, setSelectedBioPage_ids, demoMode }: {
-    bioPages: BioPage[],
-    timerange: Timerange,
+    bioPages: TBioPage[],
+    timerange: TTimerange,
     searchQuery: string,
     setSearchQuery: Function,
     selectedBioPage_ids: string[],
@@ -168,7 +168,7 @@ export default function BioPagesTable({ bioPages = [], timerange, searchQuery, s
                                 </thead>
                                 <tbody className='bg-white'>
                                     {filterByCurrentPage(bioPages, currentPage, 3)
-                                        .map((bioPage: BioPage) => {
+                                        .map((bioPage: TBioPage) => {
                                             const editHref = demoMode === true
                                                 ? `/demo/dashboard/bio-pages/${bioPage._id}/edit`
                                                 : `/dashboard/bio-pages/${bioPage._id}/edit`;

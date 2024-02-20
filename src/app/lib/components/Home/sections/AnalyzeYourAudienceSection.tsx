@@ -67,7 +67,7 @@ export default function AnalyzeYourAudienceSection() {
                 </div>
             </motion.div>
             <div ref={inViewRef} className='w-full lg:w-[50%] px-8'>
-                <h2 className='text-6xl font-bold leading-tight'>
+                <h2 className='text-5xl sm:text-6xl font-bold leading-tight'>
                     <GradientSpan>Analyze</GradientSpan> your audience and keep your followers <GradientSpan>Engaged</GradientSpan>
                 </h2>
                 <p className='text-2xl text-[#a1a1a6] mt-8'>
@@ -100,7 +100,7 @@ const SmallWidget = ({ icon, text, subText, className }: {
     className?: string
 }) => (
     <TiltCard
-        className={(className) + ' flex flex-row sm:flex-col justify-around sm:justify-center items-center gap-1 w-[70%] sm:w-[30%] h-[160px] rounded-2xl'}
+        className={(className) + ' flex flex-col justify-around sm:justify-center items-center gap-1 w-[70%] sm:w-[30%] h-[160px] py-1 rounded-2xl'}
         backgroundColor='rgb(100, 116, 139)'
     >
         <p className='text-6xl sm:text-4xl'>
@@ -124,7 +124,7 @@ const LargeWidget = ({ icon, text, subText, className }: {
     className?: string
 }) => (
     <TiltCard
-        className={(className) + ' flex flex-row sm:flex-col md:flex-row justify-around sm:justify-center md:justify-around items-center gap-1 w-[70%] sm:w-[30%] md:w-[60%] h-[160px] rounded-2xl'}
+        className={(className) + ' flex flex-col md:flex-row justify-around sm:justify-center md:justify-around items-center gap-1 w-[70%] sm:w-[30%] md:w-[60%] h-[160px] py-1 rounded-2xl'}
         backgroundColor='rgb(100, 116, 139)'
     >
         <p className='text-6xl sm:text-4xl md:text-7xl lg:text-6xl'>

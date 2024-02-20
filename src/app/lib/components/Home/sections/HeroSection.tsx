@@ -31,7 +31,7 @@ export default function HeroSection() {
                         initial='initial'
                         animate='animate'
                     >
-                        <h1 className='text-center lg:text-left text-7xl lg:text-10xl'>
+                        <h1 className='max-w-[100vw] px-4 sm:px-0 text-center lg:text-left text-5xl sm:text-7xl lg:text-10xl break-words'>
                             One{' '}
                             <span
                                 style={{
@@ -53,12 +53,12 @@ export default function HeroSection() {
                         >
                             Streamline your digital footprint with a single link in bio that encapsulates it all.
                         </div>
-                        <div className='flex flex-col-reverse sm:flex-row lg:flex-col-reverse justify-center items-center gap-4 w-full mt-4 mb-16'>
+                        <div className='flex flex-col-reverse sm:flex-row lg:flex-col-reverse justify-center items-center gap-4 w-full mt-4 sm:mb-16'>
                             <CTAButons />
                         </div>
                     </motion.div>
                     <motion.div
-                        className='flex justify-center items-center lg:w-[50%]'
+                        className='flex justify-center items-center lg:w-[50%] px-4 sm:px-0'
                         variants={{
                             initial: {
                                 opacity: 0,
@@ -78,7 +78,7 @@ export default function HeroSection() {
                         >
                             <BioPageHeroImage orientation='slanted' />
                         </div>
-                        <div className='lg:hidden'>
+                        <div className='lg:hidden scale-[0.7] sm:scale-[1]'>
                             <BioPageHeroImage orientation='flat' />
                         </div>
                     </motion.div>
@@ -94,8 +94,9 @@ const BioPageHeroImage = ({ orientation }: {
     <TiltCard
         className='rounded'
         backgroundColor='#ffffff15'
-        xInputRange={orientation === 'slanted' ? [-2, 0.5] : undefined}
-        yInputRange={orientation === 'slanted' ? [0, 0.5] : undefined}
+        xInputRange={orientation === 'slanted' ? [-2, 0.5] : null}
+        yInputRange={orientation === 'slanted' ? [0, 0.5] : null}
+        disabled={orientation === 'flat'}
     >
         <div className='bg-red-500 rounded p-1 rounded scale-[0.9]'>
             <BioPage

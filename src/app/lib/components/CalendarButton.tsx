@@ -3,16 +3,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { DateRangePicker } from 'react-date-range';
 import { traverseParentsForClass } from '../utils/utils';
-import { Timerange } from '../types';
+import { TTimerange } from '../types';
 import { formatDatesRange } from '../utils/timerange-utils';
 
 export const IGNORE_CALENDAR_CLICK_CLASS = 'IGNORE_CALENDAR_CLICK_CLASS';
 
 export default function CalendarButton({ timerange, setTimerange }: {
-    timerange: Timerange,
+    timerange: TTimerange,
     setTimerange: Function
 }) {
-    const [workingTimerange, setWorkingTimerange] = useState<Timerange>(structuredClone(timerange));
+    const [workingTimerange, setWorkingTimerange] = useState<TTimerange>(structuredClone(timerange));
     const [expanded, setExpanded] = useState<boolean>(false);
 
     const calendarButtonElement = useRef<HTMLDivElement | null>(null);
@@ -75,7 +75,7 @@ export default function CalendarButton({ timerange, setTimerange }: {
                     }}
                 >
                     <DateRangePicker
-                        onChange={item => setWorkingTimerange(item.selection as Timerange)}
+                        onChange={item => setWorkingTimerange(item.selection as TTimerange)}
                         //   showSelectionPreview={true}
                         moveRangeOnFirstSelection={false}
                         months={2}

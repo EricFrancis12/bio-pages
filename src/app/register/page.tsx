@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import BackToHomeLink from '../lib/components/BackToHomeLink';
 import RegisterForm from '../lib/components/auth/RegisterForm';
 
 export const metadata: Metadata = {
@@ -7,7 +8,8 @@ export const metadata: Metadata = {
 
 export default async function Page() {
     return (
-        <div className='grid place-items-center h-screen bg-white'>
+        <div className='flex flex-col justify-center items-center h-screen bg-white'>
+            <BackToHomeLink />
             <RegisterForm />
         </div>
     )

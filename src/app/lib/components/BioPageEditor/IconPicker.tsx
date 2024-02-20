@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as icons from '@fortawesome/free-solid-svg-icons';
 import type { IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import type { buttonIcon } from '../../types';
+import type { TButtonIcon } from '../../types';
 import Pagination, { filterByCurrentPage, calcTotalNumPages } from '../Pagination';
 import { traverseParentsForClass, camelCaseToLowerCaseWithSpaces } from '../../utils/utils';
 import { defaultIcon } from '../../default-data';
@@ -11,7 +11,7 @@ export const IGNORE_CLICK_CLASS = 'IGNORE_CLICK_CLASS';
 export const NUM_ICONS_PER_PAGE = 50;
 
 export default function IconPicker({ value, onValueChange }: {
-    value: buttonIcon,
+    value: TButtonIcon,
     onValueChange: Function
 }) {
     const [open, setOpen] = useState<boolean>(false);
@@ -39,7 +39,7 @@ export default function IconPicker({ value, onValueChange }: {
         setSearchQuery('');
     }
 
-    function handleClick(e: React.MouseEvent<HTMLDivElement>) {
+    function handleClick() {
         ignoreNextGlobalClick.current = true;
         setOpen(!open);
     }
@@ -64,7 +64,7 @@ export default function IconPicker({ value, onValueChange }: {
                     borderRadius: '8px',
                     transition: 'background-color 0.3s ease'
                 }}
-                onClick={e => handleClick(e)}
+                onClick={handleClick}
             >
                 {icon &&
                     <FontAwesomeIcon icon={icon as IconDefinition} />

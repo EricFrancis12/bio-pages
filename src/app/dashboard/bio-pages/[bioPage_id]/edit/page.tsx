@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import useProtectedRoute from '../../../../lib/hooks/useProtectedRoute';
 import { fetchBioPageBy_id } from '@/app/lib/data';
-import type { BioPage } from '@/app/lib/types';
+import type { TBioPage } from '@/app/lib/types';
 import BioPageEditor from '@/app/lib/components/BioPageEditor/BioPageEditor';
 
 export const metadata: Metadata = {
@@ -15,7 +15,7 @@ export default async function Page({ params }: { params: { bioPage_id: string } 
         return redirect('/login');
     }
 
-    const bioPage: BioPage | null = await fetchBioPageBy_id(params.bioPage_id);
+    const bioPage: TBioPage | null = await fetchBioPageBy_id(params.bioPage_id);
     if (!bioPage) {
         return notFound();
     }

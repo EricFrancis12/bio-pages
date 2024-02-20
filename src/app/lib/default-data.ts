@@ -1,29 +1,29 @@
-import type { User, BioPage, Button, Click, buttonIcon, Timerange } from './types';
+import type { TUser, TBioPage, TButton, TClick, TButtonIcon, TTimerange } from './types';
 import { getStartAndEndOfToday } from './utils/timerange-utils';
 
 export const defaultImagesrc = '/default-profile-image.webp';
-export const defaultIcon: buttonIcon = 'faLink';
+export const defaultIcon: TButtonIcon = 'faLink';
 
-export const defaultUser: User = {
+export const defaultUser: TUser = {
     _id: 'DEFAULT_USER_id',
     email: `defaultuser@${process.env.NEXT_PUBLIC_DOMAIN}`,
     hashedpassword: '123',
     passwordresettoken: '456'
 };
 
-export const defaultButton: Button = {
+export const defaultButton: TButton = {
     text: '',
     icon: defaultIcon,
     url: '',
     disabled: false
 };
 
-export const defaultClick: Click = {
+export const defaultClick: TClick = {
     biopage_id: 'DEFAULT_BIOPAGE_ID',
     timestamp: Date.now()
 };
 
-export const defaultBioPage: BioPage = {
+export const defaultBioPage: TBioPage = {
     _id: 'DEFAULT_BIOPAGE_id',
     user_id: defaultUser._id,
     name: '',
@@ -54,7 +54,7 @@ export const defaultBioPage: BioPage = {
     clicks: []
 };
 
-export const defaultTimerange = (): Timerange => {
+export const defaultTimerange = (): TTimerange => {
     const { startOfToday, endOfToday } = getStartAndEndOfToday();
     return {
         startDate: startOfToday,

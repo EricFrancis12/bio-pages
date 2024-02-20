@@ -5,7 +5,7 @@ import { useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 import { updateBioPageAction } from '../../actions';
-import { BioPage as T_BioPage, Button, buttonStyle, Click, fontFamily, color } from '../../types';
+import type { TBioPage, TButton, TButtonStyle, TClick, TFontFamily, TColor } from '../../types';
 import BioPage from '../BioPage';
 import Card from './Card';
 import TextInput from './TextInput';
@@ -15,17 +15,17 @@ import ButtonSelect from './ButtonSelect';
 import FontPicker from '../FontPicker';
 import ButtonsEditor from './ButtonsEditor';
 import SaveButton from './SaveButton';
+import SettingsMenu from './SettingsMenu';
 import { uploadImageFile, deleteImageFile } from '../../data';
 import { objectsAreStructurallyIdentical } from '../../utils/utils';
-import SettingsMenu from './SettingsMenu';
 
 export default function BioPageEditor({ bioPage: _bioPage, demoMode }: {
-    bioPage: T_BioPage,
+    bioPage: TBioPage,
     demoMode?: boolean
 }) {
     const originalBioPage = useRef(_bioPage);
 
-    const [bioPage, setBioPage] = useState<T_BioPage>(_bioPage);
+    const [bioPage, setBioPage] = useState<TBioPage>(_bioPage);
     const [loading, setLoading] = useState<boolean>(false);
     const [blobUrl, setBlobUrl] = useState<string>('');
     const [settingsMenuOpen, setSettingsMenuOpen] = useState<boolean>(false);
@@ -34,18 +34,18 @@ export default function BioPageEditor({ bioPage: _bioPage, demoMode }: {
         _id: bioPage?._id as string,
         user_id: bioPage?.user_id as string,
         name: bioPage?.name as string,
-        font: bioPage?.font as fontFamily,
-        textcolor: bioPage?.textcolor as color,
-        backgroundcolor: bioPage?.backgroundcolor as color,
+        font: bioPage?.font as TFontFamily,
+        textcolor: bioPage?.textcolor as TColor,
+        backgroundcolor: bioPage?.backgroundcolor as TColor,
         imagesrc: bioPage?.imagesrc as string,
         headingtext: bioPage?.headingtext as string,
         subheadingtext: bioPage?.subheadingtext as string,
-        buttonstyle: bioPage?.buttonstyle as buttonStyle,
-        buttoncolor: bioPage?.buttoncolor as color,
-        buttontextcolor: bioPage?.buttontextcolor as color,
-        buttonbordercolor: bioPage?.buttonbordercolor as color,
-        buttons: bioPage?.buttons as Button[],
-        clicks: bioPage?.clicks as Click[]
+        buttonstyle: bioPage?.buttonstyle as TButtonStyle,
+        buttoncolor: bioPage?.buttoncolor as TColor,
+        buttontextcolor: bioPage?.buttontextcolor as TColor,
+        buttonbordercolor: bioPage?.buttonbordercolor as TColor,
+        buttons: bioPage?.buttons as TButton[],
+        clicks: bioPage?.clicks as TClick[]
     };
 
     function handleInputChange(
@@ -60,7 +60,7 @@ export default function BioPageEditor({ bioPage: _bioPage, demoMode }: {
     }
 
     function handleColorChange(
-        newColor: color,
+        newColor: TColor,
         bioPageKey: string
     ) {
         setBioPage({
@@ -128,7 +128,7 @@ export default function BioPageEditor({ bioPage: _bioPage, demoMode }: {
                         <TextInput
                             type='input'
                             text='Page Name'
-                            value={bioPage?.name}
+                            value={bioPage.name}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e, 'name')}
                         />
                         <ImageEditor
@@ -139,13 +139,13 @@ export default function BioPageEditor({ bioPage: _bioPage, demoMode }: {
                         <TextInput
                             type='input'
                             text='Headline'
-                            value={bioPage?.headingtext}
+                            value={bioPage.headingtext}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e, 'headingtext')}
                         />
                         <TextInput
                             type='textarea'
                             text='Bio'
-                            value={bioPage?.subheadingtext}
+                            value={bioPage.subheadingtext}
                             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleInputChange(e, 'subheadingtext')}
                         />
                         <div>
@@ -161,17 +161,17 @@ export default function BioPageEditor({ bioPage: _bioPage, demoMode }: {
                     </Card>
                     <Card title='Links'>
                         <ButtonsEditor
-                            buttons={bioPage?.buttons as Button[]}
-                            setButtons={(newButtons: Button[]) => setBioPage({
+                            buttons={bioPage?.buttons as TButton[]}
+                            setButtons={(newButtons: TButton[]) => setBioPage({
                                 ...bioPage,
                                 buttons: structuredClone(newButtons)
-                            } as T_BioPage)} />
+                            } as TBioPage)} />
                     </Card>
                     <Card title='Style'>
                         <FontPicker
                             name='Font'
-                            value={bioPage?.font as string}
-                            onValueChange={(newFont: fontFamily) => setBioPage({
+                            value={bioPage.font as string}
+                            onValueChange={(newFont: TFontFamily) => setBioPage({
                                 ...defaultBioPage,
                                 ...bioPage,
                                 font: newFont
@@ -179,19 +179,19 @@ export default function BioPageEditor({ bioPage: _bioPage, demoMode }: {
                         />
                         <ColorInput
                             name='Font Color'
-                            value={bioPage?.textcolor as color}
-                            onChange={(newColor: color) => handleColorChange(newColor, 'textcolor')}
+                            value={bioPage.textcolor}
+                            onChange={(newColor) => handleColorChange(newColor as TColor, 'textcolor')}
                         />
                         <ColorInput
                             name='Background Color'
-                            value={bioPage?.backgroundcolor as color}
-                            onChange={(newColor: color) => handleColorChange(newColor, 'backgroundcolor')}
+                            value={bioPage.backgroundcolor}
+                            onChange={(newColor) => handleColorChange(newColor as TColor, 'backgroundcolor')}
                         />
                     </Card>
                     <Card title='Buttons'>
                         <ButtonSelect
-                            value={bioPage?.buttonstyle as buttonStyle}
-                            onValueChange={(newButtonstyle: buttonStyle) => setBioPage({
+                            value={bioPage.buttonstyle as TButtonStyle}
+                            onValueChange={(newButtonstyle: TButtonStyle) => setBioPage({
                                 ...defaultBioPage,
                                 ...bioPage,
                                 buttonstyle: newButtonstyle
@@ -199,18 +199,18 @@ export default function BioPageEditor({ bioPage: _bioPage, demoMode }: {
                         />
                         <ColorInput
                             name='Button Color'
-                            value={bioPage?.buttoncolor as color}
-                            onChange={(newColor: color) => handleColorChange(newColor, 'buttoncolor')}
+                            value={bioPage.buttoncolor}
+                            onChange={(newColor) => handleColorChange(newColor as TColor, 'buttoncolor')}
                         />
                         <ColorInput
                             name='Button Text Color'
-                            value={bioPage?.buttontextcolor as color}
-                            onChange={(newColor: color) => handleColorChange(newColor, 'buttontextcolor')}
+                            value={bioPage.buttontextcolor}
+                            onChange={(newColor) => handleColorChange(newColor as TColor, 'buttontextcolor')}
                         />
                         <ColorInput
                             name='Button Border Color'
-                            value={bioPage?.buttonbordercolor as color}
-                            onChange={(newColor: color) => handleColorChange(newColor, 'buttonbordercolor')}
+                            value={bioPage.buttonbordercolor}
+                            onChange={(newColor) => handleColorChange(newColor as TColor, 'buttonbordercolor')}
                         />
                     </Card>
                 </div>
@@ -237,7 +237,7 @@ export default function BioPageEditor({ bioPage: _bioPage, demoMode }: {
                         }}
                     >
                         <BioPage
-                            bioPage={bioPage as T_BioPage}
+                            bioPage={bioPage as TBioPage}
                             setBioPage={setBioPage}
                             blobUrl={blobUrl}
                         />

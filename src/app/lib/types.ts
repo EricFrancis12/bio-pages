@@ -1,25 +1,25 @@
 import { fontsArray } from './fonts';
 const fontFamilies = fontsArray.map((_font) => _font.family);
 
-export type fontFamily = typeof fontFamilies[number]; // is a valid type if the fontsArray has it as a ".family" property
-export type buttonStyleType = 'no_shadow' | 'soft_shadow' | 'hard_shadow';
-export type buttonStyleRadius = number;
-export type buttonStyle = `${buttonStyleType}-${buttonStyleRadius}`;
-export type buttonIcon = `fa${string}` | null;
-export type buttonUrl = `http${string}` | '';
+export type TFontFamily = typeof fontFamilies[number]; // is a valid type if the fontsArray has it as a ".family" property
+export type TButtonStyleType = 'no_shadow' | 'soft_shadow' | 'hard_shadow';
+export type TButtonStyleRadius = number;
+export type TButtonStyle = `${TButtonStyleType}-${TButtonStyleRadius}`;
+export type TButtonIcon = `fa${string}` | null;
+export type TButtonUrl = `http${string}` | '';
 
-export type color_RGB = `rgb(${number}, ${number}, ${number})`;
-export type color_RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;
-export type color_HEX = `#${string}`;
-export type color_NAME = 'red' | 'blue' | 'yellow' | 'green' | 'orange' | 'purple' | 'white' | 'black' | 'grey' | 'transparent';
-export type color_GRADIENT = `linear-gradient(${string})` | `radial-gradient(${string})` | `repeating-linear-gradient(${string})` | `repeating-radial-gradient(${string})`;
-export type color = color_RGB | color_RGBA | color_HEX | color_NAME | color_GRADIENT;
+export type TColor_RGB = `rgb(${number}, ${number}, ${number})`;
+export type TColor_RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;
+export type TColor_HEX = `#${string}`;
+export type TColor_NAME = 'red' | 'blue' | 'yellow' | 'green' | 'orange' | 'purple' | 'white' | 'black' | 'grey' | 'transparent';
+export type TColor_GRADIENT = `linear-gradient(${string})` | `radial-gradient(${string})` | `repeating-linear-gradient(${string})` | `repeating-radial-gradient(${string})`;
+export type TColor = TColor_RGB | TColor_RGBA | TColor_HEX | TColor_NAME | TColor_GRADIENT;
 
-export type emailAddress = `${string}@${string}.${string}`;
+export type TEmailAddress = `${string}@${string}.${string}`;
 
-export type User = {
+export type TUser = {
     _id: string,
-    email: emailAddress | string,
+    email: TEmailAddress | string,
     hashedpassword?: string,
     emailvalidationtoken?: string | null,
     emailvalidationtokenexpiry?: number | null,
@@ -27,37 +27,37 @@ export type User = {
     passwordresettokenexpiry?: number | null
 };
 
-export type Button = {
+export type TButton = {
     text: string,
-    icon: buttonIcon,
-    url: buttonUrl,
+    icon: TButtonIcon,
+    url: TButtonUrl,
     disabled?: boolean
 };
 
-export type Click = {
+export type TClick = {
     biopage_id?: string,
     timestamp: number
 };
 
-export type BioPage = {
+export type TBioPage = {
     _id: string,
     user_id: string,
     name: string,
-    font: fontFamily,
-    textcolor: color,
-    backgroundcolor: color,
+    font: TFontFamily,
+    textcolor: TColor,
+    backgroundcolor: TColor,
     imagesrc: string | null,
     headingtext: string,
     subheadingtext: string,
-    buttonstyle: buttonStyle,
-    buttoncolor: color,
-    buttontextcolor: color,
-    buttonbordercolor: color,
-    buttons: Button[],
-    clicks: Click[]
+    buttonstyle: TButtonStyle,
+    buttoncolor: TColor,
+    buttontextcolor: TColor,
+    buttonbordercolor: TColor,
+    buttons: TButton[],
+    clicks: TClick[]
 };
 
-export type Timerange = {
+export type TTimerange = {
     startDate: Date,
     endDate: Date,
     key: string

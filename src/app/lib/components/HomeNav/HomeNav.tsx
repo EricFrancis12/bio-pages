@@ -18,7 +18,7 @@ export default function HomeNav() {
         if (extended) {
             setExtended(false);
         }
-    }, [hidden, extended]);
+    }, [hidden]);
 
     const { scrollY } = useScroll();
     useMotionValueEvent(scrollY, 'change', (latest) => {
@@ -63,7 +63,7 @@ export default function HomeNav() {
         >
             <BlackTransparentOverlay disabled={!extended}>
                 <nav
-                    className='flex justify-between items-center mx-6 lg:mx-8 my-4 px-4 sm:px-8 py-6 bg-[#141414]'
+                    className='flex justify-between items-center mx-6 lg:mx-8 my-4 px-4 sm:px-8 py-2 sm:py-4 bg-[#141414]'
                     style={{
                         borderRadius: '8px'
                     }}
@@ -97,7 +97,7 @@ export default function HomeNav() {
                         </div>
                     </div>
                     <div
-                        className='flex lg:hidden justify-center items-center h-[50px] w-[50px] text-3xl bg-gray-500 hover:bg-gray-400 cursor-pointer'
+                        className='flex lg:hidden justify-center items-center h-[35px] sm:h-[45px] w-[35px] sm:w-[45px] text-xl sm:text-2xl bg-gray-500 hover:bg-gray-400 cursor-pointer'
                         style={{
                             borderRadius: '25px'
                         }}

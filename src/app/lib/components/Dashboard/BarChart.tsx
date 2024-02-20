@@ -2,7 +2,7 @@
 
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend } from 'chart.js';
-import { BioPage } from '../../types';
+import { TBioPage } from '../../types';
 
 ChartJS.register(
     BarElement,
@@ -14,7 +14,7 @@ ChartJS.register(
 );
 
 export default function BarChart({ bioPages }: {
-    bioPages: BioPage[]
+    bioPages: TBioPage[]
 }) {
     const labels = [
         '12:00 AM', '1:00 AM', '2:00 AM', '3:00 AM', '4:00 AM', '5:00 AM',

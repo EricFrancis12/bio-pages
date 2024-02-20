@@ -1,4 +1,4 @@
-import type { BioPage, Click } from './types';
+import type { TBioPage, TClick } from './types';
 import { defaultImagesrc } from './default-data';
 
 export const demoClicks = () => {
@@ -9,7 +9,7 @@ export const demoClicks = () => {
     const t5 = t4 - 4555;
     const t6 = t5 - 2222;
 
-    const result: Click[] = [
+    const result: TClick[] = [
         { timestamp: today },
         { timestamp: t2 },
         { timestamp: t3 },
@@ -21,7 +21,7 @@ export const demoClicks = () => {
 };
 
 // demo cooking page
-export const demoBioPage_1: BioPage = {
+export const demoBioPage_1: TBioPage = {
     _id: '1',
     user_id: 'DEMO_USER_id',
     name: 'Rachelle Bakes',
@@ -71,7 +71,7 @@ export const demoBioPage_1: BioPage = {
 };
 
 // demo fishing page
-export const demoBioPage_2: BioPage = {
+export const demoBioPage_2: TBioPage = {
     _id: '2',
     user_id: 'DEMO_USER_id',
     name: 'Brandon Green - MXR Fishing',
@@ -109,7 +109,7 @@ export const demoBioPage_2: BioPage = {
 };
 
 // demo influencer page
-export const demoBioPage_3: BioPage = {
+export const demoBioPage_3: TBioPage = {
     _id: '3',
     user_id: 'DEMO_USER_id',
     name: 'Deb Jones - Sunlight Princess',
@@ -146,7 +146,7 @@ export const demoBioPage_3: BioPage = {
     clicks: demoClicks()
 };
 
-export const demoBioPage_4: BioPage = {
+export const demoBioPage_4: TBioPage = {
     _id: '4',
     user_id: 'DEMO_USER_id',
     name: 'FitLife with Alex',
@@ -189,7 +189,7 @@ export const demoBioPage_4: BioPage = {
     clicks: demoClicks()
 };
 
-export const demoBioPage_5: BioPage = {
+export const demoBioPage_5: TBioPage = {
     _id: '5',
     user_id: 'DEMO_USER_id',
     name: 'CodeWizard Central',
@@ -232,7 +232,7 @@ export const demoBioPage_5: BioPage = {
     clicks: demoClicks()
 };
 
-export const demoBioPage_6: BioPage = {
+export const demoBioPage_6: TBioPage = {
     _id: '6',
     user_id: 'DEMO_USER_id',
     name: 'Wanderlust Wonderland',
@@ -275,7 +275,7 @@ export const demoBioPage_6: BioPage = {
     clicks: demoClicks()
 };
 
-export const demoBioPage_7: BioPage = {
+export const demoBioPage_7: TBioPage = {
     _id: '7',
     user_id: 'DEMO_USER_id',
     name: 'Paws and Whiskers Haven',
@@ -318,7 +318,7 @@ export const demoBioPage_7: BioPage = {
     clicks: demoClicks()
 };
 
-export const demoBioPage_8: BioPage = {
+export const demoBioPage_8: TBioPage = {
     _id: '8',
     user_id: 'DEMO_USER_id',
     name: 'Crafty Creations Hub',
@@ -361,7 +361,7 @@ export const demoBioPage_8: BioPage = {
     clicks: demoClicks()
 };
 
-export const demoBioPage_9: BioPage = {
+export const demoBioPage_9: TBioPage = {
     _id: '9',
     user_id: 'DEMO_USER_id',
     name: 'CozyBook Haven',
@@ -404,7 +404,7 @@ export const demoBioPage_9: BioPage = {
     clicks: demoClicks()
 };
 
-export const demoBioPage_10: BioPage = {
+export const demoBioPage_10: TBioPage = {
     _id: '10',
     user_id: 'DEMO_USER_id',
     name: 'SnapMaster Gallery',
@@ -447,7 +447,7 @@ export const demoBioPage_10: BioPage = {
     clicks: demoClicks()
 };
 
-export const demoBioPage_11: BioPage = {
+export const demoBioPage_11: TBioPage = {
     _id: '11',
     user_id: 'DEMO_USER_id',
     name: 'ChicStyle Central',
@@ -490,7 +490,7 @@ export const demoBioPage_11: BioPage = {
     clicks: demoClicks()
 };
 
-export const demoBioPage_12: BioPage = {
+export const demoBioPage_12: TBioPage = {
     _id: '12',
     user_id: 'DEMO_USER_id',
     name: 'GameMaster Hub',
@@ -533,7 +533,7 @@ export const demoBioPage_12: BioPage = {
     clicks: demoClicks()
 };
 
-export const demoBioPage_13: BioPage = {
+export const demoBioPage_13: TBioPage = {
     _id: '13',
     user_id: 'DEMO_USER_id',
     name: 'Serenity Sanctuary',
@@ -576,7 +576,7 @@ export const demoBioPage_13: BioPage = {
     clicks: demoClicks()
 };
 
-export const demoBioPage_14: BioPage = {
+export const demoBioPage_14: TBioPage = {
     _id: '14',
     user_id: 'DEMO_USER_id',
     name: 'J A T',

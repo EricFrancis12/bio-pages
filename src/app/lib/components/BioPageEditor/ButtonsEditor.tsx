@@ -1,13 +1,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
-import type { Button } from '../../types';
+import type { TButton } from '../../types';
 import ToggleSwitch from '../ToggleSwitch';
 import { defaultButton } from '../../default-data';
 import { MAX_NUM_BUTTONS } from '../../hard-limits';
 import IconPicker from './IconPicker';
 
 export default function ButtonsEditor({ buttons, setButtons }: {
-    buttons: Button[],
+    buttons: TButton[],
     setButtons: Function
 }) {
     function handleChange(
@@ -30,7 +30,7 @@ export default function ButtonsEditor({ buttons, setButtons }: {
     function handleChevronUpClick(index: number) {
         if (index === 0) return;
         const newButtons = [...buttons];
-        const button: Button = newButtons.splice(index, 1)[0];
+        const button: TButton = newButtons.splice(index, 1)[0];
         newButtons.splice(index - 1, 0, button);
         setButtons(newButtons);
     }
@@ -38,7 +38,7 @@ export default function ButtonsEditor({ buttons, setButtons }: {
     function handleChevronDownClick(index: number) {
         if (index === buttons.length - 1) return;
         const newButtons = [...buttons];
-        const button: Button = newButtons.splice(index, 1)[0];
+        const button: TButton = newButtons.splice(index, 1)[0];
         newButtons.splice(index + 1, 0, button);
         setButtons(newButtons);
     }
