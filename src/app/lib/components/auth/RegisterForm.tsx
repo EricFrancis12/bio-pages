@@ -37,9 +37,11 @@ export default function LoginForm() {
             error={error}
             disabled={!!successMessage}
         >
-            {successMessage && !error &&
-                <div className='bg-green-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2'>
-                    {successMessage}
+            {(!!successMessage && !error) &&
+                <div className='flex justify-center text-white w-full text-sm mt-2'>
+                    <div className='max-w-[200px] px-3 py-1 bg-green-500 rounded-md'>
+                        {successMessage}
+                    </div>
                 </div>
             }
             <Link className='text-sm mt-3 text-right' href={'/login'}>

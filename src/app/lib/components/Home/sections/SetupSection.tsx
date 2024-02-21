@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconDefinition, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import type { TBioPage } from '@/app/lib/types';
 import { demoBioPages } from '@/app/lib/demo-pages';
+import BioPage from '../../BioPage';
 
 type TScrollButton = {
     left?: number,
@@ -121,11 +122,16 @@ const Card = ({ demoBioPage }: {
                 boxShadow: '3px 3px 24px 4px rgba(0, 0, 0, 0.2)'
             }}
         >
-            <Link
-                href={href}
-                target='_blank'
-                className='relative block h-[350px] w-[260px]'
-            >
+            <div className='relative block h-[350px] w-[260px]'>
+                {/* <div className='scale-[50%]'>
+                    <BioPage
+                        bioPage={demoBioPage}
+                        disableLinks={true}
+                        fullScreen={false}
+                        imageHeight={100}
+                        imageWidth={100}
+                    />
+                </div> */}
                 <Image
                     src={src}
                     alt='Page Demo Image'
@@ -135,15 +141,17 @@ const Card = ({ demoBioPage }: {
                         borderRadius: '5px'
                     }}
                 />
-                <div className='absolute text-center h-full w-full px-2 opacity-0 hover:opacity-100 bg-yellow-500 rounded'>
+                <Link href={href} target='_blank'
+                    className='absolute top-0 left-0 h-full w-full px-2 text-center opacity-0 hover:opacity-100 bg-yellow-500 rounded'
+                >
                     <div className='my-4'>
                         {demoBioPage.headingtext}
                     </div>
                     <div>
                         {demoBioPage.subheadingtext}
                     </div>
-                </div>
-            </Link>
+                </Link>
+            </div>
         </div>
     )
 };

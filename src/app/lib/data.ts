@@ -9,8 +9,12 @@ import {
 import { sendNewUserActivationEmail } from './email';
 import { defaultClick } from './default-data';
 
+export async function hashPassword(password: string) {
+    return await bcrypt.hash(password, 10);
+}
+
 export async function createNewUser(email: string, password: string) {
-    const hashedpassword = await bcrypt.hash(password, 10);
+    const hashedpassword = await hashPassword(password);
     const newUser: TUser = {
         _id: generateNewUser_id(),
         email: email as TEmailAddress,
@@ -111,6 +115,23 @@ export async function fetchUserByPasswordResetToken(passwordresettoken: string) 
         return getUserFromSqlResult(result);
     } catch (err) {
         console.error('Error fetching user: ', err);
+        return null;
+    }
+}
+
+export async function validatePasswordresettoken(passwordresettoken: string) {
+    try {
+        const user = await fetchUserByPasswordResetToken(passwordresettoken);
+        if (user?.passwordresettokenexpiry) {
+            const currentDate = new Date();
+            const expiryDate = new Date(user.passwordresettokenexpiry);
+            if (expiryDate > currentDate) {
+                return user;
+            }
+        }
+        return null;
+    } catch (err) {
+        console.error('Error validating passwordresettoken: ', err);
         return null;
     }
 }
