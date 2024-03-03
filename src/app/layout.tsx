@@ -6,6 +6,7 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { getServerSession } from 'next-auth';
+import { GoogleAnalytics } from "nextjs-google-analytics";
 import SessionProvider from './lib/components/SessionProvider';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -26,6 +27,7 @@ export default async function RootLayout({
     <html lang='en'>
       <body className={inter.className}>
         <SessionProvider session={session}>
+          <GoogleAnalytics gaMeasurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} trackPageViews />
           <main>
             {children}
           </main>
