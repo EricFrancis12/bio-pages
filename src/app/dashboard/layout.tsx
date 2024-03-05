@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Session } from 'next-auth';
 import useProtectedRoute from '../lib/hooks/useProtectedRoute';
 import SideNav from '../lib/components/SideNav/SideNav';
 
@@ -11,8 +12,10 @@ export default async function Layout({
 }: {
     children: React.ReactNode;
 }) {
+    const session = await useProtectedRoute();
+
     return (
-        <DashboardLayout>
+        <DashboardLayout session={session}>
             {children}
         </DashboardLayout>
     );
@@ -20,12 +23,13 @@ export default async function Layout({
 
 export async function DashboardLayout({
     children,
-    demoMode
+    demoMode,
+    session
 }: {
     children: React.ReactNode,
-    demoMode?: boolean
+    demoMode?: boolean,
+    session?: Session
 }) {
-    const session = await useProtectedRoute();
     const user_id = session?.user?.name;
 
     return (
@@ -39,9 +43,7 @@ export async function DashboardLayout({
                         {children}
                     </div>
                 </div>
-                : <>
-                    {children}
-                </>
+                : { children }
             }
         </>
     )

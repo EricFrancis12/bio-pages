@@ -12,9 +12,7 @@ export default function NavTab({ text, href }: {
 
     return (
         <div className='group relative py-1 px-2'>
-            <Link
-                href={href}
-            >
+            <Link href={href}>
                 {text}
             </Link>
             <div

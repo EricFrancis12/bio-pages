@@ -30,24 +30,29 @@ export default function HomeNav() {
         }
     });
 
-    const navTabs = [
-        {
-            text: 'Home',
-            href: '/'
-        },
-        {
-            text: 'Documentation',
-            href: '/documentation'
-        },
-        {
-            text: 'Pricing',
-            href: '/pricing'
-        },
-        {
-            text: 'Resources',
-            href: '/resources'
-        }
-    ];
+    const navTabs: {
+        text: string,
+        href: string
+    }[] = [
+            // Starter code for nav tab links:
+
+            // {
+            //     text: 'Home',
+            //     href: '/'
+            // },
+            // {
+            //     text: 'Documentation',
+            //     href: '/documentation'
+            // },
+            // {
+            //     text: 'Pricing',
+            //     href: '/pricing'
+            // },
+            // {
+            //     text: 'Resources',
+            //     href: '/resources'
+            // }
+        ];
 
     return (
         <motion.div className='fixed w-full'
