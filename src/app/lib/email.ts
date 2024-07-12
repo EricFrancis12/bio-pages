@@ -33,7 +33,7 @@ export async function sendNewUserActivationEmail(user: TUser) {
         to: user.email as TEmailAddress,
         from: process.env.TRANSACTION_EMAIL_ADDRESS as TEmailAddress,
         subject: 'Account activation',
-        replyTo: process.env.NEXT_PUBLIC_DOMAIN ? `support@${process.env.NEXT_PUBLIC_DOMAIN}` as TEmailAddress : process.env.TRANSACTION_EMAIL_ADDRESS as TEmailAddress
+        replyTo: process.env.TRANSACTION_EMAIL_ADDRESS as TEmailAddress
     });
 }
 
@@ -43,6 +43,6 @@ export async function sendPasswordResetEmail(user: TUser) {
         to: user.email as TEmailAddress,
         from: process.env.TRANSACTION_EMAIL_ADDRESS as TEmailAddress,
         subject: 'Password reset',
-        replyTo: process.env.NEXT_PUBLIC_DOMAIN ? `support@${process.env.NEXT_PUBLIC_DOMAIN}` as TEmailAddress : process.env.TRANSACTION_EMAIL_ADDRESS as TEmailAddress
+        replyTo: process.env.TRANSACTION_EMAIL_ADDRESS as TEmailAddress
     });
 }
