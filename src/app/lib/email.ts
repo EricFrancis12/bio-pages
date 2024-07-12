@@ -7,7 +7,7 @@ export async function sendEmail({ message, html, to, from, subject, replyTo }: {
     to: TEmailAddress,
     from: TEmailAddress | `${string}<${TEmailAddress}>`,
     subject: string,
-    replyTo?: TEmailAddress
+    replyTo?: TEmailAddress,
 }) {
     if (message == null && html == null) return null;
 
