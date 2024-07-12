@@ -39,8 +39,7 @@ export async function sendNewUserActivationEmail(user: TUser) {
 
 export async function sendPasswordResetEmail(user: TUser) {
     return await sendEmail({
-        // html: `<p>Please <a href="http://${process.env.NEXT_PUBLIC_DOMAIN}/reset-password/${user.passwordresettoken}">Click Here</a> to reset your password.</p>`,
-        html: '<p>Thank you and I hope you have a great day</p>',
+        html: `<p>Please <a href="http://${process.env.NEXT_PUBLIC_DOMAIN}/reset-password/${user.passwordresettoken}">Click Here</a> to reset your password.</p>`,
         to: user.email as TEmailAddress,
         from: process.env.TRANSACTION_EMAIL_ADDRESS as TEmailAddress,
         subject: 'Password reset',
