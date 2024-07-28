@@ -12,12 +12,12 @@ ChartJS.register(
     LinearScale,
     PointElement,
     Tooltip,
-    Legend
+    Legend,
 );
 
 export default function LineChart({ bioPages, timerange }: {
     bioPages: TBioPage[],
-    timerange: TTimerange
+    timerange: TTimerange,
 }) {
     const mapData = (bioPage: TBioPage) => {
         const result: any = {};
@@ -43,7 +43,7 @@ export default function LineChart({ bioPages, timerange }: {
         borderColor: colors[index % colors.length],
         pointBorderColor: colors[index % colors.length],
         borderWidth: 1,
-        tension: 0.4
+        tension: 0.4,
     }));
 
     const data = {
@@ -53,12 +53,12 @@ export default function LineChart({ bioPages, timerange }: {
             responsive: true,
             plugins: {
                 legend: {
-                    display: true
+                    display: true,
                 },
                 tooltip: {
-                    enabled: true
-                }
-            }
+                    enabled: true,
+                },
+            },
         },
     };
 

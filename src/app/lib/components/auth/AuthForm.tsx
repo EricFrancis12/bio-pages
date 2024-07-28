@@ -1,23 +1,18 @@
-
+type TAuthFormType = 'register' | 'login' | 'reset password' | 'enter new password';
 
 export default function AuthForm({ type, error, action, passwordresettoken, disabled, children }: {
-    type: 'register' | 'login' | 'reset password' | 'enter new password',
+    type: TAuthFormType,
     error: string,
-    action: ((formData: FormData) => void),
+    action: (formData: FormData) => void,
     passwordresettoken?: string,
     disabled?: boolean,
-    children?: React.ReactNode
+    children?: React.ReactNode,
 }) {
     const inputClassName = 'px-2 py-1 border border-black rounded';
     return (
         <div className='shadow-lg p-5 rounded-lg border-t-4 border-violet-400 text-black'>
             <h1 className='text-xl font-bold my-4'>
-                {type === 'login' ? 'Login'
-                    : type === 'register' ? 'Register'
-                        : type === 'reset password' ? 'Reset Password'
-                            : type === 'enter new password' ? 'Enter New Password'
-                                : ''
-                }
+                {authFormTypeToText(type)}
             </h1>
             <form action={action}
                 className='flex flex-col gap-3'
@@ -67,12 +62,7 @@ export default function AuthForm({ type, error, action, passwordresettoken, disa
                     className='bg-violet-600 text-white font-bold cursor-pointer px-6 py-2'
                     disabled={disabled}
                 >
-                    {type === 'login' ? 'Login'
-                        : type === 'register' ? 'Register'
-                            : type === 'reset password' ? 'Submit'
-                                : type === 'enter new password' ? 'Submit'
-                                    : ''
-                    }
+                    {authFormTypeToButtonText(type)}
                 </button>
                 {error &&
                     <div className='flex justify-center text-white w-full text-sm mt-2'>
@@ -85,4 +75,34 @@ export default function AuthForm({ type, error, action, passwordresettoken, disa
             </form>
         </div >
     )
+}
+
+function authFormTypeToText(type: TAuthFormType) {
+    switch (type) {
+        case 'login':
+            return 'Login';
+        case 'register':
+            return 'Register';
+        case 'reset password':
+            return 'Reset Password';
+        case 'enter new password':
+            return 'Enter New Password';
+        default:
+            return '';
+    }
+}
+
+function authFormTypeToButtonText(type: TAuthFormType) {
+    switch (type) {
+        case 'login':
+            return 'Login';
+        case 'register':
+            return 'Register';
+        case 'reset password':
+            return 'Submit';
+        case 'enter new password':
+            return 'Submit';
+        default:
+            return '';
+    }
 }

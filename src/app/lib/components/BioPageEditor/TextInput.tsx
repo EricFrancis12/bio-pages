@@ -4,7 +4,7 @@ export default function TextInput({ type, text, value, onChange }: {
     type: 'input' | 'textarea',
     text: string,
     value: string,
-    onChange: React.ChangeEventHandler<HTMLInputElement> | React.ChangeEventHandler<HTMLTextAreaElement>
+    onChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>,
 }) {
     return (
         <div
@@ -21,13 +21,14 @@ export default function TextInput({ type, text, value, onChange }: {
                     ? <textarea
                         className='w-full px-1 bg-transparent'
                         value={value}
-                        onChange={onChange as React.ChangeEventHandler<HTMLTextAreaElement>}
+                        onChange={onChange}
                     />
                     : <input
                         className='w-full px-1 bg-transparent'
                         value={value}
-                        onChange={onChange as React.ChangeEventHandler<HTMLInputElement>}
-                    />}
+                        onChange={onChange}
+                    />
+                }
             </div>
         </div >
     )

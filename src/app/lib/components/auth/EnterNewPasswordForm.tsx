@@ -6,7 +6,7 @@ import { enterNewPasswordAction } from '../../actions';
 import AuthForm from './AuthForm';
 
 export default function EnterNewPasswordForm({ passwordresettoken }: {
-    passwordresettoken: string
+    passwordresettoken: string,
 }) {
     const [error, setError] = useState<string>('');
     const [successMessage, setSuccessMessage] = useState<string>('');
@@ -45,7 +45,7 @@ export default function EnterNewPasswordForm({ passwordresettoken }: {
             disabled={!!successMessage}
             passwordresettoken={passwordresettoken}
         >
-            {(!!successMessage && !error) &&
+            {(successMessage && !error) &&
                 <div className='flex flex-col justify-start items-center gap-2'>
                     <div className='max-w-[200px] bg-green-500 text-white text-sm py-1 px-3 rounded-md mt-2'>
                         {successMessage}

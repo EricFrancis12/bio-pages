@@ -36,7 +36,7 @@ export default function ResetPasswordForm() {
             error={error}
             disabled={!!successMessage}
         >
-            {(!!successMessage && !error) &&
+            {(successMessage && !error) &&
                 <div className='flex justify-center text-white w-full text-sm mt-2'>
                     <div className='max-w-[200px] px-3 py-1 bg-green-500 rounded-md'>
                         {successMessage}

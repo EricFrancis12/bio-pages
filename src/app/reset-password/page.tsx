@@ -3,7 +3,7 @@ import BackToHomeLink from '../lib/components/BackToHomeLink';
 import ResetPasswordForm from '../lib/components/auth/ResetPasswordForm';
 
 export const metadata: Metadata = {
-    title: 'Reset Password'
+    title: 'Reset Password',
 };
 
 export default async function Page() {

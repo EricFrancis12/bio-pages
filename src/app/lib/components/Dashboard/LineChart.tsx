@@ -11,11 +11,11 @@ ChartJS.register(
     LinearScale,
     PointElement,
     Tooltip,
-    Legend
+    Legend,
 );
 
 export default function LineChart({ bioPages }: {
-    bioPages: TBioPage[]
+    bioPages: TBioPage[],
 }) {
     const labels = getPreviousDates(7);
 
@@ -43,8 +43,8 @@ export default function LineChart({ bioPages }: {
                 borderColor: 'black',
                 pointBorderColor: 'aqua',
                 borderWidth: 1,
-                tension: 0.4
-            }
+                tension: 0.4,
+            },
         ],
         options: {
             responsive: true,
@@ -53,15 +53,13 @@ export default function LineChart({ bioPages }: {
                     display: true
                 },
                 tooltip: {
-                    enabled: true
-                }
-            }
+                    enabled: true,
+                },
+            },
         },
     };
 
     return (
-        <Line
-            data={data}
-        />
+        <Line data={data} />
     )
 }

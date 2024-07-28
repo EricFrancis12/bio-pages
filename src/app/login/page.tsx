@@ -3,7 +3,7 @@ import BackToHomeLink from '../lib/components/BackToHomeLink';
 import LoginForm from '../lib/components/auth/LoginForm';
 
 export const metadata: Metadata = {
-    title: 'Login'
+    title: 'Login',
 };
 
 export default async function Page() {

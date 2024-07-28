@@ -4,13 +4,11 @@ export default function ToggleSwitch({ defaultValue, value, size = 25, onValueCh
     defaultValue?: boolean,
     value: boolean,
     size?: number,
-    onValueChange?: Function
+    onValueChange?: Function,
 }) {
     const [active, setActive] = useState<boolean>(value ?? defaultValue ?? true);
 
-    useEffect(() => {
-        setActive(value);
-    }, [value]);
+    useEffect(() => setActive(value), [value]);
 
     function handleClick() {
         setActive(!active);
@@ -26,7 +24,7 @@ export default function ToggleSwitch({ defaultValue, value, size = 25, onValueCh
                 border: 'solid black 2px',
                 borderRadius: '25px',
                 backgroundColor: active ? 'green' : 'gray',
-                transition: 'background-color 0.3s ease-in-out'
+                transition: 'background-color 0.3s ease-in-out',
             }}
         >
             <div
@@ -35,12 +33,10 @@ export default function ToggleSwitch({ defaultValue, value, size = 25, onValueCh
                     borderRadius: '25px',
                     top: 0,
                     left: active ? '50%' : 0,
-                    transition: 'left 0.3s ease-in-out'
+                    transition: 'left 0.3s ease-in-out',
                 }}
-                onClick={e => handleClick()}
-            >
-
-            </div>
+                onClick={handleClick}
+            />
         </div>
     )
 }

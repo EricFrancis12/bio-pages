@@ -1,7 +1,7 @@
 import { QueryResult, QueryResultRow, db } from '@vercel/postgres';
 import { upload } from '@vercel/blob/client';
 import { default as bcrypt } from 'bcryptjs';
-import type { TUser, TBioPage, TClick, TEmailAddress } from './types';
+import type { TUser, TBioPage, TClick } from './types';
 import {
     generateNewUser_id, generateNewBioPage_id,
     generateNewEmailValidationToken, generateNewEmailValidationTokenExpiry
@@ -17,7 +17,7 @@ export async function createNewUser(email: string, password: string) {
     const hashedpassword = await hashPassword(password);
     const newUser: TUser = {
         _id: generateNewUser_id(),
-        email: email as TEmailAddress,
+        email,
         hashedpassword,
         emailvalidationtoken: generateNewEmailValidationToken(),
         emailvalidationtokenexpiry: generateNewEmailValidationTokenExpiry()

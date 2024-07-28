@@ -6,7 +6,7 @@ import Dashboard from '../lib/components/Dashboard/Dashboard';
 import { fetchBioPagesByUser_id } from '../lib/data';
 
 export const metadata: Metadata = {
-    title: 'Dashboard'
+    title: 'Dashboard',
 };
 
 export default async function Page() {

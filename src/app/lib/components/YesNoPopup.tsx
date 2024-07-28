@@ -2,8 +2,8 @@ import BlackTransparentOverlay from './BlackTransparentOverlay';
 
 export default function YesNoPopup({ text, disabled, onClickYes, onClickNo }: {
     text: string,
-    disabled: boolean
-    onClickYes: Function
+    disabled: boolean,
+    onClickYes: Function,
     onClickNo: Function,
 }) {
     return (

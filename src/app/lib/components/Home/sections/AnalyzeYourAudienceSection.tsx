@@ -13,26 +13,22 @@ export default function AnalyzeYourAudienceSection() {
     const controller = useAnimationControls();
 
     useEffect(() => {
-        if (inView) {
-            setTimeout(() => controller.start('animate'), 500);
-        }
+        if (inView) setTimeout(() => controller.start('animate'), 500);
     }, [inView]);
 
     return (
-        <div
-            className='flex flex-col-reverse lg:flex-row justify-start lg:justify-center items-center lg:items-start gap-8 sm:px-16 pt-16 pb-32'
-        >
+        <div className='flex flex-col-reverse lg:flex-row justify-start lg:justify-center items-center lg:items-start gap-8 sm:px-16 pt-16 pb-32'>
             <motion.div
                 className='flex flex-col justify-center items-center gap-4 lg:gap-2 lg:min-h-[500px] w-full lg:w-[50%] px-4 py-16'
                 variants={{
                     initial: {
                         opacity: 0,
-                        y: '20%'
+                        y: '20%',
                     },
                     animate: {
                         opacity: 1,
-                        y: 0
-                    }
+                        y: 0,
+                    },
                 }}
                 initial='initial'
                 animate={controller}
@@ -79,14 +75,14 @@ export default function AnalyzeYourAudienceSection() {
 }
 
 const GradientSpan = ({ children }: {
-    children?: React.ReactNode
+    children?: React.ReactNode,
 }) => (
     <span
         style={{
             backgroundImage: 'linear-gradient(to right top, #a2facf, #64acff)',
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
+            WebkitTextFillColor: 'transparent',
         }}
     >
         {children}
@@ -97,7 +93,7 @@ const SmallWidget = ({ icon, text, subText, className }: {
     icon: IconDefinition,
     text: string,
     subText: string,
-    className?: string
+    className?: string,
 }) => (
     <TiltCard
         className={(className) + ' flex flex-col justify-around sm:justify-center items-center gap-1 w-[70%] sm:w-[30%] h-[160px] py-1 rounded-2xl'}
@@ -121,7 +117,7 @@ const LargeWidget = ({ icon, text, subText, className }: {
     icon: IconDefinition,
     text: string,
     subText: string,
-    className?: string
+    className?: string,
 }) => (
     <TiltCard
         className={(className) + ' flex flex-col md:flex-row justify-around sm:justify-center md:justify-around items-center gap-1 w-[70%] sm:w-[30%] md:w-[60%] h-[160px] py-1 rounded-2xl'}

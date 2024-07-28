@@ -12,29 +12,19 @@ import { deconstructButtonStyle, calcButtonStyleTypeShadows, isGradient } from '
 import { defaultImagesrc, defaultIcon } from '../default-data';
 
 export const metadata: Metadata = {
-    title: ' '
+    title: ' ',
 };
 
-export default function BioPage({
-    bioPage,
-    setBioPage,
-    blobUrl,
-    disableLinks,
-    fullScreen = true,
-    imageHeight = 200,
-    imageWidth = 200
-}: {
+export default function BioPage({ bioPage, blobUrl, disableLinks, fullScreen = true, imageHeight = 200, imageWidth = 200 }: {
     bioPage: TBioPage,
     setBioPage?: Function,
     blobUrl?: string,
     disableLinks?: boolean,
     fullScreen?: boolean,
     imageHeight?: number,
-    imageWidth?: number
+    imageWidth?: number,
 }) {
     const {
-        _id,
-        user_id,
         name,
         font,
         textcolor,
@@ -47,7 +37,6 @@ export default function BioPage({
         buttontextcolor,
         buttonbordercolor,
         buttons,
-        clicks
     } = bioPage;
 
     const { buttonstyleType, buttonstyleRadius } = deconstructButtonStyle(buttonstyle);
@@ -73,7 +62,7 @@ export default function BioPage({
                         color: isGradient(textcolor) ? undefined : textcolor,
                         backgroundImage: isGradient(textcolor) ? textcolor : undefined,
                         backgroundClip: isGradient(textcolor) ? 'text' : undefined,
-                        WebkitTextFillColor: isGradient(textcolor) ? 'transparent' : undefined
+                        WebkitTextFillColor: isGradient(textcolor) ? 'transparent' : undefined,
                     }}
                 >
                     <Image
@@ -83,7 +72,7 @@ export default function BioPage({
                         width={imageWidth}
                         style={{
                             border: 'solid #7e7e7e 1px',
-                            borderRadius: '50%'
+                            borderRadius: '50%',
                         }}
                     />
                     <h1 className='text-center text-4xl font-bold'>
@@ -109,7 +98,7 @@ export default function BioPage({
                                     style={{
                                         border: `1px solid ${buttonbordercolor}`,
                                         borderRadius: `${buttonstyleRadius}px`,
-                                        background: buttoncolor
+                                        background: buttoncolor,
                                     }}
                                 >
                                     <a href={button.url || undefined} target='_blank'
@@ -117,7 +106,7 @@ export default function BioPage({
                                         style={{
                                             backgroundColor: 'transparent',
                                             transitionDuration: '200ms',
-                                            pointerEvents: disableLinks ? 'none' : undefined
+                                            pointerEvents: disableLinks ? 'none' : undefined,
                                         }}
                                     >
                                         <div
@@ -126,7 +115,7 @@ export default function BioPage({
                                                 color: isGradient(buttontextcolor) ? undefined : buttontextcolor,
                                                 backgroundImage: isGradient(buttontextcolor) ? buttontextcolor : undefined,
                                                 backgroundClip: isGradient(buttontextcolor) ? 'text' : undefined,
-                                                WebkitTextFillColor: isGradient(buttontextcolor) ? 'transparent' : undefined
+                                                WebkitTextFillColor: isGradient(buttontextcolor) ? 'transparent' : undefined,
                                             }}
                                         >
                                             <FontAwesomeIcon icon={icon as IconDefinition} />

@@ -3,7 +3,7 @@ import BackToHomeLink from '../lib/components/BackToHomeLink';
 import RegisterForm from '../lib/components/auth/RegisterForm';
 
 export const metadata: Metadata = {
-    title: 'Register'
+    title: 'Register',
 };
 
 export default async function Page() {

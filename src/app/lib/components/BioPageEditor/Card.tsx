@@ -2,7 +2,7 @@
 
 export default function Card({ title, children }: {
     title: string,
-    children?: React.ReactNode
+    children?: React.ReactNode,
 }) {
     return (
         <div className='mb-8'>

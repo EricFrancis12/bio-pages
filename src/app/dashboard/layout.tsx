@@ -4,12 +4,10 @@ import useProtectedRoute from '../lib/hooks/useProtectedRoute';
 import SideNav from '../lib/components/SideNav/SideNav';
 
 export const metadata: Metadata = {
-    title: 'App Dashboard'
+    title: 'App Dashboard',
 };
 
-export default async function Layout({
-    children,
-}: {
+export default async function Layout({ children }: {
     children: React.ReactNode;
 }) {
     const session = await useProtectedRoute();
@@ -21,14 +19,10 @@ export default async function Layout({
     );
 }
 
-export async function DashboardLayout({
-    children,
-    demoMode,
-    session
-}: {
+export async function DashboardLayout({ children, demoMode, session }: {
     children: React.ReactNode,
     demoMode?: boolean,
-    session?: Session
+    session?: Session,
 }) {
     const user_id = session?.user?.name;
 

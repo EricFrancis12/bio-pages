@@ -7,17 +7,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconDefinition, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import type { TBioPage } from '@/app/lib/types';
 import { demoBioPages } from '@/app/lib/demo-pages';
-import BioPage from '../../BioPage';
+
+const SCROLL_BUTTON_Z_INDEX = 4000;
 
 type TScrollButton = {
     left?: number,
     right?: number,
     icon: IconDefinition,
-    onClick: React.MouseEventHandler<HTMLElement>
+    onClick: React.MouseEventHandler<HTMLElement>,
 };
 
 export default function SetupSection() {
-    const targetRef = useRef<HTMLDivElement | null>(null);
     const scrollRef = useRef<HTMLDivElement | null>(null);
     const selectedDemoBioPages = useRef(demoBioPages.slice(0, 20));
 
@@ -29,7 +29,7 @@ export default function SetupSection() {
                 if (scrollRef.current?.scrollLeft) {
                     scrollRef.current.scrollLeft -= 500;
                 }
-            }
+            },
         },
         {
             right: 0,
@@ -38,13 +38,13 @@ export default function SetupSection() {
                 if (scrollRef.current?.scrollLeft || scrollRef.current?.scrollLeft === 0) {
                     scrollRef.current.scrollLeft += 500;
                 }
-            }
-        }
+            },
+        },
     ];
 
     const blurs = [
         { bg: 'bg-purple-500' },
-        { bg: 'bg-teal-500' }
+        { bg: 'bg-teal-500' },
     ];
 
     return (
@@ -69,14 +69,14 @@ export default function SetupSection() {
                 <div className='inline-block mt-6 mb-4'
                     style={{
                         border: 'solid 1px #7433ff0',
-                        borderRadius: '20px'
+                        borderRadius: '20px',
                     }}
                 >
                     <div
                         className='relative px-8 py-2 scale-75 bg-white'
                         style={{
                             border: 'solid 1px #7433ff',
-                            borderRadius: '6px'
+                            borderRadius: '6px',
                         }}
                     >
                         <div className='bg-white text-center text-black text-m font-bold'>SEE OUR PAGES BELOW!</div>
@@ -88,14 +88,10 @@ export default function SetupSection() {
                     className='flex justify-start items-center gap-8 px-4 py-4 overflow-x-scroll scroll-smooth'
                 >
                     {scrollButtons.map((scrollButton, index) => (
-                        <ScrollButton key={index}
-                            scrollButton={scrollButton}
-                        />
+                        <ScrollButton key={index} scrollButton={scrollButton} />
                     ))}
                     {selectedDemoBioPages.current.map((demoBioPage, index) => (
-                        <Card key={index}
-                            demoBioPage={demoBioPage}
-                        />
+                        <Card key={index} demoBioPage={demoBioPage} />
                     ))}
                 </div>
             </div>
@@ -111,7 +107,7 @@ export default function SetupSection() {
 }
 
 const Card = ({ demoBioPage }: {
-    demoBioPage: TBioPage
+    demoBioPage: TBioPage,
 }) => {
     const src = `/assets/img/demo-bio-pages/${demoBioPage._id}.png`;
     const href = `/demo/p/${demoBioPage._id}`;
@@ -123,25 +119,16 @@ const Card = ({ demoBioPage }: {
             }}
         >
             <div className='relative block h-[350px] w-[260px]'>
-                {/* <div className='scale-[50%]'>
-                    <BioPage
-                        bioPage={demoBioPage}
-                        disableLinks={true}
-                        fullScreen={false}
-                        imageHeight={100}
-                        imageWidth={100}
-                    />
-                </div> */}
                 <Image
                     src={src}
                     alt='Page Demo Image'
                     loading='lazy'
                     fill={true}
-                    style={{
-                        borderRadius: '5px'
-                    }}
+                    style={{ borderRadius: '5px' }}
                 />
-                <Link href={href} target='_blank'
+                <Link
+                    href={href}
+                    target='_blank'
                     className='absolute top-0 left-0 h-full w-full px-2 text-center opacity-0 hover:opacity-100 bg-yellow-500 rounded'
                 >
                     <div className='my-4'>
@@ -157,7 +144,7 @@ const Card = ({ demoBioPage }: {
 };
 
 const ScrollButton = ({ scrollButton }: {
-    scrollButton: TScrollButton
+    scrollButton: TScrollButton,
 }) => (
     <div
         className='absolute flex justify-center items-center h-full px-12'
@@ -166,7 +153,7 @@ const ScrollButton = ({ scrollButton }: {
             left: scrollButton.left,
             right: scrollButton.right,
             pointerEvents: 'none',
-            zIndex: 4000
+            zIndex: SCROLL_BUTTON_Z_INDEX,
         }}
     >
         <div

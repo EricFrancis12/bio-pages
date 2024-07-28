@@ -1,13 +1,13 @@
 import { Resend } from 'resend';
-import { TUser, TEmailAddress } from './types';
+import { TUser } from './types';
 
 export async function sendEmail({ message, html, to, from, subject, replyTo }: {
     message?: string,
     html?: string,
-    to: TEmailAddress,
-    from: TEmailAddress | `${string}<${TEmailAddress}>`,
+    to: string,
+    from: string,
     subject: string,
-    replyTo?: TEmailAddress,
+    replyTo?: string,
 }) {
     if (message == null && html == null) return null;
 
@@ -28,21 +28,29 @@ export async function sendEmail({ message, html, to, from, subject, replyTo }: {
 }
 
 export async function sendNewUserActivationEmail(user: TUser) {
+    if (!process.env.TRANSACTION_EMAIL_ADDRESS) {
+        console.error('Transaction email address not set');
+        return;
+    }
     return await sendEmail({
         html: `<p>Thanks for signing up. Please <a href="http://${process.env.NEXT_PUBLIC_DOMAIN}/register/verify-email/${user.emailvalidationtoken}">Click Here</a> to activate your account.</p>`,
-        to: user.email as TEmailAddress,
-        from: process.env.TRANSACTION_EMAIL_ADDRESS as TEmailAddress,
+        to: user.email,
+        from: process.env.TRANSACTION_EMAIL_ADDRESS,
         subject: 'Account activation',
-        replyTo: process.env.TRANSACTION_EMAIL_ADDRESS as TEmailAddress
+        replyTo: process.env.TRANSACTION_EMAIL_ADDRESS,
     });
 }
 
 export async function sendPasswordResetEmail(user: TUser) {
+    if (!process.env.TRANSACTION_EMAIL_ADDRESS) {
+        console.error('Transaction email address not set');
+        return;
+    }
     return await sendEmail({
         html: `<p>Please <a href="http://${process.env.NEXT_PUBLIC_DOMAIN}/reset-password/${user.passwordresettoken}">Click Here</a> to reset your password.</p>`,
-        to: user.email as TEmailAddress,
-        from: process.env.TRANSACTION_EMAIL_ADDRESS as TEmailAddress,
+        to: user.email,
+        from: process.env.TRANSACTION_EMAIL_ADDRESS,
         subject: 'Password reset',
-        replyTo: process.env.TRANSACTION_EMAIL_ADDRESS as TEmailAddress
+        replyTo: process.env.TRANSACTION_EMAIL_ADDRESS,
     });
 }

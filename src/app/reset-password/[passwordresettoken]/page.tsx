@@ -3,7 +3,7 @@ import EnterNewPasswordForm from '@/app/lib/components/auth/EnterNewPasswordForm
 import { validatePasswordresettoken } from '@/app/lib/data';
 
 export const metadata: Metadata = {
-    title: 'Reset Password'
+    title: 'Reset Password',
 };
 
 export default async function Page({ params }: { params: { passwordresettoken: string } }) {
@@ -11,7 +11,7 @@ export default async function Page({ params }: { params: { passwordresettoken: s
 
     return (
         <div className='flex flex-col justify-center items-center h-screen bg-white'>
-            {!!user
+            {user
                 ? <EnterNewPasswordForm passwordresettoken={params.passwordresettoken} />
                 : <span>This token is invalid or has expired</span>
             }

@@ -11,9 +11,7 @@ export default function HeroSection() {
         <div className='flex flex-col justify-center items-center pt-36'>
             <div
                 className='flex flex-col justify-start items-center h-full w-full'
-                style={{
-                    backgroundImage: 'linear-gradient(to bottom, #000000, #222222)'
-                }}
+                style={{ backgroundImage: 'linear-gradient(to bottom, #000000, #222222)' }}
             >
                 <div className='flex flex-col lg:flex-row max-w-[1000px] mb-16'>
                     <motion.div
@@ -21,12 +19,12 @@ export default function HeroSection() {
                         variants={{
                             initial: {
                                 opacity: 0,
-                                y: '20%'
+                                y: '20%',
                             },
                             animate: {
                                 opacity: 1,
-                                y: 0
-                            }
+                                y: 0,
+                            },
                         }}
                         initial='initial'
                         animate='animate'
@@ -38,7 +36,7 @@ export default function HeroSection() {
                                     backgroundImage: 'linear-gradient(to right, #ff1e64, #f48a39 26%, #8c25e5 70%, #106cbd)',
                                     backgroundClip: 'text',
                                     WebkitTextFillColor: 'transparent',
-                                    border: 'solix 0px #8c25e5'
+                                    border: 'solix 0px #8c25e5',
                                 }}
                             >
                                 Bio Link
@@ -47,9 +45,7 @@ export default function HeroSection() {
                         </h1>
                         <div
                             className='text-center lg:text-left text-m text-gray-300 bg-black px-4 py-1'
-                            style={{
-                                borderRadius: '4px'
-                            }}
+                            style={{ borderRadius: '4px' }}
                         >
                             Streamline your digital footprint with a single link in bio that encapsulates it all.
                         </div>
@@ -62,12 +58,12 @@ export default function HeroSection() {
                         variants={{
                             initial: {
                                 opacity: 0,
-                                x: '-20%'
+                                x: '-20%',
                             },
                             animate: {
                                 opacity: 1,
-                                x: 0
-                            }
+                                x: 0,
+                            },
                         }}
                         initial='initial'
                         animate='animate'
@@ -89,7 +85,7 @@ export default function HeroSection() {
 }
 
 const BioPageHeroImage = ({ orientation }: {
-    orientation: 'flat' | 'slanted'
+    orientation: 'flat' | 'slanted',
 }) => (
     <TiltCard
         className='rounded'
@@ -102,7 +98,7 @@ const BioPageHeroImage = ({ orientation }: {
             <BioPage
                 bioPage={{
                     ...demoBioPage_5,
-                    buttons: demoBioPage_5.buttons.slice(0, 3) // Only taking the first 3 buttons to save space
+                    buttons: demoBioPage_5.buttons.slice(0, 3), // Only taking the first 3 buttons to save space
                 }}
                 disableLinks={true}
                 fullScreen={false}

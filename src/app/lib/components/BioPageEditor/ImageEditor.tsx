@@ -10,13 +10,13 @@ import { base64ToBlobUrl } from '../../utils/utils';
 const Avatar = dynamic(() => import('react-avatar-edit'), {
     // Importing this way because needs to exclusively run on the client.
     ssr: false,
-    loading: () => <p>Loading<br />Avatar...</p>
+    loading: () => <p>Loading<br />Avatar...</p>,
 });
 
 export default function ImageEditor({ imagesrc, blobUrl, setBlobUrl }: {
     imagesrc?: string,
     blobUrl: string,
-    setBlobUrl: Function
+    setBlobUrl: Function,
 }) {
     const imageElementRef = useRef<HTMLImageElement | null>(null);
 
@@ -78,20 +78,20 @@ export default function ImageEditor({ imagesrc, blobUrl, setBlobUrl }: {
                     {imageHeight === 350 && !previewBlobUrl &&
                         <div
                             className='p-2 bg-red-400 hover:bg-red-300 rounded cursor-pointer'
-                            onClick={e => onClose()}
+                            onClick={onClose}
                         >
                             Cancel Upload
                         </div>
                     }
                     <span
-                        className={(previewBlobUrl ? 'opacity-100' : imageHeight === 350 ? 'opacity-0' : 'opacity-0 hover:opacity-40 absolute')
-                            + ' bg-white overflow-hidden cursor-pointer'}
-                        style={{
-                            transition: imageHeight === 350 ? undefined : 'opacity 0.3s ease-in-out'
-                        }}
-                        onClick={e => {
-                            setImageHeight(350);
-                        }}
+                        className={(previewBlobUrl
+                            ? 'opacity-100'
+                            : imageHeight === 350
+                                ? 'opacity-0'
+                                : 'opacity-0 hover:opacity-40 absolute'
+                        ) + ' bg-white overflow-hidden cursor-pointer'}
+                        style={{ transition: imageHeight === 350 ? undefined : 'opacity 0.3s ease-in-out' }}
+                        onClick={() => setImageHeight(350)}
                     >
                         {avatarRendered &&
                             <Avatar
@@ -105,10 +105,8 @@ export default function ImageEditor({ imagesrc, blobUrl, setBlobUrl }: {
                     {previewBlobUrl &&
                         <div
                             className='p-2 bg-green-400 hover:bg-green-300 rounded cursor-pointer'
-                            style={{
-                                transition: 'ease-in-out 0.3s background-color'
-                            }}
-                            onClick={e => handleSubmitButtonClick()}
+                            style={{ transition: 'ease-in-out 0.3s background-color' }}
+                            onClick={handleSubmitButtonClick}
                         >
                             Add Image
                         </div>

@@ -3,12 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { TColor } from '../types';
 
-export default function CTAButton({ text, href, target = '', borderColor = 'white', icon }: {
+export default function CTAButton({ text, href, target, icon, borderColor = 'white' }: {
     text: string,
     href: string,
     target?: '' | '_blank',
+    icon?: IconDefinition,
     borderColor?: TColor,
-    icon?: IconDefinition
 }) {
     return (
         <Link
@@ -26,15 +26,13 @@ export default function CTAButton({ text, href, target = '', borderColor = 'whit
                 style={{
                     outline: `solid 3px ${borderColor}`,
                     borderRadius: '8px',
-                    filter: 'blur(3px)'
+                    filter: 'blur(3px)',
                 }}
             />
             <span className='text-3xl'>
                 {text}
             </span>
-            {icon &&
-                <FontAwesomeIcon icon={icon} />
-            }
+            {icon && <FontAwesomeIcon icon={icon} />}
         </Link>
     )
 }

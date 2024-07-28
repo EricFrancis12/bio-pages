@@ -10,6 +10,32 @@ import NavTab from './NavTab';
 import NavButton from './NavButton';
 import BlackTransparentOverlay from '../BlackTransparentOverlay';
 
+const HOME_NAV_Z_INDEX = 500;
+
+const navTabs: {
+    text: string,
+    href: string,
+}[] = [
+        // Starter code for nav tab links:
+
+        // {
+        //     text: 'Home',
+        //     href: '/'
+        // },
+        // {
+        //     text: 'Documentation',
+        //     href: '/documentation'
+        // },
+        // {
+        //     text: 'Pricing',
+        //     href: '/pricing'
+        // },
+        // {
+        //     text: 'Resources',
+        //     href: '/resources'
+        // }
+    ];
+
 export default function HomeNav() {
     const [hidden, setHidden] = useState<boolean>(false);
     const [extended, setExtended] = useState<boolean>(false);
@@ -30,38 +56,12 @@ export default function HomeNav() {
         }
     });
 
-    const navTabs: {
-        text: string,
-        href: string
-    }[] = [
-            // Starter code for nav tab links:
-
-            // {
-            //     text: 'Home',
-            //     href: '/'
-            // },
-            // {
-            //     text: 'Documentation',
-            //     href: '/documentation'
-            // },
-            // {
-            //     text: 'Pricing',
-            //     href: '/pricing'
-            // },
-            // {
-            //     text: 'Resources',
-            //     href: '/resources'
-            // }
-        ];
-
     return (
         <motion.div className='fixed w-full'
-            style={{
-                zIndex: 500
-            }}
+            style={{ zIndex: HOME_NAV_Z_INDEX }}
             variants={{
                 visible: { y: 0 },
-                hidden: { y: '-100%' }
+                hidden: { y: '-100%' },
             }}
             animate={hidden ? 'hidden' : 'visible'}
             transition={{ duration: 0.35, ease: 'easeInOut' }}
@@ -69,9 +69,7 @@ export default function HomeNav() {
             <BlackTransparentOverlay disabled={!extended}>
                 <nav
                     className='flex justify-between items-center mx-6 lg:mx-8 my-4 px-4 sm:px-8 py-2 sm:py-4 bg-[#141414]'
-                    style={{
-                        borderRadius: '8px'
-                    }}
+                    style={{ borderRadius: '8px' }}
                 >
                     <div>
                         <Link href='/'>
@@ -103,10 +101,8 @@ export default function HomeNav() {
                     </div>
                     <div
                         className='flex lg:hidden justify-center items-center h-[35px] sm:h-[45px] w-[35px] sm:w-[45px] text-xl sm:text-2xl bg-gray-500 hover:bg-gray-400 cursor-pointer'
-                        style={{
-                            borderRadius: '25px'
-                        }}
-                        onClick={e => setExtended(prevExtended => !prevExtended)}
+                        style={{ borderRadius: '25px' }}
+                        onClick={() => setExtended(prevExtended => !prevExtended)}
                     >
                         <FontAwesomeIcon icon={extended ? faX : faBars} />
                     </div>
@@ -116,11 +112,11 @@ export default function HomeNav() {
                     style={{
                         maxHeight: extended ? '400px' : 0, // solution for this motion.div blocking click events on the page
                         borderRadius: '8px',
-                        transition: 'ease-in-out 0.4s max-height'
+                        transition: 'ease-in-out 0.4s max-height',
                     }}
                     variants={{
                         extended: { x: 0, opacity: 1, pointerEvents: 'all' },
-                        notExtended: { x: '-110%', opacity: 0, pointerEvents: 'none' }
+                        notExtended: { x: '-110%', opacity: 0, pointerEvents: 'none' },
                     }}
                     animate={extended ? 'extended' : 'notExtended'}
                     transition={{ duration: 0.4, ease: 'easeInOut' }}

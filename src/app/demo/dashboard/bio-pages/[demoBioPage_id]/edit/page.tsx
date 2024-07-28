@@ -10,12 +10,8 @@ export default function Page({ params }: { params: { demoBioPage_id: string } })
     }
 
     return bioPage
-        ? (
-            <BioPageEditor bioPage={bioPage} demoMode={true} />
-        )
-        : (
-            <div>
-                Demo Bio Page not found :/
-            </div>
-        )
+        ? <BioPageEditor bioPage={bioPage} demoMode={true} />
+        : <div>
+            Demo Bio Page not found :/
+        </div>
 }

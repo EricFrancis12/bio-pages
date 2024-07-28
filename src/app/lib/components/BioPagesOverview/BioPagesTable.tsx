@@ -23,7 +23,7 @@ export default function BioPagesTable({ bioPages = [], timerange, searchQuery, s
     setSearchQuery: Function,
     selectedBioPage_ids: string[],
     setSelectedBioPage_ids: Function,
-    demoMode?: boolean
+    demoMode?: boolean,
 }) {
     const [deletePopupBioPage_id, setDeletePopupBioPage_id] = useState<string | null>(null);
     const [handlingDelete, setHandlingDelete] = useState<boolean>(false);
@@ -39,7 +39,7 @@ export default function BioPagesTable({ bioPages = [], timerange, searchQuery, s
         if (!selectedBioPage_ids.includes(bioPage_id)) {
             setSelectedBioPage_ids([
                 ...selectedBioPage_ids,
-                bioPage_id
+                bioPage_id,
             ]);
         } else {
             const newSelectedBioPage_ids = selectedBioPage_ids.filter(_bioPage_id => _bioPage_id !== bioPage_id);
@@ -58,7 +58,7 @@ export default function BioPagesTable({ bioPages = [], timerange, searchQuery, s
                 <YesNoPopup
                     text={`Are you sure you want to delete ${deletePopupBioPage_id}?`}
                     disabled={handlingDelete}
-                    onClickYes={(e: React.MouseEvent<HTMLButtonElement>) => {
+                    onClickYes={() => {
                         setHandlingDelete(true);
                         deleteBioPageBy_idAction(deletePopupBioPage_id)
                             .catch((err: Error) => console.error(err))
@@ -67,7 +67,7 @@ export default function BioPagesTable({ bioPages = [], timerange, searchQuery, s
                                 setHandlingDelete(false);
                             });
                     }}
-                    onClickNo={(e: React.MouseEvent<HTMLButtonElement>) => setDeletePopupBioPage_id(null)}
+                    onClickNo={() => setDeletePopupBioPage_id(null)}
                 />
             }
             <div>

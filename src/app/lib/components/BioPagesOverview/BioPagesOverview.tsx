@@ -12,7 +12,7 @@ import { defaultTimerange } from '../../default-data';
 
 export default function BioPagesOverview({ bioPages, demoMode }: {
     bioPages: TBioPage[],
-    demoMode?: boolean
+    demoMode?: boolean,
 }) {
     const [selectedBioPage_ids, setSelectedBioPage_ids] = useState<string[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>('');

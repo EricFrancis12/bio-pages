@@ -11,7 +11,7 @@ export default function TiltCard({ children, className, style, backgroundColor, 
     backgroundColor?: TColor,
     xInputRange?: [number, number] | null,
     yInputRange?: [number, number] | null,
-    disabled?: boolean
+    disabled?: boolean,
 }) {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
@@ -69,7 +69,7 @@ export default function TiltCard({ children, className, style, backgroundColor, 
                     flexDirection: 'inherit',
                     justifyContent: 'inherit',
                     alignItems: 'inherit',
-                    borderRadius: 'inherit'
+                    borderRadius: 'inherit',
                 }}
             >
                 {children}

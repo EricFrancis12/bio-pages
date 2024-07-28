@@ -5,10 +5,12 @@ import ColorPicker from 'react-best-gradient-color-picker';
 import type { TColor } from '../../types';
 import { traverseParentsForRef, rgbaToHex } from '../../utils/utils';
 
+const COLOR_INPUT_Z_INDEX = 500;
+
 export default function ColorInput({ name, value, onChange }: {
     name: string,
     value: TColor,
-    onChange: (value: string) => void
+    onChange: (value: string) => void,
 }) {
     const outerRef = useRef<HTMLDivElement | null>(null);
     const innerRef = useRef<HTMLDivElement | null>(null);
@@ -26,8 +28,8 @@ export default function ColorInput({ name, value, onChange }: {
             }
             setOpen(false);
         }
-        document.addEventListener('click', handleGlobalClick);
 
+        document.addEventListener('click', handleGlobalClick);
         return () => document.removeEventListener('click', handleGlobalClick);
     }, []);
 
@@ -57,18 +59,16 @@ export default function ColorInput({ name, value, onChange }: {
             </div>
             <div ref={outerRef}
                 className='flex justify-start items-center gap-2 w-full bg-gray-300 px-2'
-                style={{
-                    borderRadius: '8px'
-                }}
+                style={{ borderRadius: '8px' }}
             >
                 <div
                     className='relative flex justify-center items-center p-3 cursor-pointer'
                     style={{
                         background: value,
                         border: 'solid black 1px',
-                        borderRadius: '25%'
+                        borderRadius: '25%',
                     }}
-                    onClick={e => handleClick(e)}
+                    onClick={handleClick}
                 >
                     {open &&
                         <div ref={innerRef}
@@ -78,7 +78,7 @@ export default function ColorInput({ name, value, onChange }: {
                                 left: 0,
                                 border: 'solid black 1px',
                                 borderRadius: '8px',
-                                zIndex: open ? 500 : 0
+                                zIndex: open ? COLOR_INPUT_Z_INDEX : 0,
                             }}
                         >
                             <ColorPicker value={value} onChange={onChange} className='' />

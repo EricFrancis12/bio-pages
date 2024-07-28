@@ -12,7 +12,7 @@ export default function SettingsMenu({ bioPage, setBioPage, onClose, demoMode }:
     bioPage: TBioPage,
     setBioPage: Function,
     onClose: MouseEventHandler,
-    demoMode?: boolean
+    demoMode?: boolean,
 }) {
     const { push } = useRouter();
 
@@ -22,17 +22,6 @@ export default function SettingsMenu({ bioPage, setBioPage, onClose, demoMode }:
 
     const shortLinkButtonDisabled = loading || !shortLink || unavailable_ids.includes(shortLink) || shortLink === bioPage._id;
 
-    function handleInputChange(
-        e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>,
-        bioPageKey: string
-    ) {
-        setBioPage({
-            ...defaultBioPage,
-            ...bioPage,
-            [bioPageKey]: e.target.value
-        });
-    }
-
     async function handleButtonClick() {
         if (demoMode === true) return;
 
@@ -40,12 +29,10 @@ export default function SettingsMenu({ bioPage, setBioPage, onClose, demoMode }:
         const newBioPage_id = shortLink;
         const resJson = await fetch(`/api/bio-pages/${bioPage._id}/change_id`, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             method: 'POST',
-            body: JSON.stringify({
-                _id: newBioPage_id
-            })
+            body: JSON.stringify({ _id: newBioPage_id }),
         })
             .then((res) => res.json())
             .catch((err) => console.error(err));
@@ -76,20 +63,18 @@ export default function SettingsMenu({ bioPage, setBioPage, onClose, demoMode }:
                 <InputRow
                     content={'Edit Short Link'}
                     value={shortLink}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setShortLink(e.target.value)}
+                    onChange={e => setShortLink(e.target.value)}
                     disabled={demoMode === true}
                 >
                     <div className='flex flex-col-reverse sm:flex-row justify-between items-start w-full gap-4 pt-3 pb-1'>
                         <div
                             className='max-w-[250px] text-gray-300 italic font-normal'
-                            style={{
-                                overflowWrap: 'break-word'
-                            }}
+                            style={{ overflowWrap: 'break-word' }}
                         >
                             {process.env.NEXT_PUBLIC_DOMAIN ? `https://${process.env.NEXT_PUBLIC_DOMAIN}` : ''}{'/p/'}{shortLink}
                         </div>
                         {loading
-                            ? <div className=''>
+                            ? <div>
                                 Loading...
                             </div>
                             : <button
@@ -98,7 +83,7 @@ export default function SettingsMenu({ bioPage, setBioPage, onClose, demoMode }:
                                     + (shortLinkButtonDisabled ? ' cursor-not-allowed ' : ' cursor-pointer ')
                                     + ' px-2 rounded'}
                                 disabled={shortLinkButtonDisabled}
-                                onClick={e => handleButtonClick()}
+                                onClick={handleButtonClick}
                             >
                                 {unavailable_ids.includes(shortLink)
                                     ? 'Unavailable'
@@ -118,15 +103,13 @@ const InputRow = ({ content, value, onChange, disabled, children }: {
     value: string,
     onChange: React.ChangeEventHandler<HTMLInputElement>,
     disabled?: boolean,
-    children?: React.ReactNode
+    children?: React.ReactNode,
 }) => (
     <div className='w-full px-1'>
         <div className='flex flex-col lg:flex-row justify-start lg:justify-between items-start lg:items-center gap-2 w-full'>
             <span
                 className='font-bold'
-                style={{
-                    whiteSpace: 'nowrap'
-                }}
+                style={{ whiteSpace: 'nowrap' }}
             >
                 {content}
             </span>

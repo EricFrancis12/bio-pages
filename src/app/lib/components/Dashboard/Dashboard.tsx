@@ -6,9 +6,9 @@ import PieChart from './PieChart';
 import BarChart from './BarChart';
 import { getBioPagesClicks } from '../../utils/utils';
 
-export default function Dashboard({ bioPages, demoMode }: {
+export default function Dashboard({ bioPages }: {
     bioPages: TBioPage[],
-    demoMode?: boolean
+    demoMode?: boolean,
 }) {
     const numVisitorsToday = getBioPagesClicks(bioPages, 'today').length;
     const numVisitorsYesterday = getBioPagesClicks(bioPages, 'yesterday').length;

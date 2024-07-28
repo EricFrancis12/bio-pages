@@ -10,7 +10,7 @@ type T_Card = {
     side: 'left' | 'right',
     title: string,
     text: string,
-    icon?: IconDefinition
+    icon?: IconDefinition,
 };
 
 export default function WhatMakesUsDifferentSection() {
@@ -19,31 +19,29 @@ export default function WhatMakesUsDifferentSection() {
             side: 'right',
             title: 'Free Forever',
             text: "Our app will always have a generous free plan available to all users. Stay a free user forever, or upgrade for more powerful analytics and features. It's totally up to you.",
-            icon: faDollarSign
+            icon: faDollarSign,
         }, {
             side: 'left',
             title: 'Multiple Pages',
             text: 'Have more than one brand that you need a link-in-bio for? No problem! All users have the ability to create multiple pages under the same account.',
-            icon: faFolderPlus
+            icon: faFolderPlus,
         }, {
             side: 'right',
             title: 'Your Data Will Never Be Sold',
             text: "We believe privacy is extremely important in today's day in age. Your account data is encrypted and stored securely in accordance with industry best practices. We will never sell or abuse your data in any way.",
-            icon: faDatabase
+            icon: faDatabase,
         }, {
             side: 'left',
             title: 'No Unfair Bans',
             text: "We believe you should have the power to share your brand message in any way you want. You wont face any censorship, shadowbans, or other similar actions on our platform.",
-            icon: faHammer
-        }
+            icon: faHammer,
+        },
     ];
 
     return (
         <div
             className='flex flex-col justify-start items-center gap-2 w-full pt-16 pb-32'
-            style={{
-                backgroundImage: 'linear-gradient(to right, #9370DB, lightblue)'
-            }}
+            style={{ backgroundImage: 'linear-gradient(to right, #9370DB, lightblue)' }}
         >
             <h2 className='m-2 pb-16 text-center text-5xl text-black'>
                 Why Choose Us?
@@ -71,7 +69,7 @@ const Card = ({ side, title, text, icon }: T_Card) => {
 
     const { scrollYProgress } = useScroll({
         target: ref,
-        offset: ['0 1', '1.33 1']
+        offset: ['0 1', '1.33 1'],
     });
     const scaleProgress = useTransform(scrollYProgress, [-1.5, 1], [0.8, 1]);
     const opacityProgress = useTransform(scrollYProgress, [-1.5, 1], [0.8, 1]);
@@ -81,7 +79,7 @@ const Card = ({ side, title, text, icon }: T_Card) => {
             className='flex justify-center items-center w-full my-8'
             style={{
                 scale: scaleProgress,
-                opacity: opacityProgress
+                opacity: opacityProgress,
             }}
         >
             <div
@@ -90,15 +88,11 @@ const Card = ({ side, title, text, icon }: T_Card) => {
             >
                 <div
                     className='max-w-[300px] px-3 py-2 text-black bg-white rounded-lg'
-                    style={{
-                        border: 'solid gray 2px'
-                    }}
+                    style={{ border: 'solid gray 2px' }}
                 >
                     <div className='flex justify-start items-center gap-3 mb-2'>
                         <span className='text-2xl'>
-                            {icon &&
-                                <FontAwesomeIcon icon={icon} />
-                            }
+                            {icon && <FontAwesomeIcon icon={icon} />}
                         </span>
                         <span className='text-2xl font-bold'>
                             {title}
@@ -118,7 +112,7 @@ const CTAButtonsContainer = () => {
 
     const { scrollYProgress } = useScroll({
         target: ref,
-        offset: ['0 1', '1.33 1']
+        offset: ['0 1', '1.33 1'],
     });
     const scaleProgress = useTransform(scrollYProgress, [-1.5, 1], [0.8, 1]);
     const opacityProgress = useTransform(scrollYProgress, [-1.5, 1], [0.8, 1]);

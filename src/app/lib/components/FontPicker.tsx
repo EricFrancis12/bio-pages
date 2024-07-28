@@ -4,10 +4,12 @@ import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import type { TFontFamily } from '../types';
 import { fontsDictionary, fontsArray } from '../fonts';
 
+const FONT_PICKER_Z_INDEX = 500;
+
 export default function FontPicker({ name, value, onValueChange }: {
     name?: string,
     value: TFontFamily,
-    onValueChange: Function
+    onValueChange: Function,
 }) {
     const [expanded, setExpanded] = useState(false);
 
@@ -39,13 +41,13 @@ export default function FontPicker({ name, value, onValueChange }: {
             }
             <div
                 className='relative cursor-pointer w-full'
-                onClick={e => setExpanded(!expanded)}
+                onClick={() => setExpanded(!expanded)}
             >
                 <div
                     className='flex justify-start items-center w-full'
                     style={{
                         border: 'solid black 1px',
-                        borderRadius: '8px'
+                        borderRadius: '8px',
                     }}
                 >
                     <div className='flex justify-between items-center px-4 py-1 w-full'>
@@ -66,7 +68,7 @@ export default function FontPicker({ name, value, onValueChange }: {
                         border: expanded ? 'solid black 1px' : '',
                         borderRadius: '8px',
                         transition: 'max-height 0.3s ease',
-                        zIndex: 500
+                        zIndex: FONT_PICKER_Z_INDEX,
                     }}
                 >
                     {fontsArray
@@ -76,9 +78,9 @@ export default function FontPicker({ name, value, onValueChange }: {
                                 className='flex justify-start items-center w-full p-1 bg-white'
                                 style={{
                                     whiteSpace: 'nowrap',
-                                    borderBottom: 'solid grey 1px'
+                                    borderBottom: 'solid grey 1px',
                                 }}
-                                onClick={e => onValueChange(font.family)}
+                                onClick={() => onValueChange(font.family)}
                             >
                                 <span className={font?.instance?.className || ''}>
                                     {font.name}

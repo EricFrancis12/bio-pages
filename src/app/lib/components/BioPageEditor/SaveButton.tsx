@@ -2,20 +2,17 @@
 
 export default function SaveButton({ onClick, disabled }: {
     onClick: Function,
-    disabled?: boolean
+    disabled?: boolean,
 }) {
-    async function handleButtonClick() {
-        if (disabled) return;
-        onClick();
+    function handleButtonClick() {
+        if (!disabled) onClick();
     }
 
     return (
         <div>
             <button
                 className={(disabled ? '' : 'cursor-pointer')}
-                style={{
-                    border: disabled ? 'none' : 'solid black 1px'
-                }}
+                style={{ border: disabled ? 'none' : 'solid black 1px' }}
                 disabled={disabled}
                 onClick={handleButtonClick}
             >

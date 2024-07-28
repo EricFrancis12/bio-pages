@@ -9,10 +9,11 @@ import { defaultIcon } from '../../default-data';
 
 export const IGNORE_CLICK_CLASS = 'IGNORE_CLICK_CLASS';
 export const NUM_ICONS_PER_PAGE = 50;
+const ICON_PICKER_Z_INDEX = 100;
 
 export default function IconPicker({ value, onValueChange }: {
     value: TButtonIcon,
-    onValueChange: Function
+    onValueChange: Function,
 }) {
     const [open, setOpen] = useState<boolean>(false);
     const [searchQuery, setSearchQuery] = useState<string>('');
@@ -20,7 +21,6 @@ export default function IconPicker({ value, onValueChange }: {
 
     useEffect(() => {
         document.addEventListener('click', handleGlobalClick);
-
         return () => document.removeEventListener('click', handleGlobalClick);
     }, []);
 
@@ -44,6 +44,11 @@ export default function IconPicker({ value, onValueChange }: {
         setOpen(!open);
     }
 
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+        setSearchQuery(e.target.value);
+        setCurrentPage(1);
+    }
+
     const filteredIcons = Object.keys(icons)
         .filter((iconValue) =>
             camelCaseToLowerCaseWithSpaces(iconValue?.split('fa')?.at(-1) as string)
@@ -62,13 +67,11 @@ export default function IconPicker({ value, onValueChange }: {
                 style={{
                     border: 'solid black 1px',
                     borderRadius: '8px',
-                    transition: 'background-color 0.3s ease'
+                    transition: 'background-color 0.3s ease',
                 }}
                 onClick={handleClick}
             >
-                {icon &&
-                    <FontAwesomeIcon icon={icon as IconDefinition} />
-                }
+                {icon && <FontAwesomeIcon icon={icon as IconDefinition} />}
             </div>
             {open &&
                 <div
@@ -76,27 +79,22 @@ export default function IconPicker({ value, onValueChange }: {
                     style={{
                         border: 'solid black 1px',
                         borderRadius: '8px',
-                        zIndex: 100
+                        zIndex: ICON_PICKER_Z_INDEX,
                     }}
                 >
                     <div>
                         <div
                             className={IGNORE_CLICK_CLASS + ' w-full py-1'}
-                            style={{
-                                borderBottom: 'solid black 1px'
-                            }}
+                            style={{ borderBottom: 'solid black 1px' }}
                         >
                             <input
                                 placeholder='search icons'
                                 className={IGNORE_CLICK_CLASS + ' w-full px-1'}
                                 style={{
                                     border: 'none',
-                                    outline: 'none'
+                                    outline: 'none',
                                 }}
-                                onChange={e => {
-                                    setSearchQuery(e.target.value);
-                                    setCurrentPage(1);
-                                }}
+                                onChange={handleChange}
                             />
                         </div>
                         <div className='flex flex-wrap justify-center items-start p-1 bg-white'>
@@ -106,7 +104,7 @@ export default function IconPicker({ value, onValueChange }: {
                                     return (
                                         <div key={index}
                                             className='flex justify-center items-center p-1 cursor-pointer hover:outline'
-                                            onClick={e => onValueChange(iconValue)}
+                                            onClick={() => onValueChange(iconValue)}
                                         >
                                             <FontAwesomeIcon icon={_icon} />
                                         </div>
@@ -116,9 +114,7 @@ export default function IconPicker({ value, onValueChange }: {
                     </div>
                     <Pagination
                         className={IGNORE_CLICK_CLASS + ' w-full px-1'}
-                        style={{
-                            borderTop: 'solid black 1px'
-                        }}
+                        style={{ borderTop: 'solid black 1px' }}
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
                         totalNumPages={totalNumPages}

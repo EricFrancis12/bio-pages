@@ -7,18 +7,14 @@ export default async function Page({ params }: { params: { bioPage_id: string } 
     if (bioPage) {
         const click: TClick = {
             biopage_id: bioPage._id,
-            timestamp: Date.now()
+            timestamp: Date.now(),
         };
         createAndSaveNewClick(click); // we are not awaiting this, because it makes no sense to make the client wait for us to save a click to db
     }
 
     return bioPage
-        ? (
-            <BioPage bioPage={bioPage} />
-        )
-        : (
-            <div>
-                Bio Page not found :/
-            </div>
-        )
+        ? <BioPage bioPage={bioPage} />
+        : <div>
+            Bio Page not found :/
+        </div>
 }

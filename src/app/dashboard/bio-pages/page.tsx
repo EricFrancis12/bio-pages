@@ -6,7 +6,7 @@ import { fetchBioPagesByUser_id } from '../../lib/data';
 import BioPagesOverview from '@/app/lib/components/BioPagesOverview/BioPagesOverview';
 
 export const metadata: Metadata = {
-    title: 'Bio Pages List'
+    title: 'Bio Pages List',
 };
 
 export default async function Page() {
@@ -22,8 +22,6 @@ export default async function Page() {
     }
 
     return (
-        <BioPagesOverview
-            bioPages={bioPages}
-        />
+        <BioPagesOverview bioPages={bioPages} />
     )
 }

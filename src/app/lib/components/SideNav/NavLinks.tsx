@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faFolder } from '@fortawesome/free-solid-svg-icons';
 
 export default function NavLinks({ demoMode }: {
-    demoMode?: boolean
+    demoMode?: boolean,
 }) {
     const pathname = usePathname();
 
@@ -14,13 +14,13 @@ export default function NavLinks({ demoMode }: {
         {
             name: 'Home',
             href: demoMode === true ? '/demo/dashboard' : '/dashboard',
-            icon: faHome
+            icon: faHome,
         },
         {
             name: 'Pages',
             href: demoMode === true ? '/demo/dashboard/bio-pages' : '/dashboard/bio-pages',
-            icon: faFolder
-        }
+            icon: faFolder,
+        },
     ];
 
     return (

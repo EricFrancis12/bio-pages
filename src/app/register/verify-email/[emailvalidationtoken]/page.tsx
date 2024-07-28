@@ -4,7 +4,7 @@ import { fetchUserByEmailValidationToken, updateExistingUser } from '@/app/lib/d
 import { TUser } from '@/app/lib/types';
 
 export const metadata: Metadata = {
-    title: 'Verify Email'
+    title: 'Verify Email',
 };
 
 export default async function Page({ params }: { params: { emailvalidationtoken: string } }) {

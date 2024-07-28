@@ -2,13 +2,13 @@ import type { Metadata } from 'next';
 import { BioPageLayout } from '@/app/p/layout';
 
 export const metadata: Metadata = {
-    title: ' '
+    title: ' ',
 };
 
 export default function Layout({
     children,
 }: {
-    children: React.ReactNode;
+    children: React.ReactNode,
 }) {
     return (
         <BioPageLayout>

@@ -15,7 +15,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
             body,
             request: req,
             onBeforeGenerateToken: async (
-                pathname: string,
+                _: string,
                 /* clientPayload?: string, */
             ) => {
                 // Generate a client token for the browser to upload the file

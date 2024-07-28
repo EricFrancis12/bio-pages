@@ -31,21 +31,21 @@ export default function BioPageEditor({ bioPage: _bioPage, demoMode }: {
     const [settingsMenuOpen, setSettingsMenuOpen] = useState<boolean>(false);
 
     const defaultBioPage = {
-        _id: bioPage?._id as string,
-        user_id: bioPage?.user_id as string,
-        name: bioPage?.name as string,
-        font: bioPage?.font as TFontFamily,
-        textcolor: bioPage?.textcolor as TColor,
-        backgroundcolor: bioPage?.backgroundcolor as TColor,
-        imagesrc: bioPage?.imagesrc as string,
-        headingtext: bioPage?.headingtext as string,
-        subheadingtext: bioPage?.subheadingtext as string,
-        buttonstyle: bioPage?.buttonstyle as TButtonStyle,
-        buttoncolor: bioPage?.buttoncolor as TColor,
-        buttontextcolor: bioPage?.buttontextcolor as TColor,
-        buttonbordercolor: bioPage?.buttonbordercolor as TColor,
-        buttons: bioPage?.buttons as TButton[],
-        clicks: bioPage?.clicks as TClick[]
+        _id: bioPage?._id,
+        user_id: bioPage?.user_id,
+        name: bioPage?.name,
+        font: bioPage?.font,
+        textcolor: bioPage?.textcolor,
+        backgroundcolor: bioPage?.backgroundcolor,
+        imagesrc: bioPage?.imagesrc,
+        headingtext: bioPage?.headingtext,
+        subheadingtext: bioPage?.subheadingtext,
+        buttonstyle: bioPage?.buttonstyle,
+        buttoncolor: bioPage?.buttoncolor,
+        buttontextcolor: bioPage?.buttontextcolor,
+        buttonbordercolor: bioPage?.buttonbordercolor,
+        buttons: bioPage?.buttons,
+        clicks: bioPage?.clicks,
     };
 
     function handleInputChange(
@@ -55,18 +55,18 @@ export default function BioPageEditor({ bioPage: _bioPage, demoMode }: {
         setBioPage({
             ...defaultBioPage,
             ...bioPage,
-            [bioPageKey]: e.target.value
+            [bioPageKey]: e.target.value,
         });
     }
 
     function handleColorChange(
         newColor: TColor,
-        bioPageKey: string
+        bioPageKey: string,
     ) {
         setBioPage({
             ...defaultBioPage,
             ...bioPage,
-            [bioPageKey]: newColor
+            [bioPageKey]: newColor,
         });
     }
 
@@ -101,7 +101,7 @@ export default function BioPageEditor({ bioPage: _bioPage, demoMode }: {
                 uploadResult?.url
                     ? {
                         ...bioPage,
-                        imagesrc: uploadResult.url
+                        imagesrc: uploadResult.url,
                     }
                     : bioPage
             );
@@ -164,8 +164,9 @@ export default function BioPageEditor({ bioPage: _bioPage, demoMode }: {
                             buttons={bioPage?.buttons as TButton[]}
                             setButtons={(newButtons: TButton[]) => setBioPage({
                                 ...bioPage,
-                                buttons: structuredClone(newButtons)
-                            } as TBioPage)} />
+                                buttons: structuredClone(newButtons),
+                            } as TBioPage)}
+                        />
                     </Card>
                     <Card title='Style'>
                         <FontPicker
@@ -174,7 +175,7 @@ export default function BioPageEditor({ bioPage: _bioPage, demoMode }: {
                             onValueChange={(newFont: TFontFamily) => setBioPage({
                                 ...defaultBioPage,
                                 ...bioPage,
-                                font: newFont
+                                font: newFont,
                             })}
                         />
                         <ColorInput
@@ -194,7 +195,7 @@ export default function BioPageEditor({ bioPage: _bioPage, demoMode }: {
                             onValueChange={(newButtonstyle: TButtonStyle) => setBioPage({
                                 ...defaultBioPage,
                                 ...bioPage,
-                                buttonstyle: newButtonstyle
+                                buttonstyle: newButtonstyle,
                             })}
                         />
                         <ColorInput

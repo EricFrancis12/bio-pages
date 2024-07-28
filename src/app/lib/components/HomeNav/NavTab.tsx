@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 
 export default function NavTab({ text, href }: {
     text: string,
-    href: string
+    href: string,
 }) {
     const pathname = usePathname();
     const active = pathname === href;
@@ -17,9 +17,7 @@ export default function NavTab({ text, href }: {
             </Link>
             <div
                 className={(active ? 'bg-yellow-400' : 'bg-transparent') + ' h-[2px] w-full group-hover:bg-yellow-400'}
-                style={{
-                    transition: 'ease-in-out 0.3s background-color'
-                }}
+                style={{ transition: 'ease-in-out 0.3s background-color' }}
             />
         </div>
     )

@@ -7,11 +7,11 @@ import { TBioPage } from '../../types';
 ChartJS.register(
     ArcElement,
     Tooltip,
-    Legend
+    Legend,
 );
 
 export default function PieChart({ bioPages }: {
-    bioPages: TBioPage[]
+    bioPages: TBioPage[],
 }) {
     const data = {
         labels: bioPages.map(bioPage => bioPage.name),
@@ -22,11 +22,11 @@ export default function PieChart({ bioPages }: {
                 backgroundColor: [
                     'rgb(255, 99, 132)',
                     'rgb(54, 162, 235)',
-                    'rgb(255, 205, 86)'
+                    'rgb(255, 205, 86)',
                 ],
-                hoverOffset: 4
-            }
-        ]
+                hoverOffset: 4,
+            },
+        ],
     };
 
     return (

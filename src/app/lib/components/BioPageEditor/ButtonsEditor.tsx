@@ -13,13 +13,13 @@ export default function ButtonsEditor({ buttons, setButtons }: {
     function handleChange(
         newValue: string | boolean,
         buttonKey: string,
-        index: number
+        index: number,
     ) {
         const newButtons = buttons.map((button, _index) => {
             if (_index === index) {
                 return {
                     ...button,
-                    [buttonKey]: newValue
+                    [buttonKey]: newValue,
                 };
             }
             return button;
@@ -27,26 +27,33 @@ export default function ButtonsEditor({ buttons, setButtons }: {
         setButtons(newButtons);
     }
 
-    function handleChevronUpClick(index: number) {
-        if (index === 0) return;
-        const newButtons = [...buttons];
-        const button: TButton = newButtons.splice(index, 1)[0];
-        newButtons.splice(index - 1, 0, button);
-        setButtons(newButtons);
-    }
+    function handleChevronClick(index: number, direction: 'up' | 'down') {
+        if (
+            (direction === 'up' && index === 0) ||
+            (direction === 'down' && index === buttons.length - 1)
+        ) {
+            return;
+        }
 
-    function handleChevronDownClick(index: number) {
-        if (index === buttons.length - 1) return;
         const newButtons = [...buttons];
         const button: TButton = newButtons.splice(index, 1)[0];
-        newButtons.splice(index + 1, 0, button);
+        const newIndex = direction === 'up' ? index - 1 : index + 1;
+        newButtons.splice(newIndex, 0, button);
         setButtons(newButtons);
     }
 
     function handleDelete(index: number) {
         if (buttons.length === 0) return;
-        const newButtons = buttons.filter((button, _index) => _index !== index);
+        const newButtons = buttons.filter((_, _index) => _index !== index);
         setButtons(newButtons);
+    }
+
+    function handleClick() {
+        if (buttons.length >= MAX_NUM_BUTTONS) return;
+        setButtons([
+            ...buttons,
+            { ...defaultButton },
+        ]);
     }
 
     return (
@@ -61,13 +68,13 @@ export default function ButtonsEditor({ buttons, setButtons }: {
                     <div className='flex flex-col justify-around items-center gap-2 px-2'>
                         <span
                             className='flex justify-center items-center hover:text-green-300 cursor-pointer'
-                            onClick={e => handleChevronUpClick(index)}
+                            onClick={e => handleChevronClick(index, 'up')}
                         >
                             <FontAwesomeIcon icon={faChevronUp} />
                         </span>
                         <span
                             className='flex justify-center items-center hover:text-green-300 cursor-pointer'
-                            onClick={e => handleChevronDownClick(index)}
+                            onClick={e => handleChevronClick(index, 'down')}
                         >
                             <FontAwesomeIcon icon={faChevronDown} />
                         </span>
@@ -128,15 +135,7 @@ export default function ButtonsEditor({ buttons, setButtons }: {
                 <div
                     className='flex justify-center items-center hover:opacity-70 cursor-pointer'
                     style={{ borderRadius: '25px' }}
-                    onClick={e => {
-                        if (buttons.length >= MAX_NUM_BUTTONS) return;
-                        setButtons([
-                            ...buttons,
-                            {
-                                ...defaultButton
-                            }
-                        ])
-                    }}
+                    onClick={handleClick}
                 >
                     <FontAwesomeIcon icon={faPlus} />
                 </div>

@@ -3,7 +3,7 @@ import useProtectedRoute from '@/app/lib/hooks/useProtectedRoute';
 import { updateExistingBioPage, deleteBioPageBy_id } from '@/app/lib/data';
 import { TBioPage } from '@/app/lib/types';
 
-export async function PUT(req: Request, { params }: any) {
+export async function PUT(req: Request, { params }: { params: { bioPage_id: string } }) {
     const session = await useProtectedRoute();
     if (!session) {
         return NextResponse.json({ success: false, message: 'unauthorized' });

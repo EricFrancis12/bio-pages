@@ -12,27 +12,25 @@ import SessionProvider from './lib/components/SessionProvider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Rybio.link | Link In Bio Page-Builder',
-  description: 'Rybio.link | Link In Bio Page-Builder'
+    title: 'Rybio.link | Link In Bio Page-Builder',
+    description: 'Rybio.link | Link In Bio Page-Builder',
 };
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
+export default async function RootLayout({ children }: {
+    children: React.ReactNode,
 }) {
-  const session = await getServerSession();
+    const session = await getServerSession();
 
-  return (
-    <html lang='en'>
-      <body className={inter.className}>
-        <SessionProvider session={session}>
-          <_GoogleAnalytics />
-          <main>
-            {children}
-          </main>
-        </SessionProvider>
-      </body>
-    </html>
-  );
+    return (
+        <html lang='en'>
+            <body className={inter.className}>
+                <SessionProvider session={session}>
+                    <_GoogleAnalytics />
+                    <main>
+                        {children}
+                    </main>
+                </SessionProvider>
+            </body>
+        </html>
+    )
 }

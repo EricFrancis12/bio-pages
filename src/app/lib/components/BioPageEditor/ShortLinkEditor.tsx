@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 export default function ShortLinkEditor({ value: bioPage_id, onValueChange }: {
     value: string,
-    onValueChange: Function
+    onValueChange: Function,
 }) {
     const { push } = useRouter();
 
@@ -19,12 +19,10 @@ export default function ShortLinkEditor({ value: bioPage_id, onValueChange }: {
         const newBioPage_id = inputValue;
         const resJson = await fetch(`/api/bio-pages/${bioPage_id}/change_id`, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             method: 'POST',
-            body: JSON.stringify({
-                _id: newBioPage_id
-            })
+            body: JSON.stringify({ _id: newBioPage_id }),
         })
             .then((res) => res.json())
             .catch((err) => console.error(err));
@@ -50,7 +48,7 @@ export default function ShortLinkEditor({ value: bioPage_id, onValueChange }: {
                 {!loading &&
                     <button
                         disabled={inputValue === bioPage_id}
-                        onClick={e => handleButtonClick()}
+                        onClick={handleButtonClick}
                     >
                         Submit
                     </button>

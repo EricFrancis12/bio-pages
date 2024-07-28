@@ -5,25 +5,27 @@ export default function Pagination({ className, style, currentPage, setCurrentPa
     style?: object,
     currentPage: number,
     setCurrentPage: Function,
-    totalNumPages: number
+    totalNumPages: number,
 }) {
     const pagination = generatePagination(currentPage, totalNumPages);
+
+    function handleSetCurrentPage() {
+        setCurrentPage(
+            currentPage - 1 <= 0
+                ? 1
+                : currentPage - 1
+        );
+    }
 
     return (
         <div
             className={'flex justify-between items-center ' + className}
-            style={{
-                ...style
-            }}
+            style={style}
         >
             <PaginationItem
                 paginationItem='<'
                 currentPage={currentPage}
-                setCurrentPage={() => setCurrentPage(
-                    currentPage - 1 <= 0
-                        ? 1
-                        : currentPage - 1
-                )}
+                setCurrentPage={handleSetCurrentPage}
                 disabled={currentPage - 1 <= 0}
             />
             {pagination.map((paginationItem, index) => (
@@ -52,8 +54,13 @@ export function PaginationItem({ paginationItem, currentPage, setCurrentPage, di
     paginationItem: number | string,
     currentPage: number,
     setCurrentPage: Function,
-    disabled?: boolean
+    disabled?: boolean,
 }) {
+    function handleClick() {
+        if (paginationItem === '...' || disabled === true) return;
+        setCurrentPage(paginationItem);
+    }
+
     return (
         <div
             className={
@@ -67,10 +74,7 @@ export function PaginationItem({ paginationItem, currentPage, setCurrentPage, di
                 )
                 + (disabled ? ' text-gray-400 cursor-not-allowed' : ' text-black')
             }
-            onClick={e => {
-                if (paginationItem === '...' || disabled === true) return;
-                setCurrentPage(paginationItem);
-            }}
+            onClick={handleClick}
         >
             {paginationItem}
         </div>
@@ -78,11 +82,11 @@ export function PaginationItem({ paginationItem, currentPage, setCurrentPage, di
 }
 
 export function filterByCurrentPage(pages: any, currentPage: number, numItemsPerPage: number) {
-    return pages.filter((page: any, index: number) => {
+    return pages.filter((_: unknown, index: number) => {
         return (index < currentPage * numItemsPerPage && index >= (currentPage - 1) * numItemsPerPage);
     });
 }
 
-export function calcTotalNumPages(pages: any[], numItemsPerPage: number) {
-    return Math.ceil(pages.length / numItemsPerPage);
+export function calcTotalNumPages(_: unknown[], numItemsPerPage: number) {
+    return Math.ceil(_.length / numItemsPerPage);
 }

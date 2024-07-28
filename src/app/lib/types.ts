@@ -15,11 +15,9 @@ export type TColor_NAME = 'red' | 'blue' | 'yellow' | 'green' | 'orange' | 'purp
 export type TColor_GRADIENT = `linear-gradient(${string})` | `radial-gradient(${string})` | `repeating-linear-gradient(${string})` | `repeating-radial-gradient(${string})`;
 export type TColor = TColor_RGB | TColor_RGBA | TColor_HEX | TColor_NAME | TColor_GRADIENT;
 
-export type TEmailAddress = `${string}@${string}.${string}`;
-
 export type TUser = {
     _id: string,
-    email: TEmailAddress | string,
+    email: string,
     hashedpassword?: string,
     emailvalidationtoken?: string | null,
     emailvalidationtokenexpiry?: number | null,

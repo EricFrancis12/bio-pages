@@ -9,6 +9,32 @@ import { demoBioPages } from '@/app/lib/demo-pages';
 import useParallaxScroll from '@/app/lib/hooks/useParallaxScroll';
 import useInViewCallback from '@/app/lib/hooks/useInViewCallback';
 
+const EXPAND_YOUR_REACH_SECTION_Z_INDEX = 50;
+const DUMMY_DIV_Z_INDEX = 10;
+
+const dummyDivs = [
+    { top: '4%', bottom: 'auto', left: 'auto', right: '8%' },
+    { top: '7%', bottom: 'auto', left: 'auto', right: '21%' },
+    { top: '13%', bottom: 'auto', left: '7.5%', right: 'auto' },
+    { top: '15%', bottom: 'auto', left: '26%', right: 'auto' },
+    { top: '30%', bottom: 'auto', left: 'auto', right: '8%' },
+    { top: '41%', bottom: 'auto', left: 'auto', right: '30%' },
+    { top: 'auto', bottom: '14%', left: 'auto', right: '15%' },
+    { top: 'auto', bottom: '10%', left: '30%', right: 'auto' },
+    { top: 'auto', bottom: '5%', left: '16.5%', right: 'auto' },
+    { top: 'auto', bottom: '2%', left: '-2%', right: 'auto' },
+    { top: '20%', bottom: 'auto', left: 'auto', right: '10%' },
+    { top: '35%', bottom: 'auto', left: '15%', right: 'auto' },
+    { top: 'auto', bottom: '20%', left: '25%', right: 'auto' },
+    { top: 'auto', bottom: '15%', left: 'auto', right: '5%' },
+    { top: '10%', bottom: 'auto', left: 'auto', right: '5%' },
+    { top: '25%', bottom: 'auto', left: 'auto', right: '25%' },
+    { top: 'auto', bottom: '8%', left: '12%', right: 'auto' },
+    { top: '5%', bottom: 'auto', left: 'auto', right: '18%' },
+    { top: 'auto', bottom: 'auto', left: '8%', right: 'auto' },
+    { top: '33%', bottom: 'auto', left: 'auto', right: '12%' },
+];
+
 export default function ExpandYourReachSection() {
     const container = useRef<HTMLDivElement | null>(null);
     const { sm, md, lg } = useParallaxScroll(container);
@@ -46,29 +72,6 @@ export default function ExpandYourReachSection() {
         setFeatured({ text, color });
     }
 
-    const dummyDivs = [
-        { top: '4%', bottom: 'auto', left: 'auto', right: '8%' },
-        { top: '7%', bottom: 'auto', left: 'auto', right: '21%' },
-        { top: '13%', bottom: 'auto', left: '7.5%', right: 'auto' },
-        { top: '15%', bottom: 'auto', left: '26%', right: 'auto' },
-        { top: '30%', bottom: 'auto', left: 'auto', right: '8%' },
-        { top: '41%', bottom: 'auto', left: 'auto', right: '30%' },
-        { top: 'auto', bottom: '14%', left: 'auto', right: '15%' },
-        { top: 'auto', bottom: '10%', left: '30%', right: 'auto' },
-        { top: 'auto', bottom: '5%', left: '16.5%', right: 'auto' },
-        { top: 'auto', bottom: '2%', left: '-2%', right: 'auto' },
-        { top: '20%', bottom: 'auto', left: 'auto', right: '10%' },
-        { top: '35%', bottom: 'auto', left: '15%', right: 'auto' },
-        { top: 'auto', bottom: '20%', left: '25%', right: 'auto' },
-        { top: 'auto', bottom: '15%', left: 'auto', right: '5%' },
-        { top: '10%', bottom: 'auto', left: 'auto', right: '5%' },
-        { top: '25%', bottom: 'auto', left: 'auto', right: '25%' },
-        { top: 'auto', bottom: '8%', left: '12%', right: 'auto' },
-        { top: '5%', bottom: 'auto', left: 'auto', right: '18%' },
-        { top: 'auto', bottom: 'auto', left: '8%', right: 'auto' },
-        { top: '33%', bottom: 'auto', left: 'auto', right: '12%' }
-    ];
-
     const bioPageGraphics = [
         { top: '10%', left: '12%', scale: 0.75, parallax: sm, bioPage: demoBioPages.at(0) },
         { top: '30%', left: '80%', scale: 1.05, parallax: md, bioPage: demoBioPages.at(1) },
@@ -76,33 +79,26 @@ export default function ExpandYourReachSection() {
         { top: '70%', left: '65%', scale: 1.15, parallax: lg, bioPage: demoBioPages.at(3) },
         { top: '80%', left: '20%', scale: 0.85, parallax: sm, bioPage: demoBioPages.at(4) },
         { top: '90%', left: '55%', scale: 1.05, parallax: lg, bioPage: demoBioPages.at(5) },
-        { top: '95%', left: '70%', scale: 0.95, parallax: md, bioPage: demoBioPages.at(6) }
+        { top: '95%', left: '70%', scale: 0.95, parallax: md, bioPage: demoBioPages.at(6) },
     ];
 
     return (
-        <div ref={container}
+        <div
+            ref={container}
             className='relative h-[1600px] px-4 pt-32 bg-[#fdfdfd]'
-            style={{
-                contain: 'paint'
-            }}
+            style={{ contain: 'paint' }}
         >
             <div
                 className='sticky top-24 mb-24 left-0'
-                style={{
-                    zIndex: 50
-                }}
+                style={{ zIndex: EXPAND_YOUR_REACH_SECTION_Z_INDEX }}
             >
                 <div
                     className='relative'
-                    style={{
-                        pointerEvents: 'none'
-                    }}
+                    style={{ pointerEvents: 'none' }}
                 >
                     <div
                         className='top-0 left-0 right-0 flex flex-col justify-center items-center gap-6 max-w-[500px] mx-auto px-4 py-6 text-[#000] bg-slate-200'
-                        style={{
-                            borderRadius: '15px'
-                        }}
+                        style={{ borderRadius: '15px' }}
                     >
                         <div className='text-center text-3xl text-[#000] font-bold'>
                             Everything you need to expand your reach.
@@ -193,7 +189,7 @@ const DummyDiv = ({ dummyDiv }: {
         top: string,
         bottom: string,
         left: string,
-        right: string
+        right: string,
     }
 }) => {
     const { top, bottom, left, right } = dummyDiv;
@@ -202,11 +198,11 @@ const DummyDiv = ({ dummyDiv }: {
             className='absolute h-[99px] w-[132px] bg-[#f4f5f8]'
             style={{
                 borderRadius: '4px',
-                zIndex: 10,
+                zIndex: DUMMY_DIV_Z_INDEX,
                 top,
                 bottom,
                 left,
-                right
+                right,
             }}
         />
     )

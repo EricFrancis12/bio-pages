@@ -24,7 +24,7 @@ export default function LoginForm() {
             const result = await signIn('credentials', {
                 username: email,
                 password,
-                redirect: false
+                redirect: false,
             });
             if (!result?.ok) {
                 return setError(result?.error ?? 'Something went wrong!');
@@ -46,7 +46,7 @@ export default function LoginForm() {
                 {"Don't have an account? "}<span className='underline'>Register</span>
             </Link>
             <Link className='text-sm text-right' href={'/reset-password'}>
-                {"or "}<span className='underline'>Reset Password</span>
+                {'or '}<span className='underline'>Reset Password</span>
             </Link>
         </AuthForm>
     )

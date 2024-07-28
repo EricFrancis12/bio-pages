@@ -52,14 +52,15 @@ export default function CalendarButton({ timerange, setTimerange }: {
     }
 
     return (
-        <div ref={calendarButtonElement}
+        <div
+            ref={calendarButtonElement}
             className={IGNORE_CALENDAR_CLICK_CLASS +
                 ' relative px-2 py-1 cursor-pointer'}
             style={{
                 border: 'solid black 1px',
-                borderRadius: '8px'
+                borderRadius: '8px',
             }}
-            onClick={e => handleClick(e)}
+            onClick={handleClick}
         >
             <span style={{ pointerEvents: 'none' }}>
                 {formatDatesRange(timerange)}
@@ -71,19 +72,18 @@ export default function CalendarButton({ timerange, setTimerange }: {
                         top: '100%',
                         left: 0,
                         border: 'solid black 1px',
-                        borderRadius: '8px'
+                        borderRadius: '8px',
                     }}
                 >
                     <DateRangePicker
                         onChange={item => setWorkingTimerange(item.selection as TTimerange)}
-                        //   showSelectionPreview={true}
                         moveRangeOnFirstSelection={false}
                         months={2}
                         ranges={[workingTimerange]}
                         direction="horizontal"
                     />
                     <div>
-                        <button onClick={e => handleApplyButtonClick()}>
+                        <button onClick={() => handleApplyButtonClick()}>
                             Apply
                         </button>
                     </div>
