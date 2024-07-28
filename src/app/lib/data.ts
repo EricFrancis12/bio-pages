@@ -239,7 +239,7 @@ export async function fetchBioPagesByUser_id(user_id: string) {
     }
 }
 
-export function createNewBioPage(user_id: string) {
+export function newBioPage(user_id: string) {
     const newBioPage: TBioPage = {
         _id: generateNewBioPage_id(),
         user_id,
@@ -262,7 +262,7 @@ export function createNewBioPage(user_id: string) {
 
 export async function createAndSaveNewBioPage(user_id: string) {
     try {
-        const bioPage = createNewBioPage(user_id);
+        const bioPage = newBioPage(user_id);
         const client = await db.connect();
         await client.sql`
             INSERT INTO biopages (_id, user_id, name, font, textcolor, backgroundcolor, imageSrc, headingText, subheadingText, buttonstyle, buttoncolor, buttontextcolor, buttonbordercolor, buttons)

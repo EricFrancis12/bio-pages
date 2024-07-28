@@ -1,12 +1,11 @@
 'use client';
 
 import React, { useState, useContext } from 'react';
-import type { TColor } from '../types';
 import BlackTransparentOverlay from '../components/BlackTransparentOverlay';
 
 export type TColorPickerMenu = null | {
     name: string,
-    value: TColor,
+    value: string,
     onChange: (value: string) => void
 };
 export type TColorPickerMenuContext = {

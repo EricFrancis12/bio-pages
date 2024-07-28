@@ -1,19 +1,4 @@
-import { fontsArray } from './fonts';
-const fontFamilies = fontsArray.map((font) => font.family);
 
-export type TFontFamily = typeof fontFamilies[number]; // is a valid type if the fontsArray has it as a ".family" property
-export type TButtonStyleType = 'no_shadow' | 'soft_shadow' | 'hard_shadow';
-export type TButtonStyleRadius = number;
-export type TButtonStyle = `${TButtonStyleType}-${TButtonStyleRadius}`;
-export type TButtonIcon = string | null;
-export type TButtonUrl = string;
-
-export type TColor_RGB = `rgb(${number}, ${number}, ${number})`;
-export type TColor_RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;
-export type TColor_HEX = `#${string}`;
-export type TColor_NAME = 'red' | 'blue' | 'yellow' | 'green' | 'orange' | 'purple' | 'white' | 'black' | 'grey' | 'transparent';
-export type TColor_GRADIENT = `linear-gradient(${string})` | `radial-gradient(${string})` | `repeating-linear-gradient(${string})` | `repeating-radial-gradient(${string})`;
-export type TColor = TColor_RGB | TColor_RGBA | TColor_HEX | TColor_NAME | TColor_GRADIENT;
 
 export type TUser = {
     _id: string,
@@ -22,41 +7,45 @@ export type TUser = {
     emailvalidationtoken?: string | null,
     emailvalidationtokenexpiry?: number | null,
     passwordresettoken?: string | null,
-    passwordresettokenexpiry?: number | null
-};
-
-export type TButton = {
-    text: string,
-    icon: TButtonIcon,
-    url: TButtonUrl,
-    disabled?: boolean
-};
-
-export type TClick = {
-    biopage_id?: string,
-    timestamp: number
+    passwordresettokenexpiry?: number | null,
 };
 
 export type TBioPage = {
     _id: string,
     user_id: string,
     name: string,
-    font: TFontFamily,
-    textcolor: TColor,
-    backgroundcolor: TColor,
+    font: string,
+    textcolor: string,
+    backgroundcolor: string,
     imagesrc: string | null,
     headingtext: string,
     subheadingtext: string,
     buttonstyle: TButtonStyle,
-    buttoncolor: TColor,
-    buttontextcolor: TColor,
-    buttonbordercolor: TColor,
+    buttoncolor: string,
+    buttontextcolor: string,
+    buttonbordercolor: string,
     buttons: TButton[],
-    clicks: TClick[]
+    clicks: TClick[],
+};
+
+export type TButton = {
+    text: string,
+    icon: TButtonIcon,
+    url: string,
+    disabled?: boolean,
+};
+
+export type TButtonStyleType = 'no_shadow' | 'soft_shadow' | 'hard_shadow';
+export type TButtonStyle = `${TButtonStyleType}-${number}`;
+export type TButtonIcon = string | null;
+
+export type TClick = {
+    biopage_id?: string,
+    timestamp: number,
 };
 
 export type TTimerange = {
     startDate: Date,
     endDate: Date,
-    key: string
+    key: string,
 };

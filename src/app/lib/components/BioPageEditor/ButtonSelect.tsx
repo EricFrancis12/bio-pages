@@ -1,4 +1,4 @@
-import type { TButtonStyle, TButtonStyleType, TButtonStyleRadius } from '../../types';
+import type { TButtonStyle, TButtonStyleType } from '../../types';
 import { deconstructButtonStyle, calcButtonStyleTypeShadows } from '../../utils/utils';
 
 const buttonRows: {
@@ -27,7 +27,7 @@ export default function ButtonSelect({ value, onValueChange }: {
 
     const ButtonStyleButton = ({ type, radius }: {
         type: TButtonStyleType,
-        radius: TButtonStyleRadius,
+        radius: number,
     }) => {
         return (
             <div

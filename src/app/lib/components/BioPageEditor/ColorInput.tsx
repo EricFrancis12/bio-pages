@@ -2,14 +2,13 @@
 
 import { useState, useRef, useEffect } from 'react';
 import ColorPicker from 'react-best-gradient-color-picker';
-import type { TColor } from '../../types';
 import { traverseParentsForRef, rgbaToHex } from '../../utils/utils';
 
 const COLOR_INPUT_Z_INDEX = 500;
 
 export default function ColorInput({ name, value, onChange }: {
     name: string,
-    value: TColor,
+    value: string,
     onChange: (value: string) => void,
 }) {
     const outerRef = useRef<HTMLDivElement | null>(null);
@@ -43,7 +42,7 @@ export default function ColorInput({ name, value, onChange }: {
         setOpen(!open);
     }
 
-    const formatColor = (color: TColor) => {
+    const formatColor = (color: string) => {
         if (color.includes('gradient')) {
             return 'Gradient';
         }

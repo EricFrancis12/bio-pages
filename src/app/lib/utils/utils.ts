@@ -1,4 +1,4 @@
-import type { TBioPage, TClick, TColor, TButtonStyle, TButtonStyleType, TButtonStyleRadius } from '../types';
+import type { TBioPage, TClick, TButtonStyle, TButtonStyleType } from '../types';
 
 export function randomIntBetween(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -106,7 +106,7 @@ export function rgbaToHex(rgbaString: string) {
 export function deconstructButtonStyle(buttonstyle: TButtonStyle) {
     const result = buttonstyle.split('-');
     const buttonstyleType: TButtonStyleType = result[0] as TButtonStyleType;
-    const buttonstyleRadius: TButtonStyleRadius = parseInt(result[1]) as TButtonStyleRadius;
+    const buttonstyleRadius = parseInt(result[1]);
     return {
         buttonstyleType,
         buttonstyleRadius
@@ -292,7 +292,7 @@ export function calcButtonStyleTypeShadows(type: TButtonStyleType) {
     return result;
 };
 
-export function isGradient(color: TColor) {
+export function isGradient(color: string) {
     return color.substring(0, 15) === 'linear-gradient'
         || color.substring(0, 15) === 'radial-gradient'
         || color.substring(0, 25) === 'repeating-linear-gradient'

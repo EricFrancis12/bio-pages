@@ -2,13 +2,12 @@
 
 import { CSSProperties } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { TColor } from '../types';
 
 export default function TiltCard({ children, className, style, backgroundColor, xInputRange, yInputRange, disabled }: {
     children: React.ReactNode,
     className?: string,
     style?: CSSProperties,
-    backgroundColor?: TColor,
+    backgroundColor?: string,
     xInputRange?: [number, number] | null,
     yInputRange?: [number, number] | null,
     disabled?: boolean,

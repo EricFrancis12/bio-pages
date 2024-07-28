@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useRef } from 'react';
 import { MotionValue, motion, useAnimation } from 'framer-motion';
-import type { TBioPage, TColor } from '@/app/lib/types';
+import type { TBioPage } from '@/app/lib/types';
 import { demoBioPages } from '@/app/lib/demo-pages';
 import useParallaxScroll from '@/app/lib/hooks/useParallaxScroll';
 import useInViewCallback from '@/app/lib/hooks/useInViewCallback';
@@ -41,7 +41,7 @@ export default function ExpandYourReachSection() {
 
     const controls = useAnimation();
 
-    const [featured, setFeatured] = useState<{ text: string, color: TColor }>({
+    const [featured, setFeatured] = useState<{ text: string, color: string }>({
         text: 'Centralized',
         color: 'linear-gradient(to right, red, rgba(148, 5, 213, 0.778))'
     });
@@ -65,7 +65,7 @@ export default function ExpandYourReachSection() {
 
     function animateOnInView({ text, color }: {
         text: string,
-        color: TColor,
+        color: string,
     }) {
         controls.set('initial');
         controls.start('animate');

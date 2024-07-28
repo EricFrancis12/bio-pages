@@ -1,13 +1,12 @@
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import CTAButton from '@/app/lib/components/CTAButton';
-import { TColor } from '@/app/lib/types';
 
 const ctaButtons: {
     text: string,
     href: string,
     target: '' | '_blank',
-    color: TColor,
+    color: string,
     icon: IconDefinition | null,
 }[] = [
         {

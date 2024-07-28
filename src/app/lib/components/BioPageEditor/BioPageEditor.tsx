@@ -5,7 +5,7 @@ import { useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 import { updateBioPageAction } from '../../actions';
-import type { TBioPage, TButton, TButtonStyle, TClick, TFontFamily, TColor } from '../../types';
+import type { TBioPage, TButton, TButtonStyle } from '../../types';
 import BioPage from '../BioPage';
 import Card from './Card';
 import TextInput from './TextInput';
@@ -60,7 +60,7 @@ export default function BioPageEditor({ bioPage: _bioPage, demoMode }: {
     }
 
     function handleColorChange(
-        newColor: TColor,
+        newColor: string,
         bioPageKey: string,
     ) {
         setBioPage({
@@ -172,21 +172,21 @@ export default function BioPageEditor({ bioPage: _bioPage, demoMode }: {
                         <FontPicker
                             name='Font'
                             value={bioPage.font as string}
-                            onValueChange={(newFont: TFontFamily) => setBioPage({
+                            onValueChange={(font: string) => setBioPage({
                                 ...defaultBioPage,
                                 ...bioPage,
-                                font: newFont,
+                                font,
                             })}
                         />
                         <ColorInput
                             name='Font Color'
                             value={bioPage.textcolor}
-                            onChange={(newColor) => handleColorChange(newColor as TColor, 'textcolor')}
+                            onChange={(newColor) => handleColorChange(newColor, 'textcolor')}
                         />
                         <ColorInput
                             name='Background Color'
                             value={bioPage.backgroundcolor}
-                            onChange={(newColor) => handleColorChange(newColor as TColor, 'backgroundcolor')}
+                            onChange={(newColor) => handleColorChange(newColor, 'backgroundcolor')}
                         />
                     </Card>
                     <Card title='Buttons'>
@@ -201,17 +201,17 @@ export default function BioPageEditor({ bioPage: _bioPage, demoMode }: {
                         <ColorInput
                             name='Button Color'
                             value={bioPage.buttoncolor}
-                            onChange={(newColor) => handleColorChange(newColor as TColor, 'buttoncolor')}
+                            onChange={(newColor) => handleColorChange(newColor, 'buttoncolor')}
                         />
                         <ColorInput
                             name='Button Text Color'
                             value={bioPage.buttontextcolor}
-                            onChange={(newColor) => handleColorChange(newColor as TColor, 'buttontextcolor')}
+                            onChange={(newColor) => handleColorChange(newColor, 'buttontextcolor')}
                         />
                         <ColorInput
                             name='Button Border Color'
                             value={bioPage.buttonbordercolor}
-                            onChange={(newColor) => handleColorChange(newColor as TColor, 'buttonbordercolor')}
+                            onChange={(newColor) => handleColorChange(newColor, 'buttonbordercolor')}
                         />
                     </Card>
                 </div>

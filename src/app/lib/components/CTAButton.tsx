@@ -1,14 +1,13 @@
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { TColor } from '../types';
 
 export default function CTAButton({ text, href, target, icon, borderColor = 'white' }: {
     text: string,
     href: string,
     target?: '' | '_blank',
     icon?: IconDefinition,
-    borderColor?: TColor,
+    borderColor?: string,
 }) {
     return (
         <Link

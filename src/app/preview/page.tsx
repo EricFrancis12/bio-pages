@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation';
 import BioPage from '@/app/lib/components/BioPage';
-import type { TBioPage, TButtonStyle, TColor, TFontFamily } from '../lib/types';
+import type { TBioPage, TButtonStyle } from '../lib/types';
 import { defaultImagesrc } from '../lib/default-data';
 import { stringIsValidJSON } from '../lib/utils/utils';
 
@@ -30,15 +30,15 @@ export default function Page() {
         user_id: 'PREVIEW_BIOPAGE_user_id',
         name: name,
         font: font,
-        textcolor: textcolor as TColor,
-        backgroundcolor: backgroundcolor as TColor,
+        textcolor: textcolor,
+        backgroundcolor: backgroundcolor,
         imagesrc,
         headingtext: headingtext,
         subheadingtext: subheadingtext,
         buttonstyle: buttonstyle as TButtonStyle,
-        buttoncolor: buttoncolor as TColor,
-        buttontextcolor: buttontextcolor as TColor,
-        buttonbordercolor: buttonbordercolor as TColor,
+        buttoncolor: buttoncolor,
+        buttontextcolor: buttontextcolor,
+        buttonbordercolor: buttonbordercolor,
         buttons,
         clicks: []
     };
