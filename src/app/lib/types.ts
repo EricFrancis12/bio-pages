@@ -1,12 +1,12 @@
 import { fontsArray } from './fonts';
-const fontFamilies = fontsArray.map((_font) => _font.family);
+const fontFamilies = fontsArray.map((font) => font.family);
 
 export type TFontFamily = typeof fontFamilies[number]; // is a valid type if the fontsArray has it as a ".family" property
 export type TButtonStyleType = 'no_shadow' | 'soft_shadow' | 'hard_shadow';
 export type TButtonStyleRadius = number;
 export type TButtonStyle = `${TButtonStyleType}-${TButtonStyleRadius}`;
-export type TButtonIcon = `fa${string}` | null;
-export type TButtonUrl = `http${string}` | '';
+export type TButtonIcon = string | null;
+export type TButtonUrl = string;
 
 export type TColor_RGB = `rgb(${number}, ${number}, ${number})`;
 export type TColor_RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;

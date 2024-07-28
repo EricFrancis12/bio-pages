@@ -1,7 +1,7 @@
 
 
 export default function SaveButton({ onClick, disabled }: {
-    onClick: Function,
+    onClick: () => void,
     disabled?: boolean,
 }) {
     function handleButtonClick() {

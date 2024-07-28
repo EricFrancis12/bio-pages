@@ -4,7 +4,7 @@ export default function ToggleSwitch({ defaultValue, value, size = 25, onValueCh
     defaultValue?: boolean,
     value: boolean,
     size?: number,
-    onValueChange?: Function,
+    onValueChange?: (newValue: boolean) => void,
 }) {
     const [active, setActive] = useState<boolean>(value ?? defaultValue ?? true);
 

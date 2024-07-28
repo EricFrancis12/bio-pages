@@ -9,7 +9,7 @@ const FONT_PICKER_Z_INDEX = 500;
 export default function FontPicker({ name, value, onValueChange }: {
     name?: string,
     value: TFontFamily,
-    onValueChange: Function,
+    onValueChange: (ff: TFontFamily) => void,
 }) {
     const [expanded, setExpanded] = useState(false);
 

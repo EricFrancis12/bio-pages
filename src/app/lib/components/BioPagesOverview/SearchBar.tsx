@@ -5,7 +5,7 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 export default function SearchBar({ searchQuery, setSearchQuery }: {
     searchQuery: string,
-    setSearchQuery: Function,
+    setSearchQuery: (newSearchQuery: string) => void,
 }) {
     return (
         <div className='relative flex flex-1 flex-shrink-0'>

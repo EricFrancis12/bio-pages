@@ -65,7 +65,7 @@ export default function ExpandYourReachSection() {
 
     function animateOnInView({ text, color }: {
         text: string,
-        color: TColor
+        color: TColor,
     }) {
         controls.set('initial');
         controls.start('animate');
@@ -111,11 +111,11 @@ export default function ExpandYourReachSection() {
                                         backgroundImage: featured.color,
                                         backgroundClip: 'text',
                                         color: 'transparent',
-                                        WebkitTextFillColor: 'transparent'
+                                        WebkitTextFillColor: 'transparent',
                                     }}
                                     variants={{
                                         initial: { opacity: 0, y: 75 },
-                                        animate: { opacity: 1, y: 0 }
+                                        animate: { opacity: 1, y: 0 },
                                     }}
                                     initial='animate'
                                     animate={controls}
@@ -148,8 +148,8 @@ const BioPageGraphic = ({ bioPageGraphic }: {
         className?: string,
         top?: number | string,
         left?: number | string,
-        parallax?: MotionValue<number>
-    }
+        parallax?: MotionValue<number>,
+    },
 }) => {
     const { bioPage, scale = 1, className = '', top = 0, left = 0, parallax } = bioPageGraphic;
     return !bioPage
@@ -163,7 +163,7 @@ const BioPageGraphic = ({ bioPageGraphic }: {
                     left,
                     height: `${scale * 220}px`,
                     width: `${scale * 145}px`,
-                    borderRadius: '5px'
+                    borderRadius: '5px',
                 }}>
                 <Link href={`/demo/p/${bioPage._id}`} target='_blank'>
                     <Image

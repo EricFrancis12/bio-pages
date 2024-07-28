@@ -13,7 +13,7 @@ const ICON_PICKER_Z_INDEX = 100;
 
 export default function IconPicker({ value, onValueChange }: {
     value: TButtonIcon,
-    onValueChange: Function,
+    onValueChange: (newIcon: string) => void,
 }) {
     const [open, setOpen] = useState<boolean>(false);
     const [searchQuery, setSearchQuery] = useState<string>('');
@@ -99,10 +99,11 @@ export default function IconPicker({ value, onValueChange }: {
                         </div>
                         <div className='flex flex-wrap justify-center items-start p-1 bg-white'>
                             {filterByCurrentPage(filteredIcons, currentPage, NUM_ICONS_PER_PAGE)
-                                .map((iconValue: string, index: number) => {
+                                .map((iconValue, index) => {
                                     const _icon = icons[iconValue as keyof typeof icons] as IconDefinition;
                                     return (
-                                        <div key={index}
+                                        <div
+                                            key={index}
                                             className='flex justify-center items-center p-1 cursor-pointer hover:outline'
                                             onClick={() => onValueChange(iconValue)}
                                         >

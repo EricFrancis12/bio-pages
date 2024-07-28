@@ -20,9 +20,9 @@ export default function BioPagesTable({ bioPages = [], timerange, searchQuery, s
     bioPages: TBioPage[],
     timerange: TTimerange,
     searchQuery: string,
-    setSearchQuery: Function,
+    setSearchQuery: (newSearchQuery: string) => void,
     selectedBioPage_ids: string[],
-    setSelectedBioPage_ids: Function,
+    setSelectedBioPage_ids: (newBioPage_ids: string[]) => void,
     demoMode?: boolean,
 }) {
     const [deletePopupBioPage_id, setDeletePopupBioPage_id] = useState<string | null>(null);
@@ -168,7 +168,7 @@ export default function BioPagesTable({ bioPages = [], timerange, searchQuery, s
                                 </thead>
                                 <tbody className='bg-white'>
                                     {filterByCurrentPage(bioPages, currentPage, 3)
-                                        .map((bioPage: TBioPage) => {
+                                        .map(bioPage => {
                                             const editHref = demoMode === true
                                                 ? `/demo/dashboard/bio-pages/${bioPage._id}/edit`
                                                 : `/dashboard/bio-pages/${bioPage._id}/edit`;

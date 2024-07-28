@@ -1,10 +1,12 @@
 import BlackTransparentOverlay from './BlackTransparentOverlay';
 
+type OnClickFunc = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+
 export default function YesNoPopup({ text, disabled, onClickYes, onClickNo }: {
     text: string,
     disabled: boolean,
-    onClickYes: Function,
-    onClickNo: Function,
+    onClickYes: OnClickFunc,
+    onClickNo: OnClickFunc,
 }) {
     return (
         <BlackTransparentOverlay className='flex justify-center items-center'>
@@ -15,10 +17,10 @@ export default function YesNoPopup({ text, disabled, onClickYes, onClickNo }: {
                     </p>
                 </div>
                 <div className='flex justify-around items-center w-full'>
-                    <button disabled={disabled} onClick={e => onClickYes(e)}>
+                    <button disabled={disabled} onClick={onClickYes}>
                         Yes
                     </button>
-                    <button disabled={disabled} onClick={e => onClickNo(e)}>
+                    <button disabled={disabled} onClick={onClickNo}>
                         No
                     </button>
                 </div>

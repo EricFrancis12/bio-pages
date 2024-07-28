@@ -1,6 +1,6 @@
 'use client';
 
-import { GoogleAnalytics } from "nextjs-google-analytics";
+import { GoogleAnalytics } from 'nextjs-google-analytics';
 
 export default function _GoogleAnalytics() {
     return (

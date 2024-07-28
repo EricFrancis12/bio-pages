@@ -10,7 +10,7 @@ export const IGNORE_CALENDAR_CLICK_CLASS = 'IGNORE_CALENDAR_CLICK_CLASS';
 
 export default function CalendarButton({ timerange, setTimerange }: {
     timerange: TTimerange,
-    setTimerange: Function
+    setTimerange: (tr: TTimerange) => void,
 }) {
     const [workingTimerange, setWorkingTimerange] = useState<TTimerange>(structuredClone(timerange));
     const [expanded, setExpanded] = useState<boolean>(false);
@@ -80,7 +80,7 @@ export default function CalendarButton({ timerange, setTimerange }: {
                         moveRangeOnFirstSelection={false}
                         months={2}
                         ranges={[workingTimerange]}
-                        direction="horizontal"
+                        direction='horizontal'
                     />
                     <div>
                         <button onClick={() => handleApplyButtonClick()}>

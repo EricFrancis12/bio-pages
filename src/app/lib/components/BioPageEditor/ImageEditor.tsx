@@ -16,7 +16,7 @@ const Avatar = dynamic(() => import('react-avatar-edit'), {
 export default function ImageEditor({ imagesrc, blobUrl, setBlobUrl }: {
     imagesrc?: string,
     blobUrl: string,
-    setBlobUrl: Function,
+    setBlobUrl: (newBlobUrl: string) => void,
 }) {
     const imageElementRef = useRef<HTMLImageElement | null>(null);
 
@@ -42,7 +42,7 @@ export default function ImageEditor({ imagesrc, blobUrl, setBlobUrl }: {
 
     function handleSubmitButtonClick() {
         setImageHeight(120);
-        setBlobUrl(previewBlobUrl);
+        setBlobUrl(previewBlobUrl || '');
         setPreviewBlobUrl(null);
         setAvatarRendered(false);
     }

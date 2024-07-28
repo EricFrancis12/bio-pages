@@ -23,36 +23,34 @@ export async function createAndSaveNewUserAction(email: string, password: string
         // so they won't have access to the emailvalidationtoken.
         // We only want them to have access to the token from the link
         // in the activation email.
-        success: !!user ? true : false
+        success: user ? true : false,
     };
 }
 
 export async function resetPasswordAction(email: string) {
     let success = false;
     const user = await fetchUserByEmail(email);
-    if (!!user) {
+    if (user) {
         const updatedUser: TUser = {
             ...user,
             passwordresettoken: generateNewPasswordResetToken(),
             passwordresettokenexpiry: generateNewPasswordResetTokenExpiry()
         };
         const successfullyUpdatedUser = await updateExistingUser(updatedUser);
-        if (!!successfullyUpdatedUser) {
+        if (successfullyUpdatedUser) {
             const successfullySentEmail = await sendPasswordResetEmail(updatedUser);
-            if (!!successfullySentEmail) {
+            if (successfullySentEmail) {
                 success = true;
             }
         }
     }
-    return {
-        success
-    };
+    return { success };
 }
 
 export async function enterNewPasswordAction(newPassword: string, passwordresettoken: string) {
     let success = false;
     const user = await validatePasswordresettoken(passwordresettoken);
-    if (!!user) {
+    if (user) {
         const hashedpassword = await hashPassword(newPassword);
         if (hashedpassword !== user.hashedpassword) {
             const updatedUser: TUser = {
@@ -67,12 +65,10 @@ export async function enterNewPasswordAction(newPassword: string, passwordresett
                 emailvalidationtoken: null,
                 emailvalidationtokenexpiry: null,
                 passwordresettoken: null,
-                passwordresettokenexpiry: null
+                passwordresettokenexpiry: null,
             };
             success = await updateExistingUser(updatedUser);
         }
     }
-    return {
-        success
-    };
+    return { success };
 }

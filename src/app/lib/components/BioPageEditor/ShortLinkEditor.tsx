@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 export default function ShortLinkEditor({ value: bioPage_id, onValueChange }: {
     value: string,
-    onValueChange: Function,
+    onValueChange: (newValue: string) => void,
 }) {
     const { push } = useRouter();
 

@@ -33,7 +33,7 @@ export default function WhatMakesUsDifferentSection() {
         }, {
             side: 'left',
             title: 'No Unfair Bans',
-            text: "We believe you should have the power to share your brand message in any way you want. You wont face any censorship, shadowbans, or other similar actions on our platform.",
+            text: 'We believe you should have the power to share your brand message in any way you want. You wont face any censorship, shadowbans, or other similar actions on our platform.',
             icon: faHammer,
         },
     ];

@@ -1,29 +1,29 @@
 import type { TButtonStyle, TButtonStyleType, TButtonStyleRadius } from '../../types';
 import { deconstructButtonStyle, calcButtonStyleTypeShadows } from '../../utils/utils';
 
+const buttonRows: {
+    name: string,
+    type: TButtonStyleType,
+}[] = [
+        {
+            name: 'No Shadow',
+            type: 'no_shadow',
+        },
+        {
+            name: 'Soft Shadow',
+            type: 'soft_shadow',
+        },
+        {
+            name: 'Hard Shadow',
+            type: 'hard_shadow',
+        },
+    ];
+
 export default function ButtonSelect({ value, onValueChange }: {
     value: TButtonStyle,
-    onValueChange: Function,
+    onValueChange: (newValue: TButtonStyle) => void,
 }) {
     const { buttonstyleType, buttonstyleRadius } = deconstructButtonStyle(value);
-
-    const buttonRows: {
-        name: string,
-        type: TButtonStyleType,
-    }[] = [
-            {
-                name: 'No Shadow',
-                type: 'no_shadow',
-            },
-            {
-                name: 'Soft Shadow',
-                type: 'soft_shadow',
-            },
-            {
-                name: 'Hard Shadow',
-                type: 'hard_shadow',
-            },
-        ];
 
     const ButtonStyleButton = ({ type, radius }: {
         type: TButtonStyleType,

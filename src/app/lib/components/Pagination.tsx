@@ -4,7 +4,7 @@ export default function Pagination({ className, style, currentPage, setCurrentPa
     className?: string,
     style?: object,
     currentPage: number,
-    setCurrentPage: Function,
+    setCurrentPage: (newPage: number) => void,
     totalNumPages: number,
 }) {
     const pagination = generatePagination(currentPage, totalNumPages);
@@ -53,11 +53,11 @@ export default function Pagination({ className, style, currentPage, setCurrentPa
 export function PaginationItem({ paginationItem, currentPage, setCurrentPage, disabled }: {
     paginationItem: number | string,
     currentPage: number,
-    setCurrentPage: Function,
+    setCurrentPage: (newPage: number) => void,
     disabled?: boolean,
 }) {
     function handleClick() {
-        if (paginationItem === '...' || disabled === true) return;
+        if (typeof paginationItem === 'string' || disabled === true) return;
         setCurrentPage(paginationItem);
     }
 
@@ -81,7 +81,7 @@ export function PaginationItem({ paginationItem, currentPage, setCurrentPage, di
     )
 }
 
-export function filterByCurrentPage(pages: any, currentPage: number, numItemsPerPage: number) {
+export function filterByCurrentPage<T>(pages: T[], currentPage: number, numItemsPerPage: number): T[] {
     return pages.filter((_: unknown, index: number) => {
         return (index < currentPage * numItemsPerPage && index >= (currentPage - 1) * numItemsPerPage);
     });

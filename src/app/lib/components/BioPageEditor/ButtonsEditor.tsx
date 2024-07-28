@@ -8,25 +8,8 @@ import IconPicker from './IconPicker';
 
 export default function ButtonsEditor({ buttons, setButtons }: {
     buttons: TButton[],
-    setButtons: Function
+    setButtons: (buttons: TButton[]) => void,
 }) {
-    function handleChange(
-        newValue: string | boolean,
-        buttonKey: string,
-        index: number,
-    ) {
-        const newButtons = buttons.map((button, _index) => {
-            if (_index === index) {
-                return {
-                    ...button,
-                    [buttonKey]: newValue,
-                };
-            }
-            return button;
-        });
-        setButtons(newButtons);
-    }
-
     function handleChevronClick(index: number, direction: 'up' | 'down') {
         if (
             (direction === 'up' && index === 0) ||
@@ -59,12 +42,11 @@ export default function ButtonsEditor({ buttons, setButtons }: {
     return (
         <div className='flex flex-col justify-start items-center gap-2 w-full px-1 py-2 bg-gray-300'>
             {buttons.map((button, index) => (
-                <div key={index}
+                <div
+                    key={index}
                     className='flex justify-start items-center w-full px-1 bg-white'
-                    style={{
-                        borderRadius: '10px',
-
-                    }}>
+                    style={{ borderRadius: '10px' }}
+                >
                     <div className='flex flex-col justify-around items-center gap-2 px-2'>
                         <span
                             className='flex justify-center items-center hover:text-green-300 cursor-pointer'
@@ -90,7 +72,12 @@ export default function ButtonsEditor({ buttons, setButtons }: {
                                         placeholder='Link title...'
                                         className={(button.text ? 'font-bold' : '') + ' text-md w-full'}
                                         value={button.text}
-                                        onChange={e => handleChange(e.target.value, 'text', index)}
+                                        onChange={e => setButtons(
+                                            buttons.map((button, _index) => _index === index
+                                                ? { ...button, text: e.target.value }
+                                                : button
+                                            )
+                                        )}
                                     />
                                 </div>
                                 <div className='flex justify-center items-center w-full'>
@@ -98,7 +85,12 @@ export default function ButtonsEditor({ buttons, setButtons }: {
                                         placeholder='Link URL...'
                                         className='text-sm text-gray-700 w-full'
                                         value={button.url}
-                                        onChange={e => handleChange(e.target.value, 'url', index)}
+                                        onChange={e => setButtons(
+                                            buttons.map((button, _index) => _index === index
+                                                ? { ...button, url: e.target.value }
+                                                : button
+                                            )
+                                        )}
                                     />
                                 </div>
                             </div>
@@ -106,11 +98,21 @@ export default function ButtonsEditor({ buttons, setButtons }: {
                                 <div className='flex justify-end items-center gap-4 w-full'>
                                     <IconPicker
                                         value={button.icon}
-                                        onValueChange={(newIcon: string) => handleChange(newIcon, 'icon', index)}
+                                        onValueChange={icon => setButtons(
+                                            buttons.map((button, _index) => _index === index
+                                                ? { ...button, icon }
+                                                : button
+                                            )
+                                        )}
                                     />
                                     <ToggleSwitch
                                         value={!button.disabled}
-                                        onValueChange={(newDisabled: boolean) => handleChange(newDisabled, 'disabled', index)}
+                                        onValueChange={disabled => setButtons(
+                                            buttons.map((button, _index) => _index === index
+                                                ? { ...button, disabled }
+                                                : button
+                                            )
+                                        )}
                                     />
                                     <div
                                         className='flex justify-center items-center'
@@ -118,9 +120,7 @@ export default function ButtonsEditor({ buttons, setButtons }: {
                                     >
                                         <span
                                             className='text-lg text-black hover:text-red-500 cursor-pointer'
-                                            style={{
-                                                transition: 'color 0.3s ease'
-                                            }}
+                                            style={{ transition: 'color 0.3s ease' }}
                                         >
                                             <FontAwesomeIcon icon={faTrash} />
                                         </span>

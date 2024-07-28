@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 export default function BioPage({ bioPage, blobUrl, disableLinks, fullScreen = true, imageHeight = 200, imageWidth = 200 }: {
     bioPage: TBioPage,
-    setBioPage?: Function,
+    setBioPage?: (bioPage: TBioPage) => void,
     blobUrl?: string,
     disableLinks?: boolean,
     fullScreen?: boolean,
@@ -49,7 +49,8 @@ export default function BioPage({ bioPage, blobUrl, disableLinks, fullScreen = t
     }, [name]);
 
     return (
-        <div className={(fullScreen ? 'min-h-[100vh] ' : ' ') + ' w-full'}
+        <div
+            className={(fullScreen ? 'min-h-[100vh] ' : ' ') + ' w-full'}
             style={{ background: backgroundcolor }}
         >
             <div
