@@ -1,5 +1,5 @@
+import { startOfDay, endOfDay, subDays } from 'date-fns';
 import type { TUser, TBioPage, TButton, TClick, TButtonIcon, TTimerange } from './types';
-import { getStartAndEndOfToday } from './utils/timerange-utils';
 
 export const defaultImagesrc = '/default-profile-image.webp';
 export const defaultIcon: TButtonIcon = 'faLink';
@@ -8,19 +8,19 @@ export const defaultUser: TUser = {
     _id: 'DEFAULT_USER_id',
     email: `defaultuser@${process.env.NEXT_PUBLIC_DOMAIN}`,
     hashedpassword: '123',
-    passwordresettoken: '456'
+    passwordresettoken: '456',
 };
 
 export const defaultButton: TButton = {
     text: '',
     icon: defaultIcon,
     url: '',
-    disabled: false
+    disabled: false,
 };
 
 export const defaultClick: TClick = {
     biopage_id: 'DEFAULT_BIOPAGE_ID',
-    timestamp: Date.now()
+    timestamp: Date.now(),
 };
 
 export const defaultBioPage: TBioPage = {
@@ -42,23 +42,24 @@ export const defaultBioPage: TBioPage = {
             text: 'Get your tasty treats here!',
             icon: 'faSpoon',
             url: '',
-            disabled: false
+            disabled: false,
         },
         {
             text: 'The Best Burgers In Town!',
             icon: 'faBurger',
             url: '',
-            disabled: false
-        }
+            disabled: false,
+        },
     ],
-    clicks: []
+    clicks: [],
 };
 
 export const defaultTimerange = (): TTimerange => {
-    const { startOfToday, endOfToday } = getStartAndEndOfToday();
+    const today = new Date();
+    const sevenDaysAgo = subDays(today, 7);
     return {
-        startDate: startOfToday,
-        endDate: endOfToday,
-        key: 'selection'
+        startDate: startOfDay(sevenDaysAgo),
+        endDate: endOfDay(today),
+        key: 'selection',
     };
 };

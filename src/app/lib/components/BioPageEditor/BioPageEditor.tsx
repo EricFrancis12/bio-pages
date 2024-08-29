@@ -112,18 +112,36 @@ export default function BioPageEditor({ bioPage: _bioPage, demoMode }: {
     }
 
     return (
-        <div className='w-full p-4 bg-slate-200'>
-            <div className='flex justify-between items-center'>
+        <div className='w-full px-4 sm:px-8 py-6 bg-gray-100 border border-black rounded-lg'>
+            <div className='flex justify-between items-center pb-4 border-b border-gray-300 '>
                 <h1>
-                    Edit Bio Page
+                    <span>Editing: </span>
+                    <a
+                        className='hover:underline'
+                        target='_blank'
+                        href={`/p/${bioPage._id}`}
+                    >
+                        <span className='font-bold hidden sm:inline'>{process.env.NEXT_PUBLIC_DOMAIN ?? ''}</span>
+                        <span className='font-bold'>{`/p/${bioPage._id}`}</span>
+                    </a>
                 </h1>
-                <FontAwesomeIcon icon={faGear}
-                    className='cursor-pointer'
-                    onClick={e => setSettingsMenuOpen(!settingsMenuOpen)}
-                />
+                <div className='flex items-center gap-2'>
+                    {loading
+                        ? <span>loading...</span>
+                        : <SaveButton
+                            disabled={(objectsAreStructurallyIdentical(bioPage, originalBioPage.current) && !blobUrl)
+                                || demoMode === true}
+                            onClick={() => handleSaveButtonClick()}
+                        />
+                    }
+                    <FontAwesomeIcon icon={faGear}
+                        className='cursor-pointer'
+                        onClick={e => setSettingsMenuOpen(!settingsMenuOpen)}
+                    />
+                </div>
             </div>
-            <div className='flex flex-col lg:flex-row justify-start items-start gap-2 w-full'>
-                <div className='h-[100vh] w-full p-4 overflow-y-scroll'>
+            <div className='flex flex-col xl:flex-row justify-start items-start gap-8 w-full'>
+                <div className='h-[100vh] w-full pr-4 py-4 overflow-y-scroll'>
                     <Card title='Profile'>
                         <TextInput
                             type='input'
@@ -148,16 +166,6 @@ export default function BioPageEditor({ bioPage: _bioPage, demoMode }: {
                             value={bioPage.subheadingtext}
                             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleInputChange(e, 'subheadingtext')}
                         />
-                        <div>
-                            {loading
-                                ? 'loading...'
-                                : <SaveButton
-                                    disabled={(objectsAreStructurallyIdentical(bioPage, originalBioPage.current) && !blobUrl)
-                                        || demoMode === true}
-                                    onClick={() => handleSaveButtonClick()}
-                                />
-                            }
-                        </div>
                     </Card>
                     <Card title='Links'>
                         <ButtonsEditor
@@ -215,8 +223,8 @@ export default function BioPageEditor({ bioPage: _bioPage, demoMode }: {
                         />
                     </Card>
                 </div>
-                <div className='w-full p-4'>
-                    <div className='flex justify-start items-center gap-2 mb-1'>
+                <div className='w-full py-4'>
+                    <div className='flex items-center gap-2 pb-2'>
                         <span>
                             Preview
                         </span>
@@ -245,7 +253,8 @@ export default function BioPageEditor({ bioPage: _bioPage, demoMode }: {
                     </div>
                 </div>
             </div>
-            {settingsMenuOpen &&
+            {
+                settingsMenuOpen &&
                 <SettingsMenu
                     bioPage={bioPage}
                     setBioPage={setBioPage}
@@ -253,6 +262,6 @@ export default function BioPageEditor({ bioPage: _bioPage, demoMode }: {
                     demoMode={demoMode}
                 />
             }
-        </div>
+        </div >
     )
 }

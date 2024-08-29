@@ -13,8 +13,8 @@ export default function SearchBar({ searchQuery, setSearchQuery }: {
                 Search
             </label>
             <input
-                placeholder='Search...'
-                className='peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500'
+                placeholder='Search Bio Pages...'
+                className='peer block w-full rounded-md border border-black py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500'
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
             />

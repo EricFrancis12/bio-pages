@@ -1,5 +1,7 @@
 
 
+const TEXTAREA_CLASSNAME = 'w-full px-1 bg-white border border-gray-400 rounded-md';
+
 export default function TextInput({ type, text, value, onChange }: {
     type: 'input' | 'textarea',
     text: string,
@@ -19,12 +21,12 @@ export default function TextInput({ type, text, value, onChange }: {
             <div className='w-full'>
                 {type === 'textarea'
                     ? <textarea
-                        className='w-full px-1 bg-transparent'
+                        className={TEXTAREA_CLASSNAME}
                         value={value}
                         onChange={onChange}
                     />
                     : <input
-                        className='w-full px-1 bg-transparent'
+                        className={TEXTAREA_CLASSNAME}
                         value={value}
                         onChange={onChange}
                     />

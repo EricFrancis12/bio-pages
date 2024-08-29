@@ -40,12 +40,11 @@ export default function ButtonsEditor({ buttons, setButtons }: {
     }
 
     return (
-        <div className='flex flex-col justify-start items-center gap-2 w-full px-1 py-2 bg-gray-300'>
+        <div className='flex flex-col justify-start items-center gap-2 w-full p-2 bg-gray-300 rounded-md'>
             {buttons.map((button, index) => (
                 <div
                     key={index}
-                    className='flex justify-start items-center w-full px-1 bg-white'
-                    style={{ borderRadius: '10px' }}
+                    className='flex justify-start items-center w-full px-1 bg-white rounded-md'
                 >
                     <div className='flex flex-col justify-around items-center gap-2 px-2'>
                         <span
@@ -65,12 +64,12 @@ export default function ButtonsEditor({ buttons, setButtons }: {
                         key={index}
                         className='flex flex-col justify-start items-start w-full m-2'
                     >
-                        <div className='flex sm:flex-row flex-col-reverse justify-end items-center w-full'>
+                        <div className='flex sm:flex-row flex-col-reverse justify-end items-center gap-2 w-full'>
                             <div className='flex flex-col justify-start items-start gap-1 w-full'>
                                 <div className='flex justify-center items-center w-full'>
                                     <input
                                         placeholder='Link title...'
-                                        className={(button.text ? 'font-bold' : '') + ' text-md w-full'}
+                                        className={(button.text ? 'font-bold' : '') + ' text-md w-full px-1 border border-gray-300 rounded-md'}
                                         value={button.text}
                                         onChange={e => setButtons(
                                             buttons.map((button, _index) => _index === index
@@ -83,7 +82,7 @@ export default function ButtonsEditor({ buttons, setButtons }: {
                                 <div className='flex justify-center items-center w-full'>
                                     <input
                                         placeholder='Link URL...'
-                                        className='text-sm text-gray-700 w-full'
+                                        className='text-md text-gray-700 w-full px-1 border border-gray-300 rounded-md'
                                         value={button.url}
                                         onChange={e => setButtons(
                                             buttons.map((button, _index) => _index === index

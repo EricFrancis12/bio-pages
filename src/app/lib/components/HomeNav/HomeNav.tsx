@@ -100,7 +100,7 @@ export default function HomeNav() {
                         </div>
                     </div>
                     <div
-                        className='flex lg:hidden justify-center items-center h-[35px] sm:h-[45px] w-[35px] sm:w-[45px] text-xl sm:text-2xl bg-gray-500 hover:bg-gray-400 cursor-pointer'
+                        className='flex lg:hidden justify-center items-center h-[35px] sm:h-[45px] w-[35px] sm:w-[45px] text-xl sm:text-2xl bg-gray-1000 hover:bg-gray-400 cursor-pointer'
                         style={{ borderRadius: '25px' }}
                         onClick={() => setExtended(prevExtended => !prevExtended)}
                     >

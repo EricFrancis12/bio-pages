@@ -47,8 +47,8 @@ export default function SettingsMenu({ bioPage, onClose, demoMode }: {
 
     return (
         <BlackTransparentOverlay className='flex justify-center items-center'>
-            <div className='flex flex-col justify-center items-center gap-6 sm:min-w-[50%] mx-2 sm:mx-4 px-3 pt-2 pb-4 bg-slate-400 rounded'>
-                <div className='flex justify-between items-center w-full mb-1 px-1'>
+            <div className='flex flex-col justify-center items-center gap-6 sm:min-w-[50%] max-w-[500px] mx-2 sm:mx-4 px-4 py-4 pb-4 bg-slate-400 rounded-md border border-black'>
+                <div className='flex justify-between items-center w-full mb-4 px-1'>
                     <span className='text-lg'>
                         Settings
                     </span>
@@ -60,18 +60,18 @@ export default function SettingsMenu({ bioPage, onClose, demoMode }: {
                     </span>
                 </div>
                 <InputRow
-                    content={'Edit Short Link'}
+                    content='Edit Short Link'
                     value={shortLink}
                     onChange={e => setShortLink(e.target.value)}
                     disabled={demoMode === true}
                 >
-                    <div className='flex flex-col-reverse sm:flex-row justify-between items-start w-full gap-4 pt-3 pb-1'>
-                        <div
-                            className='max-w-[250px] text-gray-300 italic font-normal'
-                            style={{ overflowWrap: 'break-word' }}
-                        >
-                            {process.env.NEXT_PUBLIC_DOMAIN ? `https://${process.env.NEXT_PUBLIC_DOMAIN}` : ''}{'/p/'}{shortLink}
-                        </div>
+                    <div
+                        className='text-gray-300 italic font-normal pt-1'
+                        style={{ overflowWrap: 'break-word' }}
+                    >
+                        {process.env.NEXT_PUBLIC_DOMAIN ? `https://${process.env.NEXT_PUBLIC_DOMAIN}` : ''}{'/p/'}{shortLink}
+                    </div>
+                    <div className='flex justify-end w-full pt-2 pb-1'>
                         {loading
                             ? <div>
                                 Loading...
@@ -79,7 +79,7 @@ export default function SettingsMenu({ bioPage, onClose, demoMode }: {
                             : <button
                                 className={(unavailable_ids.includes(shortLink) ? 'text-red-400 bg-red-100 ' : 'text-green-400 bg-green-100 ')
                                     + (shortLinkButtonDisabled && !unavailable_ids.includes(shortLink) ? ' opacity-50 ' : ' ')
-                                    + (shortLinkButtonDisabled ? ' cursor-not-allowed ' : ' cursor-pointer ')
+                                    + (shortLinkButtonDisabled ? ' cursor-not-allowed ' : ' cursor-pointer hover:opacity-70')
                                     + ' px-2 rounded'}
                                 disabled={shortLinkButtonDisabled}
                                 onClick={handleButtonClick}

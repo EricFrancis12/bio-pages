@@ -77,7 +77,7 @@ export default function BioPagesTable({ bioPages = [], timerange, searchQuery, s
                 />
                 <div className='mt-6 flow-root'>
                     <div className='inline-block min-w-full align-middle'>
-                        <div className='rounded-lg bg-gray-50 p-2 md:pt-0'>
+                        <div className='rounded-lg bg-gray-100 border border-black p-2 md:pt-0'>
                             <div className='md:hidden'>
                                 {bioPages.map((bioPage) => {
                                     const editHref = demoMode === true
@@ -237,14 +237,16 @@ export default function BioPagesTable({ bioPages = [], timerange, searchQuery, s
                                         })}
                                 </tbody>
                             </table>
-                            <div className='flex justify-center items-center w-full'>
-                                <Pagination
-                                    className='w-[50%]'
-                                    currentPage={currentPage}
-                                    setCurrentPage={setCurrentPage}
-                                    totalNumPages={totalNumPages}
-                                />
-                            </div>
+                            {totalNumPages > 1 &&
+                                <div className='flex justify-center items-center w-full'>
+                                    <Pagination
+                                        className='w-[50%]'
+                                        currentPage={currentPage}
+                                        setCurrentPage={setCurrentPage}
+                                        totalNumPages={totalNumPages}
+                                    />
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>

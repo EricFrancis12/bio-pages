@@ -54,8 +54,7 @@ export default function CalendarButton({ timerange, setTimerange }: {
     return (
         <div
             ref={calendarButtonElement}
-            className={IGNORE_CALENDAR_CLICK_CLASS +
-                ' relative px-2 py-1 cursor-pointer'}
+            className={IGNORE_CALENDAR_CLICK_CLASS + ' relative px-2 py-1 cursor-pointer'}
             style={{
                 border: 'solid black 1px',
                 borderRadius: '8px',
@@ -67,7 +66,7 @@ export default function CalendarButton({ timerange, setTimerange }: {
             </span>
             {expanded &&
                 <div
-                    className='absolute flex flex-col justify-center items-center bg-white'
+                    className='absolute flex flex-col justify-center items-center bg-white overflow-hidden'
                     style={{
                         top: '100%',
                         left: 0,
@@ -82,8 +81,12 @@ export default function CalendarButton({ timerange, setTimerange }: {
                         ranges={[workingTimerange]}
                         direction='horizontal'
                     />
+                    <div className='h-[1px] w-[96%] bg-gray-300' />
                     <div>
-                        <button onClick={() => handleApplyButtonClick()}>
+                        <button
+                            className='flex gap-2 items-center h-10 rounded-lg bg-blue-600 m-2 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'
+                            onClick={() => handleApplyButtonClick()}
+                        >
                             Apply
                         </button>
                     </div>

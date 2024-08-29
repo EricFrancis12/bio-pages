@@ -254,34 +254,6 @@ export function formatDayOfWeekAndDate(date: Date) {
     return `${dayOfWeek} ${formattedDate}`;
 }
 
-export function getBioPagesClicks(bioPages: TBioPage[], range: string | number) {
-    const mapBioPages = (bioPages: TBioPage[]) => {
-        const result: any = {};
-        const allClicks = bioPages.map(bioPage => bioPage.clicks).flat();
-        allClicks.forEach(click => {
-            const formattedDate = formatDayOfWeekAndDate(new Date(click.timestamp));
-            if (result[formattedDate]) {
-                result[formattedDate].push(click);
-            } else {
-                result[formattedDate] = [click];
-            }
-        });
-        return result;
-    };
-    const mappedBioPages = mapBioPages(bioPages);
-
-    if (typeof range === 'number') {
-        const previousDates = getPreviousDates(range);
-        return previousDates.map(formattedDate => mappedBioPages[formattedDate] ?? [])?.flat() ?? [];
-    } else if (range.toLowerCase() === 'today') {
-        const today = getPreviousDates(0)[0];
-        return mappedBioPages[today] ?? [];
-    } else if (range.toLowerCase() === 'yesterday') {
-        const yesterday = getPreviousDates(1)[0];
-        return mappedBioPages[yesterday] ?? [];
-    }
-}
-
 export function calcButtonStyleTypeShadows(type: TButtonStyleType) {
     let result = ' ';
     switch (type) {

@@ -29,11 +29,11 @@ export async function DashboardLayout({ children, demoMode, session }: {
     return (
         <>
             {(user_id || demoMode)
-                ? <div className='flex flex-col md:flex-row h-screen md:overflow-hidden'>
-                    <div className='w-full flex-none md:w-64' >
+                ? <div className='flex flex-col md:flex-row h-screen text-black md:overflow-hidden'>
+                    <div className='w-full flex-none md:w-64 bg-white' >
                         <SideNav demoMode={demoMode} />
                     </div>
-                    <div className='flex-grow p-6 overflow-y-auto md:p-12'>
+                    <div className='flex-grow p-6 overflow-y-auto md:p-12 bg-white'>
                         {children}
                     </div>
                 </div>

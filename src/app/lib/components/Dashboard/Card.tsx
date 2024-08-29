@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 export default function Card({ title, icon, value }: {
     title: string,
     icon?: IconProp,
-    value: string | number,
+    value: React.ReactNode,
 }) {
     return (
-        <div className='rounded-xl bg-gray-50 p-2 shadow-sm'>
+        <div className='rounded-xl bg-gray-100 border border-black p-2 shadow-sm'>
             <div className='flex p-4'>
                 {icon && <FontAwesomeIcon icon={icon} />}
                 <h3 className='ml-2 text-sm font-medium'>{title}</h3>

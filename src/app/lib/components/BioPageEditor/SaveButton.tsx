@@ -9,10 +9,10 @@ export default function SaveButton({ onClick, disabled }: {
     }
 
     return (
-        <div>
+        <div className={(disabled ? 'opacity-50' : 'hover:opacity-70')
+            + ' px-2 py-1 rounded-lg bg-green-400 border border-black'}>
             <button
                 className={(disabled ? '' : 'cursor-pointer')}
-                style={{ border: disabled ? 'none' : 'solid black 1px' }}
                 disabled={disabled}
                 onClick={handleButtonClick}
             >

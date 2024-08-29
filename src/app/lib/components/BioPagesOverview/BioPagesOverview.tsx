@@ -25,11 +25,6 @@ export default function BioPagesOverview({ bioPages, demoMode }: {
 
     return (
         <div className='flex flex-col justify-start items-center gap-3 w-full p-2'>
-            <div>
-                <h1>
-                    Bio Pages List
-                </h1>
-            </div>
             <div className='flex flex-col justify-start items-center gap-2 w-full'>
                 <div className='flex justify-between items-center w-full'>
                     <div>
@@ -37,18 +32,17 @@ export default function BioPagesOverview({ bioPages, demoMode }: {
                     </div>
                     <div>
                         <span>
-                            {'Now Showing: '}
+                            {'Showing: '}
                         </span>
                         {selectedBioPages.length === 0
-                            ? <span className='italic'>
+                            ? <span className='font-bold'>
                                 All Pages
                             </span>
                             : selectedBioPages.map((bioPage, index) => (
                                 <React.Fragment key={bioPage._id}>
-                                    <span>
-                                        {bioPage._id}
-                                    </span>
-                                    {(index === selectedBioPages.length - 1) ? '' : ', '}
+                                    <div className='font-bold'>
+                                        {bioPage._id + (index === selectedBioPages.length - 1 ? '' : ', ')}
+                                    </div>
                                 </React.Fragment>
                             ))
                         }
