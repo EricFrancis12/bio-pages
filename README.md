@@ -44,6 +44,12 @@ cd bio-pages
 npm install
 ```
 
+4. Create .env file
+
+```bash
+npm run create_env
+```
+
 This will also create a `.env` file at the project root, if one does not exists already. Before starting the application, modify the `.env` file to your desired environment variables.
 
 5. Start the development server
