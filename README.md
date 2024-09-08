@@ -29,7 +29,7 @@ A Link-In-Bio Next.js Application written in TypeScript, utilizing PostgreSQL. T
 1. Clone the repo:
 
 ```bash
-git clone https://github.com/EricFrancis12/bio-pages
+git clone https://github.com/EricFrancis12/bio-pages.git
 ```
 
 2. Navigate to the project directory:
