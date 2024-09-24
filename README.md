@@ -16,13 +16,13 @@ A Link-In-Bio Next.js Application written in TypeScript, utilizing PostgreSQL. T
 
 ## Features
 
-- Fully Customizable Bio Pages
+- Fully customizable Bio Pages
 - Create multiple Bio Pages per user
-- Add, edit, and delete links on your Bio Pages.
-- Customize colors, fonts, backgrounds, button styles, and more.
-- User Authentication
-- View Analytics & Track the number of visitors to your pages.
-- Fully responsive design that looks great on any screen size.
+- Add, edit, and delete links on your Bio Pages
+- Customize colors, fonts, backgrounds, button styles, and more
+- User authentication
+- View Analytics & track the number of visitors to your pages
+- Fully responsive design that looks great on any screen size
 
 ## Installation
 
@@ -50,7 +50,7 @@ npm install
 npm run create_env
 ```
 
-This will also create a `.env` file at the project root, if one does not exists already. Before starting the application, modify the `.env` file to your desired environment variables.
+This will create a `.env` file at the project root, if one does not exists already. Before starting the application, modify the `.env` file to your desired environment variables.
 
 5. Start the development server
 
